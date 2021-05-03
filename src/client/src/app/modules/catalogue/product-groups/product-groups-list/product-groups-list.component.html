@@ -1,0 +1,40 @@
+<h3>Groups</h3>
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Subgroups</td>
+      <td>
+        <button [routerLink]="['group']">Add</button>
+      </td>
+    </tr>
+  </thead>
+  <tbody *ngIf="groups.state.isInProgress()">
+    <tr>
+      <td colspan="3">
+        <app-shared-loading></app-shared-loading>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="groups.state.isError()">
+    <tr>
+      <td colspan="3">
+        <app-shared-error></app-shared-error>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="groups.state.isReady()">
+    <tr *ngFor="let group of groups.value">
+      <td><a [routerLink]="['group', group.value.id]">{{group.value.name}}</a></td>
+      <td>
+        <div *ngFor="let sub of group.value.groups">
+          <a [routerLink]="['group', sub.id]">{{sub.name}}</a>
+        </div>
+      </td>
+      <td>
+        <button type="button" (click)="deleteGroup(group)" [disabled]="group.state.isInProgress()">delete</button>
+        <app-shared-error *ngIf="group.state.isError()" [message]="group.state.getMessage()"></app-shared-error>
+      </td>
+    </tr>
+  </tbody>
+</table>

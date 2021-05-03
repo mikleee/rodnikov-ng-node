@@ -1,0 +1,37 @@
+<h3>Suppliers</h3>
+<table>
+  <thead>
+    <tr>
+      <td colspan="2">Name</td>
+      <td>
+        <button [routerLink]="['supplier']">Add</button>
+      </td>
+    </tr>
+  </thead>
+  <tbody *ngIf="suppliers.state.isInProgress()">
+    <tr>
+      <td colspan="3">
+        <app-shared-loading></app-shared-loading>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="suppliers.state.isError()">
+    <tr>
+      <td colspan="3">
+        <app-shared-error></app-shared-error>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="suppliers.state.isReady()">
+    <tr *ngFor="let supplier of suppliers.value">
+      <td>
+        <app-server-image cssClass="table-image" [imageId]="supplier.value.logo"></app-server-image>
+      </td>
+      <td><a [routerLink]="['supplier', supplier.value.id]">{{supplier.value.name}}</a></td>
+      <td>
+        <button type="button" (click)="deleteSupplier(supplier)" [disabled]="supplier.state.isInProgress()">delete</button>
+        <app-shared-error *ngIf="supplier.state.isError()" [message]="supplier.state.getMessage()"></app-shared-error>
+      </td>
+    </tr>
+  </tbody>
+</table>

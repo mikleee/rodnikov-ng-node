@@ -1,0 +1,9 @@
+# Project exclude paths
+/node_modules/
+src/client/node_modules
+src/client/dist
+src/client/package-lock.json
+src/server/node_modules
+src/server/error.log
+src/server/log.log
+src/server/package-lock.json

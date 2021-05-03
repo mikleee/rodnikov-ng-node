@@ -1,0 +1,6 @@
+<input
+  type="file"
+  [id]="id"
+  [attr.multiple]="multiple ? '' : null"
+  [attr.accept]="accept ? accept : null"
+  (change)="onInputChange($event)">

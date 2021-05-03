@@ -1,0 +1,33 @@
+<h3>Supplier</h3>
+
+
+<fieldset>
+  <app-shared-loading *ngIf="supplierState.isInProgress()"></app-shared-loading>
+  <app-shared-error *ngIf="supplierState.isError()"></app-shared-error>
+
+  <div *ngIf="supplierState.isReady()">
+    <form [formGroup]="supplierForm" (ngSubmit)="submitSupplierForm()">
+      <div>
+        <label for="supplierName">Name</label>
+        <input id="supplierName" type="text" formControlName="name">
+      </div>
+      <div>
+        <app-server-image [imageId]="supplier.logo"></app-server-image>
+        <app-image-upload id="jopa"
+                          [subject$]="logo$"
+                          [multiple]="false">
+        </app-image-upload>
+      </div>
+      <div>
+        <button type="submit" [disabled]="supplierForm.disabled">Submit</button>
+        <app-shared-error *ngIf="supplierFormState.isError()" [message]="supplierFormState.getMessage()"></app-shared-error>
+      </div>
+    </form>
+  </div>
+
+
+</fieldset>
+
+
+
+

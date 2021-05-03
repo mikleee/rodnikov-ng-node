@@ -1,0 +1,36 @@
+<h3>Group</h3>
+
+
+<fieldset>
+  <app-shared-loading *ngIf="groupState.isInProgress()"></app-shared-loading>
+  <app-shared-error *ngIf="groupState.isError()" [message]="groupState.getMessage()"></app-shared-error>
+
+  <form [formGroup]="groupForm" (ngSubmit)="submitGroupForm()" *ngIf="groupState.isReady()">
+    <div>
+      <label for="groupName">Name</label>
+      <input id="groupName" type="text" formControlName="name">
+    </div>
+    <div>
+      <label for="groupParent">Parent</label>
+      <div>
+        <app-shared-loading *ngIf="groups.state.isInProgress()"></app-shared-loading>
+        <app-shared-error *ngIf="groups.state.isError()" [message]="groups.state.getMessage()"></app-shared-error>
+        <select id="groupParent" formControlName="parent" *ngIf="groups.state.isReady()">
+          <option [ngValue]="null">---</option>
+          <option *ngFor="let g of groups.value" [ngValue]="g.value.id">{{g.value.name}}</option>
+        </select>
+      </div>
+
+    </div>
+    <div>
+      <button type="submit" [disabled]="groupForm.disabled">Submit</button>
+      <app-shared-error *ngIf="groupFormState.isError()" [message]="groupFormState.getMessage()"></app-shared-error>
+    </div>
+  </form>
+
+
+</fieldset>
+
+
+
+
