@@ -58,7 +58,6 @@ export class ProductGroupService {
     result.forEach(g => {
       g.groups = (parentChildMapping.get(g.id) || []).map(c => idMapping.get(c) as ProductGroup);
     });
-    debugger;
     return result;
   }
 

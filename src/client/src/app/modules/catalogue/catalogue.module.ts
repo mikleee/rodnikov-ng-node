@@ -8,8 +8,8 @@ import {ProductGroupsListComponent} from './product-groups/product-groups-list/p
 import {ProductSupplierComponent} from "./product-suppliers/product-supplier/product-supplier.component";
 import {ProductSupplierListComponent} from "./product-suppliers/product-supplier-list/product-supplier-list.component";
 import {ProductGroupComponent} from './product-groups/product-group/product-group.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
-import { ProductComponent } from './product/product/product.component';
+import {ProductListComponent} from './product/product-list/product-list.component';
+import {ProductComponent} from './product/product/product.component';
 
 
 @NgModule({

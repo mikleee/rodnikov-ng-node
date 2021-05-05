@@ -1,7 +1,6 @@
 import {BaseModel} from "../shared/model/base.model";
 
 
-
 export interface Product extends BaseModel {
   name: string;
   description: string;

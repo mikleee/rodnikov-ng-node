@@ -36,7 +36,6 @@ export class ProductGroupComponent extends ProductGroupsBaseComponent implements
             this.initGroupForm(this.group);
           },
           reason => {
-            debugger;
             this.groupForm.enable();
             this.groupFormState.error(reason.message)
           },
