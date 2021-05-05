@@ -2,29 +2,28 @@
 
 
 <fieldset>
-  <app-shared-loading *ngIf="groupState.isInProgress()"></app-shared-loading>
+  <app-shared-in-progress *ngIf="groupState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="groupState.isError()" [message]="groupState.getMessage()"></app-shared-error>
 
   <form [formGroup]="groupForm" (ngSubmit)="submitGroupForm()" *ngIf="groupState.isReady()">
-    <div>
-      <label for="groupName">Name</label>
-      <input id="groupName" type="text" formControlName="name">
+    <div class="form-controls">
+      <label for="groupName" class="form-label">Name</label>
+      <input id="groupName" class="form-control" type="text" formControlName="name">
     </div>
-    <div>
-      <label for="groupParent">Parent</label>
+    <div class="form-controls">
+      <label for="groupParent" class="form-label">Parent</label>
       <div>
-        <app-shared-loading *ngIf="groups.state.isInProgress()"></app-shared-loading>
+        <app-shared-in-progress *ngIf="groups.state.isInProgress()"></app-shared-in-progress>
         <app-shared-error *ngIf="groups.state.isError()" [message]="groups.state.getMessage()"></app-shared-error>
-        <select id="groupParent" formControlName="parent" *ngIf="groups.state.isReady()">
+        <select id="groupParent" class="form-control" formControlName="parent" *ngIf="groups.state.isReady()">
           <option [ngValue]="null">---</option>
           <option *ngFor="let g of groups.value" [ngValue]="g.value.id">{{g.value.name}}</option>
         </select>
       </div>
-
     </div>
-    <div>
-      <button type="submit" [disabled]="groupForm.disabled">Submit</button>
+    <div class="form-controls-buttons">
       <app-shared-error *ngIf="groupFormState.isError()" [message]="groupFormState.getMessage()"></app-shared-error>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="groupForm.disabled">Submit</button>
     </div>
   </form>
 

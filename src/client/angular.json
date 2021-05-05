@@ -31,8 +31,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/bootstrap/dist/css/bootstrap-reboot.css"
+              "src/styles/styles.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap-reboot.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
+              "./node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff",
+              "./node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": []
           },

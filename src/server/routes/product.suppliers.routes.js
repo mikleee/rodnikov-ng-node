@@ -13,7 +13,7 @@ router.get('/supplier/:id', async (req, res, next) => {
 
 router.post('/supplier/submit', async (req, res, next) => {
     let supplier = JSON.parse(req.body.supplier);
-    let logo = req.files.logo;
+    let logo = req.files?.logo;
     return await productSupplierService.saveOrUpdate(supplier, logo);
 });
 

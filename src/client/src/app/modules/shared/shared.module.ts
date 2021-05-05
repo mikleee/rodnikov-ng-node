@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LoadingComponent} from "./component/loading/loading.component";
+import {InProgressComponent} from "./component/in-progress/in-progress.component";
 import {ErrorComponent} from "./component/error/error.component";
 import {NotFoundComponent} from './component/not-found/not-found.component';
 import { ImageUploadComponent } from './component/image-upload/image-upload.component';
@@ -10,7 +10,7 @@ import { ServerImageComponent } from './component/server-image/server-image.comp
 
 @NgModule({
   declarations: [
-    LoadingComponent,
+    InProgressComponent,
     ErrorComponent,
     NotFoundComponent,
     ImageUploadComponent,
@@ -18,7 +18,7 @@ import { ServerImageComponent } from './component/server-image/server-image.comp
     ServerImageComponent
   ],
     exports: [
-        LoadingComponent,
+        InProgressComponent,
         ErrorComponent,
         ImageUploadComponent,
         ServerImageComponent

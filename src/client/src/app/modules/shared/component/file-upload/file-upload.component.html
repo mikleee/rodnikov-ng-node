@@ -1,6 +1,15 @@
-<input
-  type="file"
-  [id]="id"
-  [attr.multiple]="multiple ? '' : null"
-  [attr.accept]="accept ? accept : null"
-  (change)="onInputChange($event)">
+<div class="file-upload-container">
+  <button class="file-upload-trigger btn btn-outline-secondary" type="button">
+    <label>
+      <span>{{title || 'Upload'}}</span>
+      <input
+        class="file-upload-input"
+        type="file"
+        [id]="id"
+        [attr.multiple]="multiple ? '' : null"
+        [attr.accept]="accept ? accept : null"
+        (change)="onInputChange($event)">
+    </label>
+  </button>
+  <span class="file-upload-label">{{label}}</span>
+</div>

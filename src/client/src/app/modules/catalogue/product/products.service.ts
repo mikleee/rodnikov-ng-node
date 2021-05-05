@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from "rxjs";
 import {HttpService} from "../../shared/service/http.service";
-import {Product, ProductSupplier} from "../catalogue.models";
+import {Product} from "../catalogue.models";
 import {map} from "rxjs/operators";
 
 
@@ -23,18 +23,18 @@ export class ProductsService {
     return this.products$;
   }
 
-  getProduct(id: String): Promise<ProductSupplier> {
+  getProduct(id: String): Promise<Product> {
     return this.http.get('/api/products/product/' + id).toPromise();
   }
 
-  submitProduct(supplier: FormData): Promise<ProductSupplier> {
+  submitProduct(supplier: FormData): Promise<Product> {
     let promise = this.http.postMultipartFormData('/api/products/product/submit', supplier);
     promise.then(value => this.loadProducts());
     return promise
   }
 
-  deleteProduct(id: String): Promise<ProductSupplier> {
-    let promise = this.http.post('/api/suppliers/supplier/delete/' + id).toPromise();
+  deleteProduct(id: String): Promise<Product> {
+    let promise = this.http.post('/api/products/product/delete/' + id).toPromise();
     promise.then(value => this.loadProducts());
     return promise
   }

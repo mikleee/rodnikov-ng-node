@@ -2,24 +2,33 @@
 
 
 <fieldset>
-  <app-shared-loading *ngIf="supplierState.isInProgress()"></app-shared-loading>
+  <app-shared-in-progress *ngIf="supplierState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="supplierState.isError()"></app-shared-error>
 
   <div *ngIf="supplierState.isReady()">
     <form [formGroup]="supplierForm" (ngSubmit)="submitSupplierForm()">
-      <div>
-        <label for="supplierName">Name</label>
-        <input id="supplierName" type="text" formControlName="name">
+      <div class="row">
+        <div class="col-7">
+          <div class="form-controls">
+            <label for="supplierName" class="form-label">Name</label>
+            <input id="supplierName" type="text" formControlName="name" class="form-control">
+          </div>
+          <div class="form-controls">
+            <label for="supplierLogo" class="form-label">Logo</label>
+            <div>
+              <app-image-upload id="supplierLogo"
+                                upload-title="Logo"
+                                [subject$]="logo$"
+                                [multiple]="false"></app-image-upload>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <app-server-image [imageId]="supplier.logo" cssClass="form-image"></app-server-image>
+        </div>
       </div>
-      <div>
-        <app-server-image [imageId]="supplier.logo"></app-server-image>
-        <app-image-upload id="jopa"
-                          [subject$]="logo$"
-                          [multiple]="false">
-        </app-image-upload>
-      </div>
-      <div>
-        <button type="submit" [disabled]="supplierForm.disabled">Submit</button>
+      <div class="form-controls-buttons">
+        <button type="submit" class="btn btn-outline-primary" [disabled]="supplierForm.disabled">Submit</button>
         <app-shared-error *ngIf="supplierFormState.isError()" [message]="supplierFormState.getMessage()"></app-shared-error>
       </div>
     </form>

@@ -1,17 +1,20 @@
 <h3>Suppliers</h3>
-<table>
+<table class="table table-sm table-striped">
   <thead>
     <tr>
-      <td colspan="2">Name</td>
-      <td>
-        <button [routerLink]="['supplier']">Add</button>
-      </td>
+      <th class="img"></th>
+      <th>Name</th>
+      <th class="actions">
+        <button class="btn btn-outline-secondary btn-sm" [routerLink]="['supplier']">
+          <i class="bi-plus"></i>
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody *ngIf="suppliers.state.isInProgress()">
     <tr>
       <td colspan="3">
-        <app-shared-loading></app-shared-loading>
+        <app-shared-in-progress></app-shared-in-progress>
       </td>
     </tr>
   </tbody>
@@ -24,13 +27,18 @@
   </tbody>
   <tbody *ngIf="suppliers.state.isReady()">
     <tr *ngFor="let supplier of suppliers.value">
-      <td>
+      <td class="img">
         <app-server-image cssClass="table-image" [imageId]="supplier.value.logo"></app-server-image>
       </td>
       <td><a [routerLink]="['supplier', supplier.value.id]">{{supplier.value.name}}</a></td>
-      <td>
-        <button type="button" (click)="deleteSupplier(supplier)" [disabled]="supplier.state.isInProgress()">delete</button>
+      <td class="actions">
         <app-shared-error *ngIf="supplier.state.isError()" [message]="supplier.state.getMessage()"></app-shared-error>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm"
+                (click)="deleteSupplier(supplier)"
+                [disabled]="supplier.state.isInProgress()">
+          <i class="bi-trash"></i>
+        </button>
       </td>
     </tr>
   </tbody>

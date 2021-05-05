@@ -5,6 +5,9 @@ import {ProductSupplierListComponent} from "./modules/catalogue/product-supplier
 import {ProductSupplierComponent} from "./modules/catalogue/product-suppliers/product-supplier/product-supplier.component";
 import {ProductGroupsListComponent} from "./modules/catalogue/product-groups/product-groups-list/product-groups-list.component";
 import {ProductGroupComponent} from "./modules/catalogue/product-groups/product-group/product-group.component";
+import {ProductComponent} from "./modules/catalogue/product/product/product.component";
+import {ProductListComponent} from "./modules/catalogue/product/product-list/product-list.component";
+
 
 const routes: Routes = [
 
@@ -18,6 +21,9 @@ const routes: Routes = [
       {path: 'groups', component: ProductGroupsListComponent},
       {path: 'groups/group', component: ProductGroupComponent},
       {path: 'groups/group/:id', component: ProductGroupComponent},
+      {path: 'products', component: ProductListComponent},
+      {path: 'products/product', component: ProductComponent},
+      {path: 'products/product/:id', component: ProductComponent},
     ]
   },
 ];

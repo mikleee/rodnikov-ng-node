@@ -35,6 +35,16 @@ class Router {
         response.send(JSON.stringify({message: error.message}));
     }
 
+    toFiles(images) {
+        if (images == null) {
+            return [];
+        } else if (images instanceof Array) {
+            return images;
+        } else {
+            return [images]
+        }
+    }
+
     getRouter() {
         return this.router;
     }

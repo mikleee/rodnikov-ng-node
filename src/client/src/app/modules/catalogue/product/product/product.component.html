@@ -1,1 +1,90 @@
-<p>product works!</p>
+<h3>Product</h3>
+
+
+<fieldset>
+  <app-shared-in-progress *ngIf="productState.isInProgress()"></app-shared-in-progress>
+  <app-shared-error *ngIf="productState.isError()" [message]="productState.getMessage()"></app-shared-error>
+
+  <form [formGroup]="productForm" (ngSubmit)="submitProductForm()" *ngIf="productState.isReady()">
+    <div class="row">
+      <div class="col-7">
+        <div class="form-controls">
+          <label for="productName" class="form-label">Name</label>
+          <input id="productName" class="form-control" type="text" formControlName="name">
+        </div>
+        <div class="form-controls">
+          <label for="productDescription" class="form-label">Description</label>
+          <textarea id="productDescription" class="form-control" formControlName="description"></textarea>
+        </div>
+        <div class="form-controls">
+          <label for="productSupplier" class="form-label">Supplier</label>
+          <div>
+            <app-shared-in-progress *ngIf="suppliers.state.isInProgress()"></app-shared-in-progress>
+            <app-shared-error *ngIf="suppliers.state.isError()" [message]="suppliers.state.getMessage()"></app-shared-error>
+            <select id="productSupplier" class="form-control" formControlName="supplier" *ngIf="suppliers.state.isReady()">
+              <option [ngValue]="null">---</option>
+              <option *ngFor="let s of suppliers.value.values()" [ngValue]="s.id">{{s.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-controls">
+          <label for="productGroup" class="form-label">Supplier</label>
+          <div>
+            <app-shared-in-progress *ngIf="groups.state.isInProgress()"></app-shared-in-progress>
+            <app-shared-error *ngIf="groups.state.isError()" [message]="groups.state.getMessage()"></app-shared-error>
+            <select id="productGroup" class="form-control" formControlName="group" *ngIf="groups.state.isReady()">
+              <option [ngValue]="null">---</option>
+              <option *ngFor="let g of groups.value.values()" [ngValue]="g.id">{{g.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-controls row">
+          <div class="form-controls col">
+            <label for="productPrice" class="form-label">Price</label>
+            <input id="productPrice" type="text" class="form-control" formControlName="price">
+          </div>
+          <div class="form-controls col">
+            <label for="productUplift" class="form-label">Uplift</label>
+            <input id="productUplift" type="text" class="form-control" formControlName="uplift">
+          </div>
+        </div>
+        <div class="form-controls">
+          <label for="productMainUpload" class="form-label">Main image</label>
+          <div>
+            <app-image-upload id="productMainUpload"
+                              [subject$]="mainImage$"
+                              [multiple]="false">
+            </app-image-upload>
+          </div>
+        </div>
+        <div class="form-controls">
+          <label for="productImagesUpload" class="form-label">Additional image</label>
+          <div>
+            <app-image-upload id="productImagesUpload"
+                              [subject$]="images$"
+                              [multiple]="true">
+            </app-image-upload>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <div>
+          <app-server-image *ngIf="product.mainImage" [imageId]="product.mainImage" cssClass="form-image"></app-server-image>
+        </div>
+        <div>
+          <app-server-image *ngFor="let img of product.images" [imageId]="img" cssClass="form-image"></app-server-image>
+        </div>
+      </div>
+    </div>
+    <div class="form-controls-buttons">
+      <button type="submit" class="btn btn-outline-primary" [disabled]="productForm.disabled">Submit</button>
+      <app-shared-error *ngIf="productFormState.isError()" [message]="productFormState.getMessage()"></app-shared-error>
+    </div>
+  </form>
+
+
+</fieldset>
+
+
+
+

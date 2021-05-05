@@ -1,46 +1,113 @@
-import {Component, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
-import {AsyncModel} from "../../../shared/model/async.model";
-import {ProductSupplier} from "../../catalogue.models";
-import {ViewStateState} from "../../../shared/model/view-state.model";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ProductsBaseComponent} from "../products-base.component";
+import {ProductsService} from "../products.service";
 import {ProductSuppliersService} from "../../product-suppliers/product-suppliers.service";
+import {ProductGroupService} from "../../product-groups/product-group.service";
+import {Product} from "../../catalogue.models";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
+import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
-  products$?: Subscription;
-  products: AsyncModel<AsyncModel<ProductSupplier>[]> = new AsyncModel<AsyncModel<ProductSupplier>[]>(ViewStateState.UNTOUCHED, []);
+export class ProductComponent extends ProductsBaseComponent implements OnInit, OnDestroy {
+  productState: ViewState = new ViewState();
+  productFormState: ViewState = new ViewState(ViewStateState.READY);
+  product: Product = {} as Product;
+  productForm: FormGroup = this.initProductForm(this.product);
+  mainImage$: Subject<File[]> = new Subject<File[]>();
+  mainImage?: File;
+  images$: Subject<File[]> = new Subject<File[]>();
+  images?: File[];
 
-  constructor(private suppliersService: ProductSuppliersService) {
 
+  constructor(private route: ActivatedRoute,
+              protected productsService: ProductsService,
+              protected suppliersService: ProductSuppliersService,
+              protected groupsService: ProductGroupService) {
+    super(productsService, suppliersService, groupsService);
   }
 
+  submitProductForm() {
+    if (this.productForm.valid) {
+      this.productForm.disable();
+      this.productFormState.inProgress();
 
-  deleteSupplier(supplier: AsyncModel<ProductSupplier>) {
-    supplier.state.inProgress();
-    this.suppliersService.deleteSupplier(supplier.value.id)
-      .then(
-        (result) => supplier.state.ready(),
-        (error) => supplier.state.error(error.message),
-      )
+      let request = new FormData();
+      request.append('product', JSON.stringify(this.productForm.value));
+      if (this.mainImage) {
+        request.append('mainImage', this.mainImage as Blob);
+      }
+      this.images?.forEach(i => request.append('images', i as Blob))
+
+      this.productsService.submitProduct(request)
+        .then(
+          value => {
+            this.productForm.enable();
+            this.productFormState.ready();
+            this.product = value;
+            this.initProductForm(this.product);
+          },
+          reason => {
+            this.productForm.enable();
+            this.productFormState.error(reason.message)
+          },
+        );
+    }
+  }
+
+  initProductForm(product: Product | undefined): FormGroup {
+    return this.productForm = this.buildProductForm(product);
+  }
+
+  buildProductForm(product: Product | undefined) {
+    return new FormGroup({
+      id: new FormControl(product?.id, []),
+      name: new FormControl(product?.name, [Validators.required]),
+      description: new FormControl(product?.description),
+      supplier: new FormControl(product?.supplier, [Validators.required]),
+      group: new FormControl(product?.group, [Validators.required]),
+      uplift: new FormControl(product?.uplift, []),
+      price: new FormControl(product?.price, [Validators.required]),
+    });
   }
 
   ngOnInit(): void {
-    this.products.state.inProgress();
-    this.products$ = this.suppliersService.loadSuppliers()
-      .subscribe(
-        result => {
-          this.products.state.ready();
-          this.products.value = result.map((v) => new AsyncModel<ProductSupplier>(ViewStateState.UNTOUCHED, v));
-        },
-        error => this.products = new AsyncModel<AsyncModel<ProductSupplier>[]>(ViewStateState.ERROR, [], error)
-      );
+    super.ngOnInit();
+    this.loadProduct();
+    this.mainImage$.subscribe(files => this.mainImage = files[0]);
+    this.images$.subscribe(files => this.images = files);
   }
 
-  ngOnDestroy(): void {
-    this.products$?.unsubscribe();
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.images$.unsubscribe();
+    this.mainImage$.unsubscribe();
   }
+
+  loadProduct() {
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.productState.inProgress();
+      this.productsService.getProduct(id)
+        .then(
+          value => {
+            this.productState.ready();
+            this.product = value;
+            this.initProductForm(this.product);
+          },
+          reason => this.productState.error(reason.message)
+        );
+    } else {
+      this.productState.ready();
+      this.product = {} as Product;
+      this.initProductForm(this.product);
+    }
+  }
+
 }

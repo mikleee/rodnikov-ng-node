@@ -3,3 +3,8 @@
   [src]="'api/document/get/' + imageId"
   [class]="cssClass"
   alt=""/>
+<img
+  *ngIf="!imageId"
+  src="assets/img/no-image.png"
+  [class]="cssClass"
+  alt=""/>

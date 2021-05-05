@@ -7,10 +7,13 @@ import {Subject} from "rxjs";
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
-  @Input() subject$?: Subject<FileList>
+  @Input() subject$?: Subject<File[]>
   @Input() id: string = Math.random().toString();
   @Input() multiple: boolean = false;
   @Input() accept?: string;
+  @Input("upload-title") title: string = 'Upload';
+  files: File[] = [];
+  label: string = '';
 
 
   constructor() {
@@ -22,7 +25,10 @@ export class FileUploadComponent implements OnInit {
 
   onInputChange(event: Event) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
-    this.subject$?.next(input.files as FileList);
+
+    this.files = Array.from(input.files || []);
+    this.label = this.files.map(f => f.name).join(', ');
+    this.subject$?.next(this.files);
   }
 
 

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {ProductGroup} from "../../catalogue.models";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {ProductGroupService} from "../product-group.service";
 import {ProductGroupsBaseComponent} from "../product-groups-base.component";
 
@@ -19,7 +19,6 @@ export class ProductGroupComponent extends ProductGroupsBaseComponent implements
 
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               protected groupsService: ProductGroupService) {
     super(groupsService);
   }
@@ -33,9 +32,8 @@ export class ProductGroupComponent extends ProductGroupsBaseComponent implements
           value => {
             this.groupForm.enable();
             this.groupFormState.ready();
-            // this.group = value;
+            this.group = value;
             this.initGroupForm(this.group);
-            this.router.navigate(['catalogue/groups'])
           },
           reason => {
             debugger;

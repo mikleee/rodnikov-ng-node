@@ -27,7 +27,7 @@ export class ProductGroupService {
     return this.http.get('/api/groups/group/' + id).toPromise();
   }
 
-  submitProductGroup(supplier: ProductGroup): Promise<ProductSupplier> {
+  submitProductGroup(supplier: ProductGroup): Promise<ProductGroup> {
     let promise = this.http.post('/api/groups/group/submit', supplier).toPromise();
     promise.then(value => this.loadProductGroups());
     return promise

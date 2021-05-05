@@ -24,6 +24,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/suppliers', require('./routes/product.suppliers.routes'));
 app.use('/api/groups', require('./routes/product.groups.routes'));
+app.use('/api/products', require('./routes/products.routes'));
 app.use('/api/document', require('./routes/document.routes'));
 
 

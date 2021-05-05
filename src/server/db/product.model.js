@@ -10,6 +10,7 @@ let schema = schemaBuilder.buildSchema({
     uplift: Schema.Types.Number,
     group: {type: Schema.Types.ObjectId, ref: 'ProductGroup'},
     supplier: {type: Schema.Types.ObjectId, ref: 'ProductSupplier'},
+    mainImage: {type: Schema.Types.ObjectId, ref: 'Document'},
     images: [{type: Schema.Types.ObjectId, ref: 'Document'}]
 });
 

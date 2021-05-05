@@ -17,7 +17,7 @@ export class ProductSupplierComponent implements OnInit, OnDestroy {
   supplier: ProductSupplier = {} as ProductSupplier;
   supplierForm: FormGroup = this.buildSupplierForm(this.supplier);
   logo?: File;
-  logo$: Subject<FileList> = new Subject<FileList>();
+  logo$: Subject<File[]> = new Subject<File[]>();
 
 
   constructor(private route: ActivatedRoute,
@@ -83,10 +83,7 @@ export class ProductSupplierComponent implements OnInit, OnDestroy {
       this.initSupplierForm(this.supplier);
     }
 
-    this.logo$.subscribe(files => {
-      debugger;
-      this.logo = files[0]
-    });
+    this.logo$.subscribe(files => this.logo = files[0]);
   }
 
   ngOnDestroy(): void {

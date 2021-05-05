@@ -1,18 +1,20 @@
 <h3>Groups</h3>
-<table>
+<table class="table table-sm table-striped">
   <thead>
     <tr>
-      <td>Name</td>
-      <td>Subgroups</td>
-      <td>
-        <button [routerLink]="['group']">Add</button>
-      </td>
+      <th>Name</th>
+      <th>Subgroups</th>
+      <th class="actions">
+        <button class="btn btn-outline-secondary btn-sm" [routerLink]="['group']">
+          <i class="bi-plus"></i>
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody *ngIf="groups.state.isInProgress()">
     <tr>
       <td colspan="3">
-        <app-shared-loading></app-shared-loading>
+        <app-shared-in-progress></app-shared-in-progress>
       </td>
     </tr>
   </tbody>
@@ -31,9 +33,14 @@
           <a [routerLink]="['group', sub.id]">{{sub.name}}</a>
         </div>
       </td>
-      <td>
-        <button type="button" (click)="deleteGroup(group)" [disabled]="group.state.isInProgress()">delete</button>
+      <td class="actions">
         <app-shared-error *ngIf="group.state.isError()" [message]="group.state.getMessage()"></app-shared-error>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm"
+                (click)="deleteGroup(group)"
+                [disabled]="group.state.isInProgress()">
+          <i class="bi-trash"></i>
+        </button>
       </td>
     </tr>
   </tbody>

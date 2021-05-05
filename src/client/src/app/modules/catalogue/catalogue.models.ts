@@ -9,6 +9,7 @@ export interface Product extends BaseModel {
   uplift: number,
   supplier: string,
   group: string,
+  mainImage: string,
   images: string[]
 }
 

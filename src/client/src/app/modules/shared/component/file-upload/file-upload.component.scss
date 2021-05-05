@@ -1,0 +1,20 @@
+.file-upload-container {
+  display: inline-block;
+
+  .file-upload-input {
+    display: none;
+  }
+
+  .file-upload-trigger {
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .file-upload-label {
+    font-style: italic;
+    font-size: 90%;
+    word-break: break-all;
+  }
+}

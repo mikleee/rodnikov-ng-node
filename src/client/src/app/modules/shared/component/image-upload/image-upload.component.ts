@@ -7,9 +7,10 @@ import {Subject} from "rxjs";
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnInit {
-  @Input() subject$?: Subject<FileList>
+  @Input() subject$?: Subject<File[]>
   @Input() id: string = Math.random().toString();
   @Input() multiple: boolean = false;
+  @Input("upload-title") title: string = 'Upload image';
 
   constructor() {
   }
