@@ -7,20 +7,17 @@ import {ProductGroupsListComponent} from "./modules/catalogue/product-groups/pro
 import {ProductGroupComponent} from "./modules/catalogue/product-groups/product-group/product-group.component";
 import {ProductComponent} from "./modules/catalogue/product/product/product.component";
 import {ProductListComponent} from "./modules/catalogue/product/product-list/product-list.component";
-import {Screen404Component} from "./modules/shared/component/screen404/screen404.component";
 import {ConfigurationComponent} from "./modules/configuration/configuration.component";
-import {GoodsComponent} from "./modules/goods/goods.component";
 import {LoginComponent} from "./modules/auth/login/login.component";
+import {ShowcaseComponent} from "./modules/showcase/showcase.component";
 
 
 const routes: Routes = [
 
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
-  // {path: '', pathMatch: 'full', component: AppComponent},
+  {path: '', pathMatch: 'full', component: ShowcaseComponent},
 
-  {
-    path: 'goods', component: GoodsComponent, children: []
-  },
+
   {path: 'login', pathMatch: 'full', component: LoginComponent},
 
   {

@@ -1,0 +1,28 @@
+@import "../../../../styles/variables";
+
+::ng-deep .product-card {
+  height: 350px;
+  border-radius: $borderRadius;
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    align-self: center;
+  }
+
+  .product-card-name {
+    padding: 0.5em 0 0.5em 0;
+    height: 4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .product-card-logo {
+    img {
+      height: 250px;
+    }
+  }
+}

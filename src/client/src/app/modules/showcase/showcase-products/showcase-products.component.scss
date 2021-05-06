@@ -1,0 +1,10 @@
+.showcase-products {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .showcase-product {
+    width: 33%;
+    padding: 10px;
+  }
+}

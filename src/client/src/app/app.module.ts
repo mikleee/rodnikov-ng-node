@@ -5,7 +5,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CatalogueModule} from "./modules/catalogue/catalogue.module";
 import {HttpClientModule} from "@angular/common/http";
-import {GoodsModule} from "./modules/goods/goods.module";
+import {ShowcaseModule} from "./modules/showcase/showcase.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import {GoodsModule} from "./modules/goods/goods.module";
     AppRoutingModule,
     HttpClientModule,
     CatalogueModule,
-    GoodsModule
+    ShowcaseModule,
+    BrowserAnimationsModule,
+    MatMenuModule
   ],
   providers: [],
   exports: [],

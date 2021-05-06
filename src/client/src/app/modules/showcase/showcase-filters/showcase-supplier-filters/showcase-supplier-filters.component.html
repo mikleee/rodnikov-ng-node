@@ -1,0 +1,11 @@
+<div class="showcase-filters-group">
+  <div class="showcase-filters-heading">Производиели</div>
+  <div class="showcase-filters-items">
+    <div class="showcase-filters-item" *ngFor="let supplier of (suppliers | keyvalue)">
+      <label>
+        <input type="checkbox" [(ngModel)]="supplier.value.checked">
+        <span> {{supplier.value.name}}</span>
+      </label>
+    </div>
+  </div>
+</div>

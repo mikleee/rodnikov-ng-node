@@ -1,0 +1,9 @@
+<div class="product-card">
+  <a class="product-card-logo">
+    <app-server-image [imageId]="product.mainImage"></app-server-image>
+  </a>
+  <a class="product-card-name">
+    {{product.name}}
+  </a>
+  <div class="product-card-price">{{product.priceUah | currencyUah}}</div>
+</div>

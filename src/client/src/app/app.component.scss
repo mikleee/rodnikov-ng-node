@@ -1,0 +1,57 @@
+@import "../styles/variables";
+
+$height: 50px;
+$colorMain: #149751;
+$colorInverse: #fff;
+
+.main-header {
+
+  .header-top {
+    height: $height;
+  }
+
+  .header-bottom-wrapper {
+    background: $colorMain;
+    color: $colorInverse;
+    height: $height;
+  }
+
+  .header-bottom {
+    height: $height;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  nav {
+    ul {
+      display: flex;
+      margin: 0;
+      list-style: none;
+
+      li {
+        padding: 0;
+
+        a {
+          border-radius: $borderRadius;
+          padding: .5rem 1rem;
+          color: $colorInverse;
+          text-decoration: none;
+
+          &.active {
+            background: $colorInverse;
+            color: $colorMain;
+          }
+        }
+
+      }
+    }
+  }
+
+}
+
+@media (min-width: 1200px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1500px;
+  }
+}

@@ -1,0 +1,58 @@
+@import "../../../../styles/variables";
+
+$distinctColor: #149751;
+$borderColor: lightgray;
+$padding: 10px 15px;;
+
+.showcase-filters {
+
+  .showcase-filters-head {
+    border: 1px solid $borderColor;
+    background: #f5f5f5;
+    padding: $padding;
+    border-top-left-radius: $borderRadius;
+    border-top-right-radius: $borderRadius;
+  }
+
+
+}
+
+.showcase-filters-group {
+  font-size: 12px;
+  border: 1px solid $borderColor;
+
+  .showcase-filters-heading {
+    padding: $padding;
+    font-weight: bold;
+  }
+
+  .showcase-filters-items {
+    padding: $padding;
+    padding-top: 0;
+
+    .showcase-filters-item {
+      line-height: 1.2;
+
+      label {
+        display: flex;
+        align-items: center;
+
+        input {
+          margin-right: 1em;
+
+        }
+
+        span {
+          transition: 300ms linear;
+        }
+
+        input:checked + span {
+          color: $distinctColor;
+        }
+      }
+
+    }
+
+  }
+
+}

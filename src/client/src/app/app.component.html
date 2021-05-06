@@ -1,15 +1,41 @@
-<header class="rodnikov">
-  <ul class="list-group list-group-horizontal">
-    <li class="list-group-item"><a routerLink="goods">Goods</a></li>
-    <li class="list-group-item"><a routerLink="catalogue">Catalogue</a></li>
-    <li class="list-group-item"><a routerLink="configuration">Configuration</a></li>
-    <li class="list-group-item"><a routerLink="auth">Auth</a></li>
-  </ul>
-</header>
-<br>
-<main class="rodnikov container-fluid">
-  <router-outlet></router-outlet>
-</main>
+<div class="rodnikov">
+  <header class="main-header">
+    <div class="header-top container">
+      top
+    </div>
+    <div class="header-bottom-wrapper">
+      <div class="container">
+        <nav class="header-bottom">
+          <ul>
+            <li><a routerLink=""><i class="bi-house-door"></i></a></li>
+            <li><a routerLink="" mat-button [matMenuTriggerFor]="menu"><i class="bi-list"></i> Kaтегории</a></li>
+            <li><a routerLink="catalogue" routerLinkActive="active">Catalogue</a></li>
+            <li><a routerLink="configuration" routerLinkActive="active">Configuration</a></li>
+            <li><a routerLink="auth" routerLinkActive="active">Auth</a></li>
+          </ul>
+          <ul>
+            <li><a routerLink="goods" routerLinkActive="active">Goods</a></li>
+            <li><a routerLink="catalogue" routerLinkActive="active">Catalogue</a></li>
+            <li><a routerLink="configuration" routerLinkActive="active">Configuration</a></li>
+            <li><a routerLink="auth" routerLinkActive="active">Auth</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <br>
+  <main class="container">
+    <router-outlet></router-outlet>
+  </main>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+
+</div>
+
+
 
 
 
