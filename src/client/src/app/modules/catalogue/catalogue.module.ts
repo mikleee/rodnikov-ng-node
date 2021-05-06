@@ -10,6 +10,8 @@ import {ProductSupplierListComponent} from "./product-suppliers/product-supplier
 import {ProductGroupComponent} from './product-groups/product-group/product-group.component';
 import {ProductListComponent} from './product/product-list/product-list.component';
 import {ProductComponent} from './product/product/product.component';
+import {ProductGroupDropdownComponent} from './product-groups/product-group-dropdown/product-group-dropdown.component';
+import {ProductGroupsTreeComponent} from './product-groups/product-groups-tree/product-groups-tree.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import {ProductComponent} from './product/product/product.component';
     ProductGroupComponent,
     ProductListComponent,
     ProductComponent,
+    ProductGroupDropdownComponent,
+    ProductGroupsTreeComponent,
   ],
   imports: [
     CommonModule,

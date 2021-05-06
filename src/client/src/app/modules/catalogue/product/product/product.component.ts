@@ -42,7 +42,7 @@ export class ProductComponent extends ProductsBaseComponent implements OnInit, O
       if (this.mainImage) {
         request.append('mainImage', this.mainImage as Blob);
       }
-      this.images?.forEach(i => request.append('images', i as Blob))
+      this.images?.forEach(i => request.append('additionalImages', i as Blob))
 
       this.productsService.submitProduct(request)
         .then(
@@ -71,8 +71,8 @@ export class ProductComponent extends ProductsBaseComponent implements OnInit, O
       description: new FormControl(product?.description),
       supplier: new FormControl(product?.supplier, [Validators.required]),
       group: new FormControl(product?.group, [Validators.required]),
-      uplift: new FormControl(product?.uplift, []),
-      price: new FormControl(product?.price, [Validators.required]),
+      cost: new FormControl(product?.cost, [Validators.required]),
+      priceUplift: new FormControl(product?.priceUplift, []),
     });
   }
 

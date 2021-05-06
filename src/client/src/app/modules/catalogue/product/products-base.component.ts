@@ -1,8 +1,7 @@
 import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {AsyncModel} from "../../shared/model/async.model";
-import {Product, ProductGroup, ProductSupplier} from "../catalogue.models";
-import {ViewStateState} from "../../shared/model/view-state.model";
+import {Product, ProductGroup, ProductsFilter, ProductSupplier} from "../catalogue.models";
+import {mapToViewStates, ViewState, ViewStateState} from "../../shared/model/view-state.model";
 import {ProductsService} from "./products.service";
 import {ProductSuppliersService} from "../product-suppliers/product-suppliers.service";
 import {ProductGroupService} from "../product-groups/product-group.service";
@@ -10,15 +9,20 @@ import {ProductGroupService} from "../product-groups/product-group.service";
 
 @Injectable()
 export class ProductsBaseComponent implements OnInit, OnDestroy {
-  products$?: Subscription;
-  products: AsyncModel<AsyncModel<Product>[]> = new AsyncModel<AsyncModel<Product>[]>(ViewStateState.UNTOUCHED, []);
+  productsFilter: ProductsFilter = new ProductsFilter();
+
+  productsState: ViewState = new ViewState();
+  products: Product[] = [];
 
   suppliers$?: Subscription;
-  suppliers: AsyncModel<Map<String, ProductSupplier>> = new AsyncModel<Map<String, ProductSupplier>>(ViewStateState.UNTOUCHED, new Map<String, ProductSupplier>());
+  suppliersState: ViewState = new ViewState();
+  suppliers: { [key: string]: ProductSupplier } = {};
 
   groups$?: Subscription;
-  groups: AsyncModel<Map<String, ProductGroup>> = new AsyncModel<Map<String, ProductGroup>>(ViewStateState.UNTOUCHED, new Map<String, ProductGroup>());
+  groupsState: ViewState = new ViewState();
+  groups: { [key: string]: ProductGroup } = {};
 
+  individualProductsState: { [key: string]: ViewState } = {};
 
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
@@ -27,12 +31,13 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteProduct(product: AsyncModel<ProductSupplier>) {
-    product.state.inProgress();
-    this.productsService.deleteProduct(product.value.id)
+  deleteProduct(product: ProductSupplier) {
+    let state = this.individualProductsState[product.id];
+    state?.inProgress();
+    this.productsService.deleteProduct(product.id)
       .then(
-        (result) => product.state.ready(),
-        (error) => product.state.error(error.message),
+        (result) => state?.ready(),
+        (error) => state?.error(error.message),
       )
   }
 
@@ -43,47 +48,62 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.products$?.unsubscribe();
     this.suppliers$?.unsubscribe();
     this.groups$?.unsubscribe();
   }
 
   loadProducts() {
-    this.products.state.inProgress();
-    this.products$ = this.productsService.loadProducts()
+    this.productsState.inProgress();
+    this.productsService.getProducts(this.productsFilter)
       .subscribe(
-        result => {
-          this.products.state.ready();
-          this.products.value = result.map((v) => new AsyncModel<Product>(ViewStateState.UNTOUCHED, v));
-        },
-        error => this.products = new AsyncModel<AsyncModel<Product>[]>(ViewStateState.ERROR, [], error)
+        result => this.resolveProducts(result, ViewStateState.READY, undefined),
+        error => this.resolveProducts([], ViewStateState.ERROR, error)
       );
+  }
+
+  resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
+    this.productsState.setState(state);
+    this.productsState.setMessage(message);
+    this.products = value;
+    this.individualProductsState = mapToViewStates(value);
   }
 
   loadSuppliers() {
-    this.suppliers.state.inProgress();
-    this.suppliers$ = this.suppliersService.loadSuppliers()
+    this.suppliersState.inProgress();
+    this.suppliers$ = this.suppliersService.getSuppliers()
       .subscribe(
-        result => {
-          this.suppliers.state.ready();
-          this.suppliers.value.clear();
-          result.map((v) => this.suppliers.value.set(v.id, v));
-        },
-        error => this.suppliers = new AsyncModel<Map<String, ProductSupplier>>(ViewStateState.ERROR, new Map<String, ProductSupplier>(), error)
+        result => this.resolveSuppliers(result, ViewStateState.READY, undefined),
+        error => this.resolveSuppliers([], ViewStateState.ERROR, error),
       );
   }
 
+  resolveSuppliers(value: ProductSupplier[], state: ViewStateState, message: string | undefined) {
+    this.suppliersState.setState(state);
+    this.suppliersState.setMessage(message);
+    this.suppliers = value.reduce((ac, v) => {
+      ac[v.id] = v;
+      return ac;
+    }, {} as { [key: string]: ProductSupplier });
+  }
+
+
   loadGroups() {
-    this.groups.state.inProgress();
-    this.groups$ = this.groupsService.loadProductGroups()
+    this.groupsState.inProgress();
+    this.groups$ = this.groupsService.getProductGroups()
       .subscribe(
-        result => {
-          this.groups.state.ready();
-          this.groups.value.clear();
-          result.map((v) => this.groups.value.set(v.id, v));
-        },
-        error => this.groups = new AsyncModel<Map<String, ProductGroup>>(ViewStateState.ERROR, new Map<String, ProductGroup>(), error)
+        result => this.resolveGroups(result, ViewStateState.READY, undefined),
+        error => this.resolveGroups([], ViewStateState.READY, error),
       );
   }
+
+  resolveGroups(value: ProductGroup[], state: ViewStateState, message: string | undefined) {
+    this.groupsState.setState(state);
+    this.groupsState.setMessage(message);
+    this.groups = value.reduce((ac, v) => {
+      ac[v.id] = v;
+      return ac;
+    }, {} as { [key: string]: ProductGroup });
+  }
+
 
 }

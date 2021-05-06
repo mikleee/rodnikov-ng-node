@@ -2,6 +2,8 @@ const ModelService = require("./model.service");
 const enums = require("../db/model.enum");
 const {ProductSupplier} = require("../db/product.supplier.model");
 const documentService = require("./document.service");
+const configurationService = require("./configuration.service");
+const {ProductWrapper} = require("../wrapper/product.model.wrapper");
 const {Product} = require("../db/product.model");
 
 
@@ -11,8 +13,17 @@ class ProductSupplierService extends ModelService {
         super(Product);
     }
 
+    async getAllWrappers(showSensitiveData) {
+        let all = await this.getAll();
+        return await this._toWrappers(all, showSensitiveData);
+    }
 
-    async saveOrUpdate(model, mainImage, images) {
+    async getWrapperById(id, showSensitiveData) {
+        let product = await this.findById(id);
+        return this._toWrapper(product, showSensitiveData);
+    }
+
+    async saveOrUpdate(model, mainImage, additionalImages) {
         let result = await super.saveOrUpdate(model);
         let needUpdate = false;
 
@@ -23,11 +34,11 @@ class ProductSupplierService extends ModelService {
             needUpdate = true;
         }
 
-        if (images && images.length) {
-            await this._invalidateImages(result);
-            result.images = [];
-            for (const image of images) {
-                result.images.push(await documentService.createFromFile(image, enums.DocumentType.PRODUCT_IMG));
+        if (additionalImages?.length) {
+            await this._invalidateAdditionalImages(result);
+            result.additionalImages = [];
+            for (const image of additionalImages) {
+                result.additionalImages.push(await documentService.createFromFile(image, enums.DocumentType.PRODUCT_IMG));
             }
             needUpdate = true;
         }
@@ -44,7 +55,7 @@ class ProductSupplierService extends ModelService {
     async delete(id) {
         let product = await this.findById(id);
         await this._invalidateMainImage(product);
-        await this._invalidateImages(product);
+        await this._invalidateAdditionalImages(product);
         return await super.delete(id);
     }
 
@@ -56,7 +67,7 @@ class ProductSupplierService extends ModelService {
         }
     }
 
-    async _invalidateImages(product) {
+    async _invalidateAdditionalImages(product) {
         if (product.images) {
             for (const img of product.images) {
                 await documentService.delete(img);
@@ -65,6 +76,50 @@ class ProductSupplierService extends ModelService {
             await super.saveOrUpdate(product);
         }
     }
+
+    async _toWrappers(products, showSensitiveData) {
+        let result = [];
+        if (!products?.length) {
+            return result;
+        }
+
+        let globalPriceUplift = await configurationService.findByKey(enums.ConfigurationKey.PRICE_UPLIFT) || 0;
+        let usdToUah = await configurationService.findByKey(enums.ConfigurationKey.CURRENCY_USD_TO_UAH) || 27;
+
+        for (const product of products) {
+            let productWrapper = new ProductWrapper();
+            productWrapper.id = product.id;
+            productWrapper.name = product.name;
+            productWrapper.description = product.description;
+            productWrapper.group = product.group;
+            productWrapper.supplier = product.supplier;
+            productWrapper.mainImage = product.mainImage;
+            productWrapper.additionalImages = product.additionalImages;
+
+            let cost = product.cost || 0;
+            let priceUplift = product.priceUplift || 0;
+            let margin = cost * ((priceUplift ?? globalPriceUplift) / 100);
+            let price = cost + margin;
+
+            productWrapper.price = price;
+            productWrapper.priceUah = price * usdToUah;
+
+            if (showSensitiveData) {
+                productWrapper.priceUplift = product.priceUplift;
+                productWrapper.cost = cost;
+                productWrapper.margin = margin;
+            }
+            result.push(productWrapper);
+        }
+
+        return result;
+    }
+
+    async _toWrapper(product, showSensitiveData) {
+        let results = await this._toWrappers(product ? [product] : [], showSensitiveData);
+        return results[0];
+    }
+
 }
 
 

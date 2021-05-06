@@ -30,7 +30,7 @@ export class ProductSupplierListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.suppliers.state.inProgress();
-    this.suppliers$ = this.suppliersService.loadSuppliers()
+    this.suppliers$ = this.suppliersService.getSuppliers()
       .subscribe(
         result => {
           this.suppliers.state.ready();

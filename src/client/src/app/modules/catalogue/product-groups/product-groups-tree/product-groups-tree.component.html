@@ -1,0 +1,13 @@
+<div class="product-groups-tree" *ngIf="groups?.length">
+  <div *ngTemplateOutlet="recursiveList; context:{ $implicit: groups }" class="product-group-parent-node"></div>
+  <ng-template #recursiveList let-groups>
+    <div *ngFor="let group of groups">
+      <div class="product-group-parent">
+        <a [routerLink]="['group', group.id]">{{group.name}}</a>
+      </div>
+      <div *ngIf="group.groups?.length" class="product-group-child-node">
+        <div *ngTemplateOutlet="recursiveList; context:{ $implicit: group.groups }"></div>
+      </div>
+    </div>
+  </ng-template>
+</div>

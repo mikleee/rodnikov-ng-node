@@ -5,6 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CatalogueModule} from "./modules/catalogue/catalogue.module";
 import {HttpClientModule} from "@angular/common/http";
+import {GoodsModule} from "./modules/goods/goods.module";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    CatalogueModule
+    CatalogueModule,
+    GoodsModule
   ],
   providers: [],
   exports: [],

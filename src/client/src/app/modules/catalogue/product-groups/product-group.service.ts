@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {Observable, ReplaySubject, Subject} from "rxjs";
 import {HttpService} from "../../shared/service/http.service";
 import {ProductGroup, ProductSupplier} from "../catalogue.models";
 import {map} from "rxjs/operators";
@@ -7,20 +7,24 @@ import {map} from "rxjs/operators";
 
 @Injectable({providedIn: "root"})
 export class ProductGroupService {
-  private groups = new Subject<ProductGroup[]>();
+  private groups$ = new ReplaySubject<ProductGroup[]>();
+  private needLoad = true;
 
   constructor(private http: HttpService) {
 
   }
 
-  loadProductGroups(): Subject<ProductGroup[]> {
-    this.http.get('/api/groups/list')
-      .pipe(map(result => result || []))
-      .subscribe(
-        value => this.groups.next(this.assignSubgroups(value)),
-        value => this.groups.error(value.message),
-      )
-    return this.groups;
+  getProductGroups(): Observable<ProductGroup[]> {
+    if (this.needLoad) {
+      this.loadProductGroups();
+    }
+    return this.groups$;
+  }
+
+  getProductGroupsTree(): Observable<ProductGroup[]> {
+    return this.groups$.pipe(
+      map(value => this.buildTree(value))
+    );
   }
 
   getProductGroup(id: String): Promise<ProductGroup> {
@@ -41,24 +45,42 @@ export class ProductGroupService {
 
   assignSubgroups(input: ProductGroup[]): ProductGroup[] {
     const result: ProductGroup[] = [];
-    const idMapping = new Map<string, ProductGroup>();
-    const parentChildMapping = new Map<string, string[]>();
+
+    const idMapping: { [key: string]: ProductGroup } = {};
+    const parentChildMapping: { [key: string]: string[] } = {};
 
     input?.forEach(g => {
       result.push(g as ProductGroup);
-      idMapping.set(g.id, g);
+      idMapping[g.id] = g;
 
       if (g.parent) {
-        let arr = parentChildMapping.get(g.parent) || [];
+        let arr = parentChildMapping[g.parent] || [];
         arr.push(g.id);
-        parentChildMapping.set(g.parent, arr);
+        parentChildMapping[g.parent] = arr;
       }
     });
 
     result.forEach(g => {
-      g.groups = (parentChildMapping.get(g.id) || []).map(c => idMapping.get(c) as ProductGroup);
+      g.groups = (parentChildMapping[g.id] || []).map(c => idMapping[c] as ProductGroup);
     });
     return result;
+  }
+
+  buildTree(input: ProductGroup[]): ProductGroup[] {
+    return this.assignSubgroups(input).filter(g => !g.parent);
+  }
+
+  loadProductGroups(): Subject<ProductGroup[]> {
+    this.http.get('/api/groups/list')
+      .pipe(map(result => result || []))
+      .subscribe(
+        value => {
+          this.needLoad = false;
+          this.groups$.next(value)
+        },
+        value => this.groups$.error(value.message),
+      )
+    return this.groups$;
   }
 
 

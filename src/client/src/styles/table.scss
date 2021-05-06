@@ -1,10 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 table,
 table.table {
+  table-layout: fixed;
 
   th,
   td {
     vertical-align: middle;
+  }
+
+  th.currency,
+  td.currency {
+    text-align: right;
   }
 
   th.actions,
@@ -12,16 +18,27 @@ table.table {
     text-align: right;
   }
 
+  th.img,
   td.img {
     padding-bottom: 0;
     padding-top: 0;
     width: 60px;
 
     img {
-      height: 38px;
+      max-height: 38px;
+      max-width: 55px;
     }
   }
 
+}
+
+table.report {
+  width: 300px;
+  margin-bottom: 1em;
+
+  td {
+    padding: 0;
+  }
 }
 
 

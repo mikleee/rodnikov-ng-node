@@ -1,0 +1,9 @@
+<app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
+<app-shared-error *ngIf="state.isError()" [message]="state.getMessage()"></app-shared-error>
+<select [id]="id"
+        [class]="cssClass"
+        [attr.formControlName]="formControlName ? formControlName : null"
+        *ngIf="state.isReady()">
+  <option [ngValue]="nullOption.value" *ngIf="nullOption">{{nullOption.key}}</option>
+  <option *ngFor="let v of (values$ | async)" [ngValue]="v.value">{{v.key}}</option>
+</select>

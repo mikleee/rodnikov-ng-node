@@ -1,4 +1,6 @@
-<h3>Suppliers</h3>
+<header class="heading">
+  <h3>Suppliers <span *ngIf="suppliers.state.isReady()" class="badge bg-secondary">{{suppliers.value.length}}</span></h3>
+</header>
 <table class="table table-sm table-striped">
   <thead>
     <tr>

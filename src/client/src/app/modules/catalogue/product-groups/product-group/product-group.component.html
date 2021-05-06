@@ -2,32 +2,39 @@
 
 
 <fieldset>
-  <app-shared-in-progress *ngIf="groupState.isInProgress()"></app-shared-in-progress>
-  <app-shared-error *ngIf="groupState.isError()" [message]="groupState.getMessage()"></app-shared-error>
-
-  <form [formGroup]="groupForm" (ngSubmit)="submitGroupForm()" *ngIf="groupState.isReady()">
-    <div class="form-controls">
-      <label for="groupName" class="form-label">Name</label>
-      <input id="groupName" class="form-control" type="text" formControlName="name">
+  <div>
+    <app-shared-in-progress *ngIf="groupState.isInProgress()"></app-shared-in-progress>
+    <app-shared-error *ngIf="groupState.isError()" [message]="groupState.getMessage()"></app-shared-error>
+  </div>
+  <div class="row" *ngIf="groupState.isReady()">
+    <div class="col">
+      <form [formGroup]="groupForm" (ngSubmit)="submitGroupForm()">
+        <div class="form-controls">
+          <label for="groupName" class="form-label">Name</label>
+          <input id="groupName" class="form-control" type="text" formControlName="name">
+        </div>
+        <div class="form-controls">
+          <!--suppress XmlInvalidId -->
+          <label for="groupParent" class="form-label">Parent</label>
+          <div>
+            <app-product-group-dropdown
+              selectId="groupParent"
+              [group]="group.parent"
+              (groupChange)="onGroupChange(group)"
+              [nullOption]="'---'"></app-product-group-dropdown>
+            <input type="hidden" formControlName="parent">
+          </div>
+        </div>
+        <div class="form-controls-buttons">
+          <app-shared-error *ngIf="groupFormState.isError()" [message]="groupFormState.getMessage()"></app-shared-error>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="groupForm.disabled">Submit</button>
+        </div>
+      </form>
     </div>
-    <div class="form-controls">
-      <label for="groupParent" class="form-label">Parent</label>
-      <div>
-        <app-shared-in-progress *ngIf="groups.state.isInProgress()"></app-shared-in-progress>
-        <app-shared-error *ngIf="groups.state.isError()" [message]="groups.state.getMessage()"></app-shared-error>
-        <select id="groupParent" class="form-control" formControlName="parent" *ngIf="groups.state.isReady()">
-          <option [ngValue]="null">---</option>
-          <option *ngFor="let g of groups.value" [ngValue]="g.value.id">{{g.value.name}}</option>
-        </select>
-      </div>
+    <div class="col">
+      <app-product-groups-tree [groups]="[group]"></app-product-groups-tree>
     </div>
-    <div class="form-controls-buttons">
-      <app-shared-error *ngIf="groupFormState.isError()" [message]="groupFormState.getMessage()"></app-shared-error>
-      <button type="submit" class="btn btn-outline-primary" [disabled]="groupForm.disabled">Submit</button>
-    </div>
-  </form>
-
-
+  </div>
 </fieldset>
 
 

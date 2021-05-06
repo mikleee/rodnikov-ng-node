@@ -9,12 +9,20 @@ import {ProductComponent} from "./modules/catalogue/product/product/product.comp
 import {ProductListComponent} from "./modules/catalogue/product/product-list/product-list.component";
 import {Screen404Component} from "./modules/shared/component/screen404/screen404.component";
 import {ConfigurationComponent} from "./modules/configuration/configuration.component";
+import {GoodsComponent} from "./modules/goods/goods.component";
+import {LoginComponent} from "./modules/auth/login/login.component";
 
 
 const routes: Routes = [
 
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
   // {path: '', pathMatch: 'full', component: AppComponent},
+
+  {
+    path: 'goods', component: GoodsComponent, children: []
+  },
+  {path: 'login', pathMatch: 'full', component: LoginComponent},
+
   {
     path: 'catalogue', component: CatalogueComponent, children: [
       {path: 'suppliers', component: ProductSupplierListComponent},
@@ -26,19 +34,19 @@ const routes: Routes = [
       {path: 'products', component: ProductListComponent},
       {path: 'products/product', component: ProductComponent},
       {path: 'products/product/:id', component: ProductComponent},
-      {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
-      {path: '**', pathMatch: 'full', component: Screen404Component},
+      // {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
+      // {path: '**', pathMatch: 'full', component: Screen404Component},
     ]
   },
   {
     path: 'configuration', component: ConfigurationComponent, children: [
 
-      {path: '', pathMatch: 'full', component: Screen404Component},
-      {path: '**', pathMatch: 'full', component: Screen404Component},
+      // {path: '', pathMatch: 'full', component: Screen404Component},
+      // {path: '**', pathMatch: 'full', component: Screen404Component},
     ]
   },
 
-  {path: '**', pathMatch: 'full', component: Screen404Component},
+  // {path: '**', pathMatch: 'full', component: Screen404Component},
 ];
 
 @NgModule({

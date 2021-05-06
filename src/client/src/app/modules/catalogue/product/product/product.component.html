@@ -1,6 +1,4 @@
 <h3>Product</h3>
-
-
 <fieldset>
   <app-shared-in-progress *ngIf="productState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="productState.isError()" [message]="productState.getMessage()"></app-shared-error>
@@ -8,6 +6,28 @@
   <form [formGroup]="productForm" (ngSubmit)="submitProductForm()" *ngIf="productState.isReady()">
     <div class="row">
       <div class="col-7">
+        <table class="report" *ngIf="product.id">
+          <tr>
+            <td>Cost</td>
+            <td>{{product.cost | currencyUsd}}</td>
+          </tr>
+          <tr>
+            <td>Uplift</td>
+            <td>{{product.priceUplift | percent}}</td>
+          </tr>
+          <tr>
+            <td>Margin $</td>
+            <td>{{product.margin | currency}}</td>
+          </tr>
+          <tr>
+            <td>Price $</td>
+            <td>{{product.price | currency}}</td>
+          </tr>
+          <tr>
+            <td>Price ₴</td>
+            <td>{{product.priceUah | currency}}</td>
+          </tr>
+        </table>
         <div class="form-controls">
           <label for="productName" class="form-label">Name</label>
           <input id="productName" class="form-control" type="text" formControlName="name">
@@ -19,33 +39,33 @@
         <div class="form-controls">
           <label for="productSupplier" class="form-label">Supplier</label>
           <div>
-            <app-shared-in-progress *ngIf="suppliers.state.isInProgress()"></app-shared-in-progress>
-            <app-shared-error *ngIf="suppliers.state.isError()" [message]="suppliers.state.getMessage()"></app-shared-error>
-            <select id="productSupplier" class="form-control" formControlName="supplier" *ngIf="suppliers.state.isReady()">
+            <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>
+            <app-shared-error *ngIf="suppliersState.isError()" [message]="suppliersState.getMessage()"></app-shared-error>
+            <select id="productSupplier" class="form-control" formControlName="supplier" *ngIf="suppliersState.isReady()">
               <option [ngValue]="null">---</option>
-              <option *ngFor="let s of suppliers.value.values()" [ngValue]="s.id">{{s.name}}</option>
+              <option *ngFor="let s of (suppliers  | keyvalue)" [ngValue]="s.value.id">{{s.value.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-controls">
           <label for="productGroup" class="form-label">Supplier</label>
           <div>
-            <app-shared-in-progress *ngIf="groups.state.isInProgress()"></app-shared-in-progress>
-            <app-shared-error *ngIf="groups.state.isError()" [message]="groups.state.getMessage()"></app-shared-error>
-            <select id="productGroup" class="form-control" formControlName="group" *ngIf="groups.state.isReady()">
+            <app-shared-in-progress *ngIf="groupsState.isInProgress()"></app-shared-in-progress>
+            <app-shared-error *ngIf="groupsState.isError()" [message]="groupsState.getMessage()"></app-shared-error>
+            <select id="productGroup" class="form-control" formControlName="group" *ngIf="groupsState.isReady()">
               <option [ngValue]="null">---</option>
-              <option *ngFor="let g of groups.value.values()" [ngValue]="g.id">{{g.name}}</option>
+              <option *ngFor="let g of (groups | keyvalue)" [ngValue]="g.value.id">{{g.value.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-controls row">
           <div class="form-controls col">
-            <label for="productPrice" class="form-label">Price</label>
-            <input id="productPrice" type="text" class="form-control" formControlName="price">
+            <label for="productPrice" class="form-label">Cost</label>
+            <input id="productPrice" type="text" class="form-control" formControlName="cost">
           </div>
           <div class="form-controls col">
-            <label for="productUplift" class="form-label">Uplift</label>
-            <input id="productUplift" type="text" class="form-control" formControlName="uplift">
+            <label for="productPriceUplift" class="form-label">Uplift</label>
+            <input id="productPriceUplift" type="text" class="form-control" formControlName="priceUplift">
           </div>
         </div>
         <div class="form-controls">
@@ -72,7 +92,7 @@
           <app-server-image *ngIf="product.mainImage" [imageId]="product.mainImage" cssClass="form-image"></app-server-image>
         </div>
         <div>
-          <app-server-image *ngFor="let img of product.images" [imageId]="img" cssClass="form-image"></app-server-image>
+          <app-server-image *ngFor="let img of product.additionalImages" [imageId]="img" cssClass="form-image"></app-server-image>
         </div>
       </div>
     </div>

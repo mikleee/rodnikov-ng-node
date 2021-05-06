@@ -1,3 +1,5 @@
+import {BaseModel} from "./base.model";
+
 export class ViewState {
   public _state: ViewStateState = ViewStateState.UNTOUCHED;
   private _message?: String;
@@ -21,15 +23,15 @@ export class ViewState {
   };
 
   ready(message?: String): ViewState {
-    return this._setState(ViewStateState.READY, message);
+    return this.setState(ViewStateState.READY, message);
   };
 
   inProgress(message?: String): ViewState {
-    return this._setState(ViewStateState.IN_PROGRESS, message);
+    return this.setState(ViewStateState.IN_PROGRESS, message);
   };
 
   error(message?: String): ViewState {
-    return this._setState(ViewStateState.ERROR, message);
+    return this.setState(ViewStateState.ERROR, message);
   };
 
   setMessage(message?: String) {
@@ -41,7 +43,7 @@ export class ViewState {
     return this._message;
   }
 
-  _setState(state: ViewStateState, message?: String): ViewState {
+  setState(state: ViewStateState, message?: String): ViewState {
     this._state = state;
     this._message = message;
     return this;
@@ -60,3 +62,12 @@ export enum ViewStateState {
   IN_PROGRESS,
   ERROR,
 }
+
+
+export function mapToViewStates<T extends BaseModel>(models: T[]): { [key: string]: ViewState } {
+  return models.reduce((a, v) => {
+    a[v.id] = new ViewState();
+    return a;
+  }, {} as { [key: string]: ViewState })
+}
+

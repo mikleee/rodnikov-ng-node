@@ -1,47 +1,58 @@
-<h3>Groups</h3>
-<table class="table table-sm table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Subgroups</th>
-      <th class="actions">
-        <button class="btn btn-outline-secondary btn-sm" [routerLink]="['group']">
-          <i class="bi-plus"></i>
-        </button>
-      </th>
-    </tr>
-  </thead>
-  <tbody *ngIf="groups.state.isInProgress()">
-    <tr>
-      <td colspan="3">
-        <app-shared-in-progress></app-shared-in-progress>
-      </td>
-    </tr>
-  </tbody>
-  <tbody *ngIf="groups.state.isError()">
-    <tr>
-      <td colspan="3">
-        <app-shared-error></app-shared-error>
-      </td>
-    </tr>
-  </tbody>
-  <tbody *ngIf="groups.state.isReady()">
-    <tr *ngFor="let group of groups.value">
-      <td><a [routerLink]="['group', group.value.id]">{{group.value.name}}</a></td>
-      <td>
-        <div *ngFor="let sub of group.value.groups">
-          <a [routerLink]="['group', sub.id]">{{sub.name}}</a>
-        </div>
-      </td>
-      <td class="actions">
-        <app-shared-error *ngIf="group.state.isError()" [message]="group.state.getMessage()"></app-shared-error>
-        <button type="button"
-                class="btn btn-outline-danger btn-sm"
-                (click)="deleteGroup(group)"
-                [disabled]="group.state.isInProgress()">
-          <i class="bi-trash"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<header class="heading">
+  <h3>Groups <span *ngIf="groupsState.isReady()" class="badge bg-secondary">{{groups.length}}</span></h3>
+</header>
+
+
+
+<div class="222">
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="actions">
+              <button class="btn btn-outline-secondary btn-sm" [routerLink]="['group']">
+                <i class="bi-plus"></i>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="groupsState.isInProgress()">
+          <tr>
+            <td colspan="2">
+              <app-shared-in-progress></app-shared-in-progress>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="groupsState.isError()">
+          <tr>
+            <td colspan="2">
+              <app-shared-error></app-shared-error>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="groupsState.isReady()">
+          <tr *ngFor="let group of groups">
+            <td><a [routerLink]="['group', group.id]">{{group.name}}</a></td>
+            <td class="actions">
+              <app-shared-error *ngIf="individualStates[group.id]?.isError()" [message]="individualStates[group.id]?.getMessage()"></app-shared-error>
+              <button type="button"
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="deleteGroup(group)"
+                      [disabled]="individualStates[group.id]?.isInProgress()">
+                <i class="bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <app-product-groups-tree [groups]="tree" *ngIf="groupsState.isReady()"></app-product-groups-tree>
+    </div>
+  </div>
+</div>
+
+
+

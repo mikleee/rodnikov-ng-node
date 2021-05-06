@@ -10,12 +10,25 @@ import {ProductsBaseComponent} from "../products-base.component";
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent extends ProductsBaseComponent {
-
+  supplier?: string;
+  group?: string;
 
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
               protected groupsService: ProductGroupService) {
     super(productsService, suppliersService, groupsService);
+  }
+
+  applyFilter() {
+    this.productsFilter.groups = [];
+    this.productsFilter.suppliers = [];
+    if (this.group) {
+      this.productsFilter.groups.push(this.group);
+    }
+    if (this.supplier) {
+      this.productsFilter.suppliers.push(this.supplier);
+    }
+    this.loadProducts();
   }
 
 

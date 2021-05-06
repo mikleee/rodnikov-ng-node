@@ -1,0 +1,16 @@
+.product-groups-tree {
+
+
+  .product-group-parent {
+    height: 40px;
+  }
+
+  .product-group-child-node {
+    padding-left: 1em;
+    border-left: solid lightgray 1px;
+  }
+
+  .actions {
+    text-align: right;
+  }
+}

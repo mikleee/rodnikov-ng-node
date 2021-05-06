@@ -1,17 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {ProductGroup} from "../../catalogue.models";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {ProductGroupService} from "../product-group.service";
-import {ProductGroupsBaseComponent} from "../product-groups-base.component";
 
 @Component({
   selector: 'app-product-group',
   templateUrl: './product-group.component.html',
   styleUrls: ['./product-group.component.scss']
 })
-export class ProductGroupComponent extends ProductGroupsBaseComponent implements OnInit, OnDestroy {
+export class ProductGroupComponent implements OnInit {
   groupState: ViewState = new ViewState();
   groupFormState: ViewState = new ViewState(ViewStateState.READY);
   group: ProductGroup = {} as ProductGroup;
@@ -20,7 +19,7 @@ export class ProductGroupComponent extends ProductGroupsBaseComponent implements
 
   constructor(private route: ActivatedRoute,
               protected groupsService: ProductGroupService) {
-    super(groupsService);
+
   }
 
   submitGroupForm() {
@@ -31,49 +30,48 @@ export class ProductGroupComponent extends ProductGroupsBaseComponent implements
         .then(
           value => {
             this.groupForm.enable();
-            this.groupFormState.ready();
-            this.group = value;
-            this.initGroupForm(this.group);
+            this.resolveGroup(value, ViewStateState.READY);
           },
           reason => {
             this.groupForm.enable();
-            this.groupFormState.error(reason.message)
+            this.resolveGroup({} as ProductGroup, ViewStateState.ERROR, reason)
           },
         );
     }
-  }
-
-  initGroupForm(group: ProductGroup | undefined) {
-    this.groupForm = this.buildGroupForm(group);
   }
 
   buildGroupForm(group: ProductGroup | undefined) {
     return new FormGroup({
       id: new FormControl(group?.id, []),
       name: new FormControl(group?.name, [Validators.required]),
-      parent: new FormControl(group?.parent,)
+      parent: new FormControl(group?.parent)
     });
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
     const id = this.route.snapshot.params['id'];
     if (id) {
       this.groupState.inProgress();
       this.groupsService.getProductGroup(id)
         .then(
-          value => {
-            this.groupState.ready();
-            this.group = value;
-            this.initGroupForm(this.group);
-          },
-          reason => this.groupState.error(reason.message)
+          value => this.resolveGroup(value, ViewStateState.READY),
+          reason => this.resolveGroup({} as ProductGroup, ViewStateState.ERROR, reason)
         );
     } else {
-      this.groupState.ready();
-      this.group = {} as ProductGroup;
-      this.initGroupForm(this.group);
+      this.resolveGroup({} as ProductGroup, ViewStateState.READY)
     }
   }
+
+  resolveGroup(value: ProductGroup, state: ViewStateState, message?: string) {
+    this.groupState.setState(state);
+    this.groupState.setMessage(message);
+    this.group = value
+    this.groupForm = this.buildGroupForm(value);
+  }
+
+  onGroupChange(group: ProductGroup) {
+    this.groupForm?.controls.parent?.setValue(group?.id)
+  }
+
 
 }

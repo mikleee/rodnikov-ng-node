@@ -16,12 +16,6 @@ const {Product} = require("./product.model");
         await ProductSupplier.insertMany(toCreate);
     }
 
-    // let imageDocument = await createImageDocument('/home/misha/Desktop/4438d51c52f3f88761d6cd95f84db254.jpeg', enums.DocumentType.PRODUCT_SUPPLIER_LOGO);
-    // let one = await ProductSupplier.findOne();
-    // one.logo = imageDocument;
-    // await one.save();
-
-
 })();
 
 
@@ -64,11 +58,12 @@ const {Product} = require("./product.model");
         toCreate.push({
             name: `product ${random()}`,
             description: `description ${random()}`,
-            price: 25.6,
-            uplift: 10,
-            group:group,
-            supplier:supplier,
-            images:[]
+            cost: randomNumber(200),
+            additionalCost: randomNumber(10),
+            priceUplift: randomNumber(15),
+            group: group,
+            supplier: supplier,
+            additionalImages: []
         })
     }
 
@@ -99,4 +94,9 @@ function random() {
         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
     }
     return result.join('');
+}
+
+function randomNumber(max) {
+    let number = Math.floor(Math.random() * max)||1;
+    return number.toFixed(2);
 }
