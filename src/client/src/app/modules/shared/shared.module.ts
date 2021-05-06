@@ -9,7 +9,7 @@ import {Screen404Component} from './component/screen404/screen404.component';
 import {CurrencyPipe} from "./transform/currency.pipe";
 import {CurrencyUsdPipe} from "./transform/currency-usd.pipe";
 import {CurrencyUahPipe} from "./transform/currency-uah.pipe";
-import { AsyncDropdownComponent } from './component/async-dropdown/async-dropdown.component';
+import {AsyncDropdownComponent} from './component/async-dropdown/async-dropdown.component';
 import {FormsModule} from "@angular/forms";
 
 
