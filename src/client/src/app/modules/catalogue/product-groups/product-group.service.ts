@@ -2,19 +2,20 @@ import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject, Subject} from "rxjs";
 import {HttpService} from "../../shared/service/http.service";
 import {ProductGroup, ProductSupplier} from "../catalogue.models";
-import {map} from "rxjs/operators";
+import {first, map} from "rxjs/operators";
+import {modelsToMap} from "../../shared/model/base.model";
 
 
 @Injectable({providedIn: "root"})
 export class ProductGroupService {
-  private groups$ = new ReplaySubject<ProductGroup[]>();
+  private groups$ = new ReplaySubject<{ [key: string]: ProductGroup }>();
   private needLoad = true;
 
   constructor(private http: HttpService) {
 
   }
 
-  getProductGroups(): Observable<ProductGroup[]> {
+  getProductGroups(): Observable<{ [key: string]: ProductGroup }> {
     if (this.needLoad) {
       this.loadProductGroups();
     }
@@ -23,7 +24,7 @@ export class ProductGroupService {
 
   getProductGroupsTree(): Observable<ProductGroup[]> {
     return this.groups$.pipe(
-      map(value => this.buildTree(value))
+      map(value => this.buildTree(Object.values(value)))
     );
   }
 
@@ -70,9 +71,13 @@ export class ProductGroupService {
     return this.assignSubgroups(input).filter(g => !g.parent);
   }
 
-  loadProductGroups(): Subject<ProductGroup[]> {
+  loadProductGroups(): Subject<{ [key: string]: ProductGroup }> {
     this.http.get('/api/groups/list')
-      .pipe(map(result => result || []))
+      .pipe(
+        first(),
+        map(result => result || []),
+        map(result => modelsToMap(result as ProductGroup[])),
+      )
       .subscribe(
         value => {
           this.needLoad = false;

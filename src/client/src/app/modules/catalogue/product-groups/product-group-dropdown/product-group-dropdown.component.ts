@@ -3,7 +3,6 @@ import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {ProductGroup} from "../../catalogue.models";
 import {ProductGroupService} from "../product-group.service";
-import {modelsToMap} from "../../../shared/model/base.model";
 
 @Component({
   selector: 'app-product-group-dropdown',
@@ -29,7 +28,7 @@ export class ProductGroupDropdownComponent implements OnInit {
     this.groups$ = this.productGroupService.getProductGroups()
       .subscribe(
         result => this.resolveGroups(result, ViewStateState.READY, undefined),
-        error => this.resolveGroups([], ViewStateState.ERROR, error)
+        error => this.resolveGroups({}, ViewStateState.ERROR, error)
       );
   }
 
@@ -42,10 +41,10 @@ export class ProductGroupDropdownComponent implements OnInit {
     this.groups$?.unsubscribe();
   }
 
-  resolveGroups(value: ProductGroup[], state: ViewStateState, message: string | undefined) {
+  resolveGroups(value: { [key: string]: ProductGroup }, state: ViewStateState, message: string | undefined) {
     this.groupsState.setState(state);
     this.groupsState.setMessage(message);
-    this.groups = modelsToMap(value);
+    this.groups = value;
   }
 
 }

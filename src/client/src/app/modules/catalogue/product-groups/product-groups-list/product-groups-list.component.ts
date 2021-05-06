@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductGroup} from "../../catalogue.models";
 import {ProductGroupService} from "../product-group.service";
 import {Subscription} from "rxjs";
-import {mapToViewStates, ViewState, ViewStateState} from "../../../shared/model/view-state.model";
+import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
+import {AsyncModel, toAsyncModels} from "../../../shared/model/async.model";
 
 @Component({
   selector: 'app-product-groups-list',
@@ -11,8 +12,7 @@ import {mapToViewStates, ViewState, ViewStateState} from "../../../shared/model/
 })
 export class ProductGroupsListComponent implements OnInit, OnDestroy {
   groups$?: Subscription;
-  groupsState = new ViewState();
-  groups: ProductGroup[] = [];
+  groups: AsyncModel<AsyncModel<ProductGroup>[]> = new AsyncModel(ViewStateState.UNTOUCHED, []);
   tree: ProductGroup[] = [];
 
   individualStates: { [key: string]: ViewState } = {};
@@ -21,13 +21,12 @@ export class ProductGroupsListComponent implements OnInit, OnDestroy {
 
   }
 
-
   ngOnInit(): void {
-    this.groupsState.inProgress();
+    this.groups.state.inProgress();
     this.groups$ = this.productGroupService.getProductGroups()
       .subscribe(
         result => this.resolveGroups(result, ViewStateState.READY, undefined),
-        error => this.resolveGroups([], ViewStateState.ERROR, error)
+        error => this.resolveGroups({}, ViewStateState.ERROR, error),
       );
   }
 
@@ -35,23 +34,19 @@ export class ProductGroupsListComponent implements OnInit, OnDestroy {
     this.groups$?.unsubscribe();
   }
 
-
-  deleteGroup(group: ProductGroup) {
-    let state = this.individualStates[group.id];
-    state?.inProgress();
-    this.productGroupService.deleteGroup(group.id)
+  deleteGroup(group: AsyncModel<ProductGroup>) {
+    group.state.inProgress();
+    this.productGroupService.deleteGroup(group.value.id)
       .then(
-        (result) => state?.ready(),
-        (error) => state?.error(error.message),
+        (result) => group.state.ready(),
+        (error) => group.state.error(error.message),
       )
   }
 
-  resolveGroups(value: ProductGroup[], state: ViewStateState, message: string | undefined) {
-    this.groupsState.setState(state);
-    this.groupsState.setMessage(message);
-    this.groups = value;
-    this.tree = this.productGroupService.buildTree(value);
-    this.individualStates = mapToViewStates(value);
+  resolveGroups(value: { [key: string]: ProductGroup }, state: ViewStateState, message: string | undefined) {
+    let values = Object.values(value);
+    this.groups = new AsyncModel(state, toAsyncModels(values), message)
+    this.tree = this.productGroupService.buildTree(values);
   }
 
 

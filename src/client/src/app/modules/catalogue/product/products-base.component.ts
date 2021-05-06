@@ -73,17 +73,14 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
     this.suppliers$ = this.suppliersService.getSuppliers()
       .subscribe(
         result => this.resolveSuppliers(result, ViewStateState.READY, undefined),
-        error => this.resolveSuppliers([], ViewStateState.ERROR, error),
+        error => this.resolveSuppliers({}, ViewStateState.ERROR, error),
       );
   }
 
-  resolveSuppliers(value: ProductSupplier[], state: ViewStateState, message: string | undefined) {
+  resolveSuppliers(value: { [key: string]: ProductSupplier }, state: ViewStateState, message: string | undefined) {
     this.suppliersState.setState(state);
     this.suppliersState.setMessage(message);
-    this.suppliers = value.reduce((ac, v) => {
-      ac[v.id] = v;
-      return ac;
-    }, {} as { [key: string]: ProductSupplier });
+    this.suppliers = value;
   }
 
 
@@ -92,17 +89,14 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
     this.groups$ = this.groupsService.getProductGroups()
       .subscribe(
         result => this.resolveGroups(result, ViewStateState.READY, undefined),
-        error => this.resolveGroups([], ViewStateState.READY, error),
+        error => this.resolveGroups({}, ViewStateState.READY, error),
       );
   }
 
-  resolveGroups(value: ProductGroup[], state: ViewStateState, message: string | undefined) {
+  resolveGroups(value: { [key: string]: ProductGroup }, state: ViewStateState, message: string | undefined) {
     this.groupsState.setState(state);
     this.groupsState.setMessage(message);
-    this.groups = value.reduce((ac, v) => {
-      ac[v.id] = v;
-      return ac;
-    }, {} as { [key: string]: ProductGroup });
+    this.groups = value;
   }
 
 

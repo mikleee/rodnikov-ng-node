@@ -3,18 +3,19 @@ import {Observable, ReplaySubject} from "rxjs";
 import {HttpService} from "../../shared/service/http.service";
 import {ProductSupplier} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
+import {modelsToMap} from "../../shared/model/base.model";
 
 
 @Injectable({providedIn: "root"})
 export class ProductSuppliersService {
-  private suppliers$ = new ReplaySubject<ProductSupplier[]>();
+  private suppliers$ = new ReplaySubject<{ [key: string]: ProductSupplier }>();
   private needLoad = true;
 
   constructor(private http: HttpService) {
 
   }
 
-  getSuppliers(): Observable<ProductSupplier[]> {
+  getSuppliers(): Observable<{ [key: string]: ProductSupplier }> {
     if (this.needLoad) {
       this.loadSuppliers();
     }
@@ -50,7 +51,8 @@ export class ProductSuppliersService {
     this.http.get('/api/suppliers/list')
       .pipe(
         first(),
-        map(result => result || [])
+        map(result => result || []),
+        map(result => modelsToMap(result as ProductSupplier[])),
       )
       .subscribe(
         value => {
