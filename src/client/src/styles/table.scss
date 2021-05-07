@@ -1,7 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-table,
-table.table {
+table.results-table,
+table.results-table.table {
   table-layout: fixed;
+
+  th {
+    font-weight: 500;
+  }
 
   th,
   td {
@@ -28,6 +32,22 @@ table.table {
       max-height: 38px;
       max-width: 55px;
     }
+  }
+
+}
+
+table.results-table,
+table.results-table.table {
+  table-layout: fixed;
+  font-size: 14px;
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 0.3rem;
   }
 
 }

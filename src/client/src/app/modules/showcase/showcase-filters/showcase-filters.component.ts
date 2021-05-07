@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-showcase-filters',
@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./showcase-filters.component.scss']
 })
 export class ShowcaseFiltersComponent implements OnInit {
+  disabled = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

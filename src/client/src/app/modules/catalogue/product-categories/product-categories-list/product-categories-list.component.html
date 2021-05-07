@@ -6,7 +6,7 @@
 <app-pagination *ngIf="categories.state.isReady()"
                 [pagination]="pagination"
                 (onPagination)="categoriesToShow = pagination.getPage(categories.value)"></app-pagination>
-<table class="table table-sm table-striped">
+<table class="table results-table">
   <thead>
     <tr>
       <th>Name</th>

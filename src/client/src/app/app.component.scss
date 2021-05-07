@@ -1,8 +1,6 @@
 @import "../styles/variables";
 
 $height: 50px;
-$colorMain: #149751;
-$colorInverse: #fff;
 
 .main-header {
 
@@ -11,8 +9,8 @@ $colorInverse: #fff;
   }
 
   .header-bottom-wrapper {
-    background: $colorMain;
-    color: $colorInverse;
+    background: $mainThemeColor;
+    color: $inverseThemeColor;
     height: $height;
   }
 
@@ -35,12 +33,12 @@ $colorInverse: #fff;
         a {
           border-radius: $borderRadius;
           padding: .5rem 1rem;
-          color: $colorInverse;
+          color: $inverseThemeColor;
           text-decoration: none;
 
           &.active {
-            background: $colorInverse;
-            color: $colorMain;
+            background: $inverseThemeColor;
+            color: $mainThemeColor;
           }
         }
 

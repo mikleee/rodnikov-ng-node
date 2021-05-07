@@ -7,15 +7,17 @@ import {ProductComponent} from "./modules/catalogue/product/product/product.comp
 import {ProductListComponent} from "./modules/catalogue/product/product-list/product-list.component";
 import {ConfigurationComponent} from "./modules/configuration/configuration.component";
 import {LoginComponent} from "./modules/auth/login/login.component";
-import {ShowcaseComponent} from "./modules/showcase/showcase.component";
+import {ShowcaseComponent} from "./modules/showcase/showcase/showcase.component";
 import {ProductCategoriesListComponent} from "./modules/catalogue/product-categories/product-categories-list/product-categories-list.component";
 import {ProductCategoryComponent} from "./modules/catalogue/product-categories/product-category/product-category.component";
+import {ShowcaseDashboardComponent} from "./modules/showcase/showcase-dashboard/showcase-dashboard.component";
 
 
 const routes: Routes = [
 
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
-  {path: '', pathMatch: 'full', component: ShowcaseComponent},
+  {path: '', pathMatch: 'full', component: ShowcaseDashboardComponent},
+  {path: 'products', pathMatch: 'full', component: ShowcaseComponent},
 
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},
@@ -32,7 +34,7 @@ const routes: Routes = [
       {path: 'products/product', component: ProductComponent},
       {path: 'products/product/:id', component: ProductComponent},
       // {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
-      // {path: '**', pathMatch: 'full', component: Screen404Component},
+      {path: '**', pathMatch: 'full', component: ProductListComponent},
     ]
   },
   {

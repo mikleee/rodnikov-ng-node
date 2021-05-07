@@ -1,19 +1,21 @@
 
+@import "variables";
+@import "variables-bootstarp-ext";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: $mainTextColor;
+}
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1500px
-);
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-
 
 
 .rodnikov {
@@ -21,5 +23,5 @@ $container-max-widths: (
   @import "form";
   @import "table";
   @import "untegorised";
-  @import "variables";
+
 }

@@ -1,0 +1,19 @@
+@import "variables";
+
+$list-group-active-color: $inverseThemeColor;
+$list-group-active-bg: rgba($mainThemeColor, 0.5);
+$list-group-active-border-color: rgba($mainThemeColor, 0.7);
+
+$pagination-active-color: $inverseThemeColor;
+$pagination-active-bg: rgba($mainThemeColor, 0.5);
+$pagination-active-border-color: rgba($mainThemeColor, 0.7);
+$pagination-color: $mainTextColor;
+$pagination-focus-box-shadow: none;
+
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1500px
+);
