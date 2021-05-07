@@ -3,7 +3,7 @@ const {BaseWrapper} = require("./base.model.wrapper");
 class ProductWrapper extends BaseWrapper {
     name;
     description;
-    group;
+    category;
     supplier;
     mainImage;
     additionalImages;

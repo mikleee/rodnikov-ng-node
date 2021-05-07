@@ -1,3 +1,21 @@
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1500px
+);
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+
+
 .rodnikov {
   @import "grid";
   @import "form";
@@ -5,13 +23,3 @@
   @import "untegorised";
   @import "variables";
 }
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';

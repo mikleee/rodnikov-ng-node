@@ -2,6 +2,8 @@
   <app-shared-in-progress *ngIf="productsState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="productsState.isError()" [message]="productsState.getMessage()"></app-shared-error>
   <div *ngIf="productsState.isReady()">
+    {{pagination | json}}
+
     <ngb-pagination
       (pageChange)="onPagination($event)"
       [(page)]="pagination.pageNo"

@@ -42,19 +42,19 @@
             <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>
             <app-shared-error *ngIf="suppliersState.isError()" [message]="suppliersState.getMessage()"></app-shared-error>
             <select id="productSupplier" class="form-control" formControlName="supplier" *ngIf="suppliersState.isReady()">
-              <option [ngValue]="null">---</option>
+              <option [ngValue]="undefined">---</option>
               <option *ngFor="let s of (suppliers  | keyvalue)" [ngValue]="s.value.id">{{s.value.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-controls">
-          <label for="productGroup" class="form-label">Supplier</label>
+          <label for="productGroup" class="form-label">Category</label>
           <div>
             <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
             <app-shared-error *ngIf="categoriesState.isError()" [message]="categoriesState.getMessage()"></app-shared-error>
-            <select id="productGroup" class="form-control" formControlName="group" *ngIf="categoriesState.isReady()">
-              <option [ngValue]="null">---</option>
-              <option *ngFor="let g of (categories | keyvalue)" [ngValue]="g.value.id">{{g.value.name}}</option>
+            <select id="productGroup" class="form-control" formControlName="category" *ngIf="categoriesState.isReady()">
+              <option [ngValue]="undefined">---</option>
+              <option *ngFor="let c of (categories | keyvalue)" [ngValue]="c.value.id">{{c.value.name}}</option>
             </select>
           </div>
         </div>

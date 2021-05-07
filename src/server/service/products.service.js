@@ -91,7 +91,7 @@ class ProductSupplierService extends ModelService {
             productWrapper.id = product.id;
             productWrapper.name = product.name;
             productWrapper.description = product.description;
-            productWrapper.group = product.group;
+            productWrapper.category = product.category;
             productWrapper.supplier = product.supplier;
             productWrapper.mainImage = product.mainImage;
             productWrapper.additionalImages = product.additionalImages;

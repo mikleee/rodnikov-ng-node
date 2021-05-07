@@ -4,73 +4,79 @@ const {Document} = require("./document.model");
 const enums = require("./model.enum");
 const {Product} = require("./product.model");
 
-(async () => {
-    let existing = await ProductSupplier.find();
-    let toCreate = [];
-    while (toCreate.length + existing.length < 20) {
-        toCreate.push({
-            name: `supplier ${random()}`
-        })
-    }
-    if (toCreate.length) {
-        await ProductSupplier.insertMany(toCreate);
-    }
-
-})();
-
 
 (async () => {
-    let existing = await ProductCategory.find();
-    let toCreate = [];
-    while (toCreate.length + existing.length < 20) {
-        toCreate.push({
-            name: `cat ${random()}`
-        })
-    }
-    if (toCreate.length) {
-        await ProductCategory.insertMany(toCreate);
-    }
 
-    existing = await ProductCategory.find();
-    for (let x of [
-        {p: 0, c: [1, 2, 3]},
-        {p: 5, c: [6, 7, 8]}
-    ]) {
-        let parent = existing[x.p];
-        for (let c of x.c) {
-            let child = existing[c];
-            child.parent = parent;
-            await child.save();
+    await (async () => {
+        let existing = await ProductSupplier.find();
+        let toCreate = [];
+        while (toCreate.length + existing.length < 20) {
+            toCreate.push({
+                name: `supplier ${random()}`
+            })
         }
-    }
+        if (toCreate.length) {
+            await ProductSupplier.insertMany(toCreate);
+        }
+
+    })();
 
 
-})();
+    await (async () => {
+        let existing = await ProductCategory.find();
+        let toCreate = [];
+        while (toCreate.length + existing.length < 20) {
+            toCreate.push({
+                name: `cat ${random()}`
+            })
+        }
+        if (toCreate.length) {
+            await ProductCategory.insertMany(toCreate);
+        }
+
+        existing = await ProductCategory.find();
+        for (let x of [
+            {p: 0, c: [1, 2, 3]},
+            {p: 5, c: [6, 7, 8]}
+        ]) {
+            let parent = existing[x.p];
+            for (let c of x.c) {
+                let child = existing[c];
+                child.parent = parent;
+                await child.save();
+            }
+        }
 
 
-(async () => {
-    let supplier = await ProductSupplier.findOne();
-    let group = await ProductCategory.findOne();
-
-    let existing = await Product.find();
-    let toCreate = [];
-    while (toCreate.length + existing.length < 20) {
-        toCreate.push({
-            name: `product ${random()}`,
-            description: `description ${random()}`,
-            cost: randomNumber(200),
-            additionalCost: randomNumber(10),
-            priceUplift: randomNumber(15),
-            category: group,
-            supplier: supplier,
-            additionalImages: []
-        })
-    }
+    })();
 
 
-    if (toCreate.length) {
-        await Product.insertMany(toCreate);
-    }
+    await (async () => {
+        let supplier = await ProductSupplier.findOne();
+        let category = await ProductCategory.findOne();
+
+        let existing = await Product.find();
+        let toCreate = [];
+        while (toCreate.length + existing.length < 20) {
+            toCreate.push({
+                name: `product ${random()}`,
+                description: `description ${random()}`,
+                cost: randomNumber(200),
+                additionalCost: randomNumber(10),
+                priceUplift: randomNumber(15),
+                category: category,
+                supplier: supplier,
+                additionalImages: []
+            })
+        }
+
+
+        if (toCreate.length) {
+            await Product.insertMany(toCreate);
+        }
+
+
+    })();
 
 
 })();
@@ -97,6 +103,6 @@ function random() {
 }
 
 function randomNumber(max) {
-    let number = Math.floor(Math.random() * max)||1;
+    let number = Math.floor(Math.random() * max) || 1;
     return number.toFixed(2);
 }
