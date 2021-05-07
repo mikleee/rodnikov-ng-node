@@ -2,28 +2,19 @@
   <app-shared-in-progress *ngIf="productsState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="productsState.isError()" [message]="productsState.getMessage()"></app-shared-error>
   <div *ngIf="productsState.isReady()">
-    {{pagination | json}}
-
     <ngb-pagination
       (pageChange)="onPagination($event)"
       [(page)]="pagination.pageNo"
       [pageSize]="pagination.pageSize"
       [collectionSize]="pagination.total"></ngb-pagination>
-<!--    <mat-paginator (page)="onPaginationEvent($event)"-->
-<!--                   [hidePageSize]="true"-->
-<!--                   [length]="pagination.total"-->
-<!--                   [pageSizeOptions]="pagination.pageSizeOptions"-->
-<!--                   [pageSize]="pagination.pageSize">-->
-<!--    </mat-paginator>-->
     <div class="showcase-products">
       <app-showcase-product-card *ngFor="let product of productsToShow" [product]="product" class="showcase-product"></app-showcase-product-card>
     </div>
-<!--    <mat-paginator (page)="onPaginationEvent($event)"-->
-<!--                   [hidePageSize]="true"-->
-<!--                   [length]="pagination.total"-->
-<!--                   [pageSizeOptions]="pagination.pageSizeOptions"-->
-<!--                   [pageSize]="pagination.pageSize">-->
-<!--    </mat-paginator>-->
+    <ngb-pagination
+      (pageChange)="onPagination($event)"
+      [(page)]="pagination.pageNo"
+      [pageSize]="pagination.pageSize"
+      [collectionSize]="pagination.total"></ngb-pagination>
   </div>
 
 </div>
