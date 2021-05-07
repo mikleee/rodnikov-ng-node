@@ -5,6 +5,7 @@ import {ViewStateState} from "../../../shared/model/view-state.model";
 import {Subscription} from "rxjs";
 import {ProductSuppliersService} from "../product-suppliers.service";
 import {map} from "rxjs/operators";
+import {Pagination} from "../../../shared/model/pagination.model";
 
 @Component({
   selector: 'app-product-supplier-list',
@@ -12,8 +13,10 @@ import {map} from "rxjs/operators";
   styleUrls: ['./product-supplier-list.component.scss']
 })
 export class ProductSupplierListComponent implements OnInit, OnDestroy {
+  pagination: Pagination = new Pagination();
   suppliers$?: Subscription;
   suppliers: AsyncModel<AsyncModel<ProductSupplier>[]> = new AsyncModel(ViewStateState.UNTOUCHED, []);
+  suppliersToShow: AsyncModel<ProductSupplier>[] = [];
 
   constructor(private suppliersService: ProductSuppliersService) {
 
@@ -36,13 +39,18 @@ export class ProductSupplierListComponent implements OnInit, OnDestroy {
         map(v => toAsyncModels(Object.values(v)))
       )
       .subscribe(
-        result => this.suppliers = new AsyncModel(ViewStateState.READY, result),
-        error => this.suppliers = new AsyncModel(ViewStateState.ERROR, [], error)
+        result => this.resolveSuppliers(result, ViewStateState.READY),
+        error => this.resolveSuppliers([], ViewStateState.ERROR, error)
       )
   }
 
   ngOnDestroy(): void {
     this.suppliers$?.unsubscribe();
+  }
+
+  resolveSuppliers(value: AsyncModel<ProductSupplier>[], state: ViewStateState, message?: string) {
+    this.suppliers = new AsyncModel(state, value, message);
+    this.suppliersToShow = this.pagination.getPage(value);
   }
 
 

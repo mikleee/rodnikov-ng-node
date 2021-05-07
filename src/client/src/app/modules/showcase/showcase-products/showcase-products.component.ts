@@ -29,7 +29,6 @@ export class ShowcaseProductsComponent implements OnInit {
   }
 
   onPagination($event: any) {
-    this.pagination.pageNo = $event as number;
     this.paginate(this.products);
   }
 
@@ -49,15 +48,8 @@ export class ShowcaseProductsComponent implements OnInit {
     this.paginate(value);
   }
 
-  paginate(value: Product[]) {
-    let page: Product[] = [];
-    let pagination = this.pagination;
-    debugger;
-    pagination.total = value.length;
-    for (let i = (pagination.pageNo - 1) * pagination.pageSize; page.length < pagination.pageSize && i < this.products.length; i++) {
-      page.push(this.products[i]);
-    }
-    this.productsToShow = page;
+  paginate(products: Product[]) {
+    this.productsToShow = this.pagination.getPage(products);
   }
 
 }

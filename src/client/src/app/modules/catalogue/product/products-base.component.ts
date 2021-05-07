@@ -61,7 +61,7 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
       );
   }
 
-  resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
+  protected resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
     this.productsState.setState(state);
     this.productsState.setMessage(message);
     this.products = value;

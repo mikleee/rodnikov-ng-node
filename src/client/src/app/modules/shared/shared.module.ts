@@ -11,6 +11,8 @@ import {CurrencyUsdPipe} from "./transform/currency-usd.pipe";
 import {CurrencyUahPipe} from "./transform/currency-uah.pipe";
 import {AsyncDropdownComponent} from './component/async-dropdown/async-dropdown.component';
 import {FormsModule} from "@angular/forms";
+import { PaginationComponent } from './pagination/pagination.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {FormsModule} from "@angular/forms";
     CurrencyUsdPipe,
     CurrencyUahPipe,
     AsyncDropdownComponent,
+    PaginationComponent,
   ],
   exports: [
     InProgressComponent,
@@ -32,11 +35,13 @@ import {FormsModule} from "@angular/forms";
     ImageUploadComponent,
     ServerImageComponent,
     CurrencyUsdPipe,
-    CurrencyUahPipe
+    CurrencyUahPipe,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ]
 })
 export class SharedModule {

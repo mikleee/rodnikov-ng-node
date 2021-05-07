@@ -2,19 +2,11 @@
   <app-shared-in-progress *ngIf="productsState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="productsState.isError()" [message]="productsState.getMessage()"></app-shared-error>
   <div *ngIf="productsState.isReady()">
-    <ngb-pagination
-      (pageChange)="onPagination($event)"
-      [(page)]="pagination.pageNo"
-      [pageSize]="pagination.pageSize"
-      [collectionSize]="pagination.total"></ngb-pagination>
+    <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
     <div class="showcase-products">
       <app-showcase-product-card *ngFor="let product of productsToShow" [product]="product" class="showcase-product"></app-showcase-product-card>
     </div>
-    <ngb-pagination
-      (pageChange)="onPagination($event)"
-      [(page)]="pagination.pageNo"
-      [pageSize]="pagination.pageSize"
-      [collectionSize]="pagination.total"></ngb-pagination>
+    <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
   </div>
 
 </div>

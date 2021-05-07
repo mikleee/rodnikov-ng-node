@@ -1,6 +1,11 @@
 <header class="heading">
   <h3>Suppliers <span *ngIf="suppliers.state.isReady()" class="badge bg-secondary">{{suppliers.value.length}}</span></h3>
 </header>
+
+<app-pagination *ngIf="suppliers.state.isReady()"
+                [pagination]="pagination"
+                (onPagination)="suppliersToShow = pagination.getPage(suppliers.value)"></app-pagination>
+
 <table class="table table-sm table-striped">
   <thead>
     <tr>
@@ -28,7 +33,7 @@
     </tr>
   </tbody>
   <tbody *ngIf="suppliers.state.isReady()">
-    <tr *ngFor="let supplier of suppliers.value">
+    <tr *ngFor="let supplier of suppliersToShow">
       <td class="img">
         <app-server-image cssClass="table-image" [imageId]="supplier.value.logo"></app-server-image>
       </td>

@@ -3,6 +3,9 @@ import {ProductSuppliersService} from "../../product-suppliers/product-suppliers
 import {ProductsService} from "../products.service";
 import {ProductsBaseComponent} from "../products-base.component";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
+import {Pagination} from "../../../shared/model/pagination.model";
+import {Product} from "../../catalogue.models";
+import {ViewStateState} from "../../../shared/model/view-state.model";
 
 @Component({
   selector: 'app-product-list',
@@ -12,6 +15,9 @@ import {ProductCategoryService} from "../../product-categories/product-category.
 export class ProductListComponent extends ProductsBaseComponent {
   supplier?: string;
   category?: string;
+
+  pagination: Pagination = new Pagination();
+  productsToShow: Product[] = []
 
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
@@ -32,4 +38,8 @@ export class ProductListComponent extends ProductsBaseComponent {
   }
 
 
+  protected resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
+    super.resolveProducts(value, state, message);
+    this.productsToShow = this.pagination.getPage(value);
+  }
 }

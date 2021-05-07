@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ProductCategory} from "../../catalogue.models";
+import {ProductCategory, ProductSupplier} from "../../catalogue.models";
 import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {AsyncModel, toAsyncModels} from "../../../shared/model/async.model";
 import {ProductCategoryService} from "../product-category.service";
+import {Pagination} from "../../../shared/model/pagination.model";
 
 
 @Component({
@@ -12,9 +13,11 @@ import {ProductCategoryService} from "../product-category.service";
   styleUrls: ['./product-categories-list.component.scss']
 })
 export class ProductCategoriesListComponent implements OnInit, OnDestroy {
+  pagination: Pagination = new Pagination();
   categories$?: Subscription;
   categories: AsyncModel<AsyncModel<ProductCategory>[]> = new AsyncModel(ViewStateState.UNTOUCHED, []);
   tree: ProductCategory[] = [];
+  categoriesToShow: AsyncModel<ProductCategory>[] = [];
 
   individualStates: { [key: string]: ViewState } = {};
 
@@ -26,8 +29,8 @@ export class ProductCategoriesListComponent implements OnInit, OnDestroy {
     this.categories.state.inProgress();
     this.categories$ = this.productCategoryService.getProductCategories()
       .subscribe(
-        result => this.resolveGroups(result, ViewStateState.READY, undefined),
-        error => this.resolveGroups({}, ViewStateState.ERROR, error),
+        result => this.resolveCategories(result, ViewStateState.READY, undefined),
+        error => this.resolveCategories({}, ViewStateState.ERROR, error),
       );
   }
 
@@ -44,10 +47,12 @@ export class ProductCategoriesListComponent implements OnInit, OnDestroy {
       )
   }
 
-  resolveGroups(value: { [key: string]: ProductCategory }, state: ViewStateState, message: string | undefined) {
+  resolveCategories(value: { [key: string]: ProductCategory }, state: ViewStateState, message: string | undefined) {
     let values = Object.values(value);
-    this.categories = new AsyncModel(state, toAsyncModels(values), message)
+    let asyncModels = toAsyncModels(values);
+    this.categories = new AsyncModel(state, asyncModels, message)
     this.tree = this.productCategoryService.buildTree(values);
+    this.categoriesToShow = this.pagination.getPage(asyncModels);
   }
 
 

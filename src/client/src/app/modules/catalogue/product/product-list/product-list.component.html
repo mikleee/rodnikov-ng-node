@@ -1,6 +1,11 @@
 <header class="heading">
   <h3>Products <span *ngIf="productsState.isReady()" class="badge bg-secondary">{{products.length}}</span></h3>
 </header>
+
+<app-pagination *ngIf="productsState.isReady()"
+                [pagination]="pagination"
+                (onPagination)="productsToShow = pagination.getPage(products)"></app-pagination>
+
 <table class="table table-sm table-striped">
   <thead>
     <tr>
@@ -72,7 +77,7 @@
     </tr>
   </tbody>
   <tbody *ngIf="productsState.isReady()">
-    <tr *ngFor="let product of products">
+    <tr *ngFor="let product of productsToShow">
       <td class="img">
         <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
       </td>
