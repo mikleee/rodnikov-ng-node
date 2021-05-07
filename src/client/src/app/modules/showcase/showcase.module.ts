@@ -10,7 +10,7 @@ import {ShowcaseProductsComponent} from './showcase-products/showcase-products.c
 import {SharedModule} from "../shared/shared.module";
 import {ShowcaseProductCardComponent} from './showcase-product-card/showcase-product-card.component';
 import {ShowcaseFiltersComponent} from './showcase-filters/showcase-filters.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     CommonModule,
     FormsModule,
     SharedModule,
-    MatPaginatorModule
+    NgbModule,
   ]
 })
 export class ShowcaseModule {

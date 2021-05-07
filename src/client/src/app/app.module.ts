@@ -7,7 +7,6 @@ import {CatalogueModule} from "./modules/catalogue/catalogue.module";
 import {HttpClientModule} from "@angular/common/http";
 import {ShowcaseModule} from "./modules/showcase/showcase.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatMenuModule} from "@angular/material/menu";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CatalogueModule,
     ShowcaseModule,
     BrowserAnimationsModule,
-    MatMenuModule,
     NgbModule
   ],
   providers: [],

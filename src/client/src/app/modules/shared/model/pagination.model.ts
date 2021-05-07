@@ -1,10 +1,10 @@
-export class AngularMaterialPagination {
+export class Pagination {
   total: number = 0;
   pageSize: number = 10;
   pageNo: number = 0;
   pageSizeOptions: number[] = [10, 30, 50];
 
-  onPaginationEvent(event: any): void {
+  onPagination(event: any): void {
 
   }
 }

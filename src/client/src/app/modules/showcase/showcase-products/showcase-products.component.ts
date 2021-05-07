@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ViewState, ViewStateState} from "../../shared/model/view-state.model";
 import {Product, ProductsFilter} from "../../catalogue/catalogue.models";
 import {ProductsService} from "../../catalogue/product/products.service";
-import {AngularMaterialPagination} from "../../shared/model/ng-mat.pagination.model";
+import {Pagination} from "../../shared/model/pagination.model";
 
 @Component({
   selector: 'app-showcase-products',
@@ -10,7 +10,7 @@ import {AngularMaterialPagination} from "../../shared/model/ng-mat.pagination.mo
   styleUrls: ['./showcase-products.component.scss']
 })
 export class ShowcaseProductsComponent implements OnInit {
-  pagination: AngularMaterialPagination;
+  pagination: Pagination;
 
   productsFilter: ProductsFilter = new ProductsFilter();
   productsState: ViewState = new ViewState();
@@ -19,7 +19,7 @@ export class ShowcaseProductsComponent implements OnInit {
 
 
   constructor(private productsService: ProductsService) {
-    this.pagination = new AngularMaterialPagination();
+    this.pagination = new Pagination();
     this.pagination.pageSizeOptions = [3 * 3, 5 * 3, 10 * 3];
     this.pagination.pageSize = this.pagination.pageSizeOptions[1];
   }
@@ -28,9 +28,8 @@ export class ShowcaseProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  onPaginationEvent($event: any) {
-    this.pagination.pageNo = $event.pageIndex;
-    this.pagination.pageSize = $event.pageSize;
+  onPagination($event: any) {
+    debugger;
     this.paginate(this.products);
   }
 
