@@ -4,14 +4,14 @@ import {CatalogueComponent} from "./catalogue.component";
 import {SharedModule} from "../shared/shared.module";
 import {AppRoutingModule} from "../../app-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ProductGroupsListComponent} from './product-groups/product-groups-list/product-groups-list.component';
 import {ProductSupplierComponent} from "./product-suppliers/product-supplier/product-supplier.component";
 import {ProductSupplierListComponent} from "./product-suppliers/product-supplier-list/product-supplier-list.component";
-import {ProductGroupComponent} from './product-groups/product-group/product-group.component';
 import {ProductListComponent} from './product/product-list/product-list.component';
 import {ProductComponent} from './product/product/product.component';
-import {ProductGroupDropdownComponent} from './product-groups/product-group-dropdown/product-group-dropdown.component';
-import {ProductGroupsTreeComponent} from './product-groups/product-groups-tree/product-groups-tree.component';
+import {ProductCategoriesTreeComponent} from "./product-categories/product-categories-tree/product-categories-tree.component";
+import {ProductCategoryComponent} from "./product-categories/product-category/product-category.component";
+import {ProductCategoriesDropdownComponent} from "./product-categories/product-categories-dropdown/product-categories-dropdown.component";
+import {ProductCategoriesListComponent} from "./product-categories/product-categories-list/product-categories-list.component";
 
 
 @NgModule({
@@ -19,12 +19,12 @@ import {ProductGroupsTreeComponent} from './product-groups/product-groups-tree/p
     CatalogueComponent,
     ProductSupplierComponent,
     ProductSupplierListComponent,
-    ProductGroupsListComponent,
-    ProductGroupComponent,
+    ProductCategoriesListComponent,
+    ProductCategoryComponent,
     ProductListComponent,
     ProductComponent,
-    ProductGroupDropdownComponent,
-    ProductGroupsTreeComponent,
+    ProductCategoriesDropdownComponent,
+    ProductCategoriesTreeComponent,
   ],
   imports: [
     CommonModule,

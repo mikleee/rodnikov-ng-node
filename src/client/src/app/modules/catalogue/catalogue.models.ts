@@ -1,7 +1,7 @@
 import {BaseModel} from "../shared/model/base.model";
 
 export class ProductsFilter {
-  groups: string[] = [];
+  categories: string[] = [];
   suppliers: string[] = [];
   priceFromUah: number | undefined = undefined;
   priceToUah: number | undefined = undefined;
@@ -12,7 +12,7 @@ export interface Product extends BaseModel {
   name: string;
   description: string;
   supplier: string,
-  group: string,
+  category: string,
   mainImage: string,
   additionalImages: string[],
   priceUplift: number,
@@ -27,8 +27,8 @@ export interface ProductSupplier extends BaseModel {
   logo?: string;
 }
 
-export interface ProductGroup extends BaseModel {
+export interface ProductCategory extends BaseModel {
   name: string;
   parent: string;
-  groups: ProductGroup[];
+  categories: ProductCategory[];
 }

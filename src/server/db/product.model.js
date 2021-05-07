@@ -9,7 +9,7 @@ let schema = schemaBuilder.buildSchema({
     description: Schema.Types.String,
     cost: Schema.Types.Number,
     priceUplift: Schema.Types.Number,
-    group: {type: Schema.Types.ObjectId, ref: 'ProductGroup'},
+    category: {type: Schema.Types.ObjectId, ref: 'ProductCategory'},
     supplier: {type: Schema.Types.ObjectId, ref: 'ProductSupplier'},
     mainImage: {type: Schema.Types.ObjectId, ref: 'Document'},
     additionalImages: [{type: Schema.Types.ObjectId, ref: 'Document'}]

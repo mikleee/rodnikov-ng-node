@@ -50,11 +50,11 @@
         <div class="form-controls">
           <label for="productGroup" class="form-label">Supplier</label>
           <div>
-            <app-shared-in-progress *ngIf="groupsState.isInProgress()"></app-shared-in-progress>
-            <app-shared-error *ngIf="groupsState.isError()" [message]="groupsState.getMessage()"></app-shared-error>
-            <select id="productGroup" class="form-control" formControlName="group" *ngIf="groupsState.isReady()">
+            <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
+            <app-shared-error *ngIf="categoriesState.isError()" [message]="categoriesState.getMessage()"></app-shared-error>
+            <select id="productGroup" class="form-control" formControlName="group" *ngIf="categoriesState.isReady()">
               <option [ngValue]="null">---</option>
-              <option *ngFor="let g of (groups | keyvalue)" [ngValue]="g.value.id">{{g.value.name}}</option>
+              <option *ngFor="let g of (categories | keyvalue)" [ngValue]="g.value.id">{{g.value.name}}</option>
             </select>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ShowcaseModule} from "./modules/showcase/showcase.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMenuModule} from "@angular/material/menu";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {MatMenuModule} from "@angular/material/menu";
     CatalogueModule,
     ShowcaseModule,
     BrowserAnimationsModule,
-    MatMenuModule
+    MatMenuModule,
+    NgbModule
   ],
   providers: [],
   exports: [],

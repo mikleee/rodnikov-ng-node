@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductsBaseComponent} from "../products-base.component";
 import {ProductsService} from "../products.service";
 import {ProductSuppliersService} from "../../product-suppliers/product-suppliers.service";
-import {ProductGroupService} from "../../product-groups/product-group.service";
 import {Product} from "../../catalogue.models";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {Subject} from "rxjs";
+import {ProductCategoryService} from "../../product-categories/product-category.service";
 
 @Component({
   selector: 'app-product',
@@ -28,8 +28,8 @@ export class ProductComponent extends ProductsBaseComponent implements OnInit, O
   constructor(private route: ActivatedRoute,
               protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
-              protected groupsService: ProductGroupService) {
-    super(productsService, suppliersService, groupsService);
+              protected categoryService: ProductCategoryService) {
+    super(productsService, suppliersService, categoryService);
   }
 
   submitProductForm() {
@@ -70,7 +70,7 @@ export class ProductComponent extends ProductsBaseComponent implements OnInit, O
       name: new FormControl(product?.name, [Validators.required]),
       description: new FormControl(product?.description),
       supplier: new FormControl(product?.supplier, [Validators.required]),
-      group: new FormControl(product?.group, [Validators.required]),
+      category: new FormControl(product?.category, [Validators.required]),
       cost: new FormControl(product?.cost, [Validators.required]),
       priceUplift: new FormControl(product?.priceUplift, []),
     });

@@ -36,7 +36,7 @@ export class ProductsService {
   filterProducts(products: Product[], filter?: ProductsFilter): Product[] {
     if (!filter) return products;
     return products.filter(product => {
-      if (filter.groups?.length && !filter.groups.includes(product.group)) {
+      if (filter.categories?.length && !filter.categories.includes(product.category)) {
         return false;
       }
       if (filter.suppliers?.length && !filter.suppliers.includes(product.supplier)) {

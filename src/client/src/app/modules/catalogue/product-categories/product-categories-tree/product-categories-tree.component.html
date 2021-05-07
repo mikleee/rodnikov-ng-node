@@ -1,0 +1,13 @@
+<div class="product-categories-tree" *ngIf="categories?.length">
+  <div *ngTemplateOutlet="recursiveList; context:{ $implicit: categories }" class="product-category-parent-node"></div>
+  <ng-template #recursiveList let-categories>
+    <div *ngFor="let category of categories">
+      <div class="product-category-parent">
+        <a [routerLink]="['category', category.id]">{{category.name}}</a>
+      </div>
+      <div *ngIf="category.categories?.length" class="product-category-child-node">
+        <div *ngTemplateOutlet="recursiveList; context:{ $implicit: category.categories }"></div>
+      </div>
+    </div>
+  </ng-template>
+</div>

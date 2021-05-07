@@ -1,10 +1,10 @@
 import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {Product, ProductGroup, ProductsFilter, ProductSupplier} from "../catalogue.models";
+import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../catalogue.models";
 import {mapToViewStates, ViewState, ViewStateState} from "../../shared/model/view-state.model";
 import {ProductsService} from "./products.service";
 import {ProductSuppliersService} from "../product-suppliers/product-suppliers.service";
-import {ProductGroupService} from "../product-groups/product-group.service";
+import {ProductCategoryService} from "../product-categories/product-category.service";
 
 
 @Injectable()
@@ -18,15 +18,15 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
   suppliersState: ViewState = new ViewState();
   suppliers: { [key: string]: ProductSupplier } = {};
 
-  groups$?: Subscription;
-  groupsState: ViewState = new ViewState();
-  groups: { [key: string]: ProductGroup } = {};
+  categories$?: Subscription;
+  categoriesState: ViewState = new ViewState();
+  categories: { [key: string]: ProductCategory } = {};
 
   individualProductsState: { [key: string]: ViewState } = {};
 
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
-              protected groupsService: ProductGroupService) {
+              protected categoryService: ProductCategoryService) {
 
   }
 
@@ -49,7 +49,7 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.suppliers$?.unsubscribe();
-    this.groups$?.unsubscribe();
+    this.categories$?.unsubscribe();
   }
 
   loadProducts() {
@@ -85,18 +85,18 @@ export class ProductsBaseComponent implements OnInit, OnDestroy {
 
 
   loadGroups() {
-    this.groupsState.inProgress();
-    this.groups$ = this.groupsService.getProductGroups()
+    this.categoriesState.inProgress();
+    this.categories$ = this.categoryService.getProductCategories()
       .subscribe(
-        result => this.resolveGroups(result, ViewStateState.READY, undefined),
-        error => this.resolveGroups({}, ViewStateState.READY, error),
+        result => this.resolveCategories(result, ViewStateState.READY, undefined),
+        error => this.resolveCategories({}, ViewStateState.READY, error),
       );
   }
 
-  resolveGroups(value: { [key: string]: ProductGroup }, state: ViewStateState, message: string | undefined) {
-    this.groupsState.setState(state);
-    this.groupsState.setMessage(message);
-    this.groups = value;
+  resolveCategories(value: { [key: string]: ProductCategory }, state: ViewStateState, message: string | undefined) {
+    this.categoriesState.setState(state);
+    this.categoriesState.setMessage(message);
+    this.categories = value;
   }
 
 

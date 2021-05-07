@@ -1,4 +1,4 @@
-const {ProductGroup} = require("./product.group.model");
+const {ProductCategory} = require("./product.category.model");
 const {ProductSupplier} = require("./product.supplier.model");
 const {Document} = require("./document.model");
 const enums = require("./model.enum");
@@ -20,18 +20,18 @@ const {Product} = require("./product.model");
 
 
 (async () => {
-    let existing = await ProductGroup.find();
+    let existing = await ProductCategory.find();
     let toCreate = [];
     while (toCreate.length + existing.length < 20) {
         toCreate.push({
-            name: `group ${random()}`
+            name: `cat ${random()}`
         })
     }
     if (toCreate.length) {
-        await ProductGroup.insertMany(toCreate);
+        await ProductCategory.insertMany(toCreate);
     }
 
-    existing = await ProductGroup.find();
+    existing = await ProductCategory.find();
     for (let x of [
         {p: 0, c: [1, 2, 3]},
         {p: 5, c: [6, 7, 8]}
@@ -50,7 +50,7 @@ const {Product} = require("./product.model");
 
 (async () => {
     let supplier = await ProductSupplier.findOne();
-    let group = await ProductGroup.findOne();
+    let group = await ProductCategory.findOne();
 
     let existing = await Product.find();
     let toCreate = [];
@@ -61,7 +61,7 @@ const {Product} = require("./product.model");
             cost: randomNumber(200),
             additionalCost: randomNumber(10),
             priceUplift: randomNumber(15),
-            group: group,
+            category: group,
             supplier: supplier,
             additionalImages: []
         })

@@ -39,14 +39,14 @@
       </td>
       <td>
         <div>
-          <app-shared-in-progress *ngIf="groupsState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="groupsState.isError()" [message]="groupsState.getMessage()"></app-shared-error>
+          <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
+          <app-shared-error *ngIf="categoriesState.isError()" [message]="categoriesState.getMessage()"></app-shared-error>
           <select id="productGroup" class="form-control"
-                  *ngIf="groupsState.isReady()"
-                  [(ngModel)]="group"
+                  *ngIf="categoriesState.isReady()"
+                  [(ngModel)]="category"
                   (ngModelChange)="applyFilter()">
             <option [ngValue]="undefined">All</option>
-            <option *ngFor="let g of (groups | keyvalue)" [ngValue]="g.value.id">{{g.value.name}}</option>
+            <option *ngFor="let c of (categories | keyvalue)" [ngValue]="c.value.id">{{c.value.name}}</option>
           </select>
         </div>
       </td>
@@ -87,11 +87,11 @@
         </div>
       </td>
       <td>
-        <div *ngIf="product.group">
-          <app-shared-in-progress *ngIf="groupsState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="groupsState.isError()"></app-shared-error>
-          <div *ngIf="groupsState.isReady()">
-            {{groups[product.group]?.name}}
+        <div *ngIf="product.category">
+          <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
+          <app-shared-error *ngIf="categoriesState.isError()"></app-shared-error>
+          <div *ngIf="categoriesState.isReady()">
+            {{categories[product.category]?.name}}
           </div>
         </div>
       </td>

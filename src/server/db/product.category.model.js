@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 
 let schema = schemaBuilder.buildSchema({
     name: Schema.Types.String,
-    parent: {type: Schema.Types.ObjectId, ref: 'ProductGroup'},
+    parent: {type: Schema.Types.ObjectId, ref: 'ProductCategory'},
     products: [{type: Schema.Types.ObjectId, ref: 'Product'}]
 });
 
-const ProductGroup = mongoose.model('ProductGroup', schema);
+const ProductCategory = mongoose.model('ProductCategory', schema);
 
 
-module.exports.ProductGroup = ProductGroup;
+module.exports.ProductCategory = ProductCategory;
