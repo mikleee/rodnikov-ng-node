@@ -11,13 +11,19 @@ import {ShowcaseComponent} from "./modules/showcase/showcase/showcase.component"
 import {ProductCategoriesListComponent} from "./modules/catalogue/product-categories/product-categories-list/product-categories-list.component";
 import {ProductCategoryComponent} from "./modules/catalogue/product-categories/product-category/product-category.component";
 import {ShowcaseDashboardComponent} from "./modules/showcase/showcase-dashboard/showcase-dashboard.component";
+import {ContactsComponent} from "./modules/simple-pages/contacts/contacts.component";
+import {PaymentAndDeliveryComponent} from "./modules/simple-pages/payment-and-delivery/payment-and-delivery.component";
+import {AboutUsComponent} from "./modules/simple-pages/about-us/about-us.component";
 
 
 const routes: Routes = [
 
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
   {path: '', pathMatch: 'full', component: ShowcaseDashboardComponent},
-  {path: 'products', pathMatch: 'full', component: ShowcaseComponent},
+  {path: 'products', component: ShowcaseComponent},
+  {path: 'contacts', pathMatch: 'full', component: ContactsComponent},
+  {path: 'payment-and-delivery', pathMatch: 'full', component: PaymentAndDeliveryComponent},
+  {path: 'about-us', pathMatch: 'full', component: AboutUsComponent},
 
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},

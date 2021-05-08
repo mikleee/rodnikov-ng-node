@@ -3,7 +3,6 @@ const schemaBuilder = require("./db.schema.builder");
 const Schema = mongoose.Schema;
 
 
-
 let schema = schemaBuilder.buildSchema({
     name: Schema.Types.String,
     description: Schema.Types.String,

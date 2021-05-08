@@ -5,8 +5,6 @@ const logger = require('../service/logger').createLogger('db')
 let dbUrl = appConfig["db.url"];
 
 
-
-
 let db = mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     poolSize: 10,

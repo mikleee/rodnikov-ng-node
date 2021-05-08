@@ -13,7 +13,7 @@ import {AsyncDropdownComponent} from './component/async-dropdown/async-dropdown.
 import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from './pagination/pagination.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { NotImplementedComponent } from './component/not-implemented/not-implemented.component';
+import {NotImplementedComponent} from './component/not-implemented/not-implemented.component';
 
 
 @NgModule({

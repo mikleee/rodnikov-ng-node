@@ -21,7 +21,7 @@
       <th class="actions">
         <button type="button"
                 class="btn btn-outline-secondary btn-sm"
-                [routerLink]="['product']">
+                [routerLink]="['/catalogue/products/product']">
           <i class="bi-plus"></i>
         </button>
       </th>
@@ -81,7 +81,7 @@
       <td class="img">
         <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
       </td>
-      <td><a [routerLink]="['product', product.id]">{{product.name}}</a></td>
+      <td><a [routerLink]="['/catalogue/products/product', product.id]">{{product.name}}</a></td>
       <td>
         <div *ngIf="product.supplier">
           <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>

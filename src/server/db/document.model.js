@@ -15,8 +15,6 @@ let schema = schemaBuilder.buildSchema({
 });
 
 
-
-
 const Document = mongoose.model('Document', schema);
 
 

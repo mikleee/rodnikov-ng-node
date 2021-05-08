@@ -12,7 +12,7 @@ export class ShowcaseCategoriesComponent implements OnInit {
   categoriesTree: ProductCategory[] = [];
   categoriesTreeState: ViewState = new ViewState();
   stack: Stack = new Stack();
-  lookupChildren=false;
+  lookupChildren = false;
   activeCategory?: ProductCategory;
 
   constructor(private productCategoryService: ProductCategoryService) {
@@ -36,7 +36,7 @@ export class ShowcaseCategoriesComponent implements OnInit {
     this.categoriesTree = this.productCategoryService.buildTree(values);
   }
 
-  debugLog(o:any){
+  debugLog(o: any) {
     console.log(o);
   }
 
