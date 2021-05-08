@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ProductCategory, ProductSupplier} from "../../catalogue.models";
+import {ProductCategory} from "../../catalogue.models";
 import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {AsyncModel, toAsyncModels} from "../../../shared/model/async.model";

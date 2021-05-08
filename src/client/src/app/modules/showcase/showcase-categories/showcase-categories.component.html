@@ -1,0 +1,22 @@
+<div class="showcase-categories">
+  <ul class="list-group list-group-flush showcase-categories-root">
+    <li class="list-group-item d-flex justify-content-between" *ngFor="let category of categoriesTree"
+        (mouseout)="activeCategory = undefined"
+        (mouseover)="activeCategory = category.categories?.length ? category : undefined">
+      <a>{{category.name}}</a>
+      <span class="bi-chevron-right" *ngIf="category.categories?.length"></span>
+
+      <div class="showcase-categories-first-child" [hidden]="activeCategory != category">
+        <div class="card">
+          <div class="card-body">
+            <div *ngFor="let c of category.categories">{{c.name}}</div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+

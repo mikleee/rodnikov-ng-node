@@ -20,7 +20,7 @@
             <app-product-categories-dropdown
               selectId="categoryParent"
               [category]="category.parent"
-              (categoryChange)="onCategoryChange(category)"
+              (categoryChange)="onCategoryChange($event)"
               [nullOption]="'---'"></app-product-categories-dropdown>
             <input type="hidden" formControlName="parent">
           </div>

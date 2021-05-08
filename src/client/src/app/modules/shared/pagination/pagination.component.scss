@@ -1,0 +1,27 @@
+.paginator {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+
+  & > * {
+    &:not(:last-child) {
+      margin-right: 1em;
+    }
+  }
+
+  label,
+  ul {
+    margin-bottom: 0;
+  }
+
+}
+
+::ng-deep .paginator ul.pagination {
+  margin-bottom: 0;
+}
+
+td, th {
+  & > .paginator {
+    margin-bottom: 0;
+  }
+}

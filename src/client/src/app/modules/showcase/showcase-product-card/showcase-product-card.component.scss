@@ -21,8 +21,12 @@
   }
 
   .product-card-logo {
+    height: 250px;
+    display: flex;
+    align-items: center;
     img {
-      height: 250px;
+      max-height: 250px;
+      max-width: 100%;
     }
   }
 }

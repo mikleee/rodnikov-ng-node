@@ -7,7 +7,7 @@ import {CatalogueModule} from "./modules/catalogue/catalogue.module";
 import {HttpClientModule} from "@angular/common/http";
 import {ShowcaseModule} from "./modules/showcase/showcase.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [

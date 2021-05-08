@@ -11,7 +11,8 @@ import {SharedModule} from "../shared/shared.module";
 import {ShowcaseProductCardComponent} from './showcase-product-card/showcase-product-card.component';
 import {ShowcaseFiltersComponent} from './showcase-filters/showcase-filters.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { ShowcaseDashboardComponent } from './showcase-dashboard/showcase-dashboard.component';
+import {ShowcaseDashboardComponent} from './showcase-dashboard/showcase-dashboard.component';
+import { ShowcaseCategoriesComponent } from './showcase-categories/showcase-categories.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ShowcaseDashboardComponent } from './showcase-dashboard/showcase-dashbo
     ShowcaseProductsComponent,
     ShowcaseProductCardComponent,
     ShowcaseFiltersComponent,
-    ShowcaseDashboardComponent
+    ShowcaseDashboardComponent,
+    ShowcaseCategoriesComponent
   ],
   imports: [
     CommonModule,
