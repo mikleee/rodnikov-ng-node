@@ -1,0 +1,15 @@
+<div class="showcase-product-categories-subcategories">
+  <div class="showcase-product-categories-subcategory" *ngIf="category?.categories?.length">
+    <div *ngTemplateOutlet="recursiveList; context:{ $implicit: category?.categories }"></div>
+    <ng-template #recursiveList let-categories>
+      <div *ngFor="let category of categories">
+        <div class="showcase-product-categories-subcategory-root">
+          <app-showcase-categories-category-link [category]="category"></app-showcase-categories-category-link>
+        </div>
+        <div *ngIf="category.categories?.length" class="showcase-product-categories-subcategory-child">
+          <div *ngTemplateOutlet="recursiveList; context:{ $implicit: category.categories }"></div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

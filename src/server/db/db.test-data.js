@@ -7,43 +7,77 @@ const {Product} = require("./product.model");
 
 (async () => {
 
-    await (async () => {
-        let existing = await ProductSupplier.find();
-        let toCreate = [];
-        while (toCreate.length + existing.length < 20) {
-            toCreate.push({
-                name: `supplier ${random()}`
-            })
-        }
-        if (toCreate.length) {
-            await ProductSupplier.insertMany(toCreate);
-        }
 
+    await (async () => {
+        let template = [
+            'Adidas',
+            'Pidoras',
+            'Белшина',
+            'Росава',
+            'Sony',
+            'Электроника',
+        ];
+
+        for (const name of template) {
+            let persisted = await ProductSupplier.findOne({name: name});
+            if (!persisted) {
+                await ProductSupplier.create({
+                    name: name
+                });
+            }
+        }
     })();
 
 
     await (async () => {
-        let existing = await ProductCategory.find();
-        let toCreate = [];
-        while (toCreate.length + existing.length < 20) {
-            toCreate.push({
-                name: `cat ${random()}`
-            })
-        }
-        if (toCreate.length) {
-            await ProductCategory.insertMany(toCreate);
+        let template = [
+            {
+                name: 'Одежда', sub: [
+                    {name: 'Шапки', sub: [{name: 'Зимние шапки'}, {name: 'Летние шапки'}]},
+                    {
+                        name: 'Обувь', sub: [
+                            {name: 'Кроссовки'},
+                            {name: 'Туфли', sub: [{name: 'Туфли для Андрюхи'}, {name: 'Обычные туфли'}]}
+                        ]
+                    },
+                    {
+                        name: 'Штаны', sub: [
+                            {name: 'Брюки'},
+                            {name: 'Обсирашки'},
+                            {name: 'Джинсы'},
+                            {name: 'Трико'},
+                            {name: 'Шаровары'},
+                            {name: 'Клёш'},
+                            {name: 'Лосины'},
+                        ]
+                    }
+                ]
+            },
+            {name: 'Шины', sub: [{name: 'Зимние шины'}, {name: 'Летние шины'}]},
+            {name: 'Элетроника', sub: [{name: 'Аудио & видео'}, {name: 'Транзисторы'}]},
+            {name: 'Разная дрянь'}
+        ];
+
+        for (const obj of template) {
+            await delai(obj, null);
         }
 
-        existing = await ProductCategory.find();
-        for (let x of [
-            {p: 0, c: [1, 2, 3]},
-            {p: 5, c: [6, 7, 8]}
-        ]) {
-            let parent = existing[x.p];
-            for (let c of x.c) {
-                let child = existing[c];
-                child.parent = parent;
-                await child.save();
+        async function delai(obj, parent) {
+            let persisted = await ProductCategory.findOne({name: obj.name});
+            if (persisted) {
+                persisted.parent = parent;
+                persisted = await persisted.save();
+            } else {
+                persisted = await ProductCategory.create({
+                    name: obj.name,
+                    parent: parent
+                });
+            }
+
+            if (obj.sub) {
+                for (const sub of obj.sub) {
+                    await delai(sub, persisted);
+                }
             }
         }
 
@@ -52,29 +86,85 @@ const {Product} = require("./product.model");
 
 
     await (async () => {
-        let supplier = await ProductSupplier.findOne();
-        let category = await ProductCategory.findOne();
 
-        let existing = await Product.find();
-        let toCreate = [];
-        while (toCreate.length + existing.length < 20) {
-            toCreate.push({
-                name: `product ${random()}`,
-                description: `description ${random()}`,
-                cost: randomNumber(200),
-                additionalCost: randomNumber(10),
-                priceUplift: randomNumber(15),
-                category: category,
-                supplier: supplier,
-                additionalImages: []
-            })
+        let template = [
+            {
+                name: 'Одежда', supp: [
+                    'Adidas',
+                    'Pidoras',
+                ]
+            },
+            {
+                name: 'Шины', supp: [
+                    'Белшина',
+                    'Росава',
+                ]
+            },
+            {
+                name: 'Элетроника', supp: [
+                    'Sony',
+                    'Электроника',
+                ]
+            },
+            {
+                name: 'Разная дрянь', supp: [
+                    'Pidoras',
+                ]
+            }
+        ];
+
+        let categories = await ProductCategory.find();
+        let categoriesMap = {};
+        for (const category of categories) {
+            categoriesMap[category.id] = category;
         }
 
 
-        if (toCreate.length) {
-            await Product.insertMany(toCreate);
+        let suppliers = await ProductSupplier.find();
+        let suppliersMap = {};
+        for (const supplier of suppliers) {
+            suppliersMap[supplier.name] = supplier;
         }
 
+
+        for (const category of categories) {
+            let products = await Product.find({category: category});
+            let toCreate = [];
+            while (toCreate.length + products.length < 5) {
+                let supplier = null;
+                let root = getRootCategory(category);
+                for (const t of template) {
+                    if (t.name === root.name) {
+                        let supplierName = getRandomFromArray(t.supp);
+                        supplier = suppliersMap[supplierName];
+                        break;
+                    }
+                }
+
+                toCreate.push({
+                    name: `${category.name} ${random()}`,
+                    description: `${category.name} ${random()}`,
+                    cost: randomNumber(200),
+                    additionalCost: randomNumber(10),
+                    priceUplift: randomNumber(15),
+                    category: category,
+                    supplier: supplier,
+                    additionalImages: []
+                })
+            }
+            if (toCreate.length) {
+                await Product.insertMany(toCreate);
+            }
+        }
+
+
+        function getRootCategory(category) {
+            let result = category;
+            while (result.parent != null) {
+                result = categoriesMap[result.parent];
+            }
+            return result;
+        }
 
     })();
 
@@ -105,4 +195,8 @@ function random() {
 function randomNumber(max) {
     let number = Math.floor(Math.random() * max) || 1;
     return number.toFixed(2);
+}
+
+function getRandomFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
 }

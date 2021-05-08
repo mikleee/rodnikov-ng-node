@@ -13,6 +13,9 @@ import {ShowcaseFiltersComponent} from './showcase-filters/showcase-filters.comp
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ShowcaseDashboardComponent} from './showcase-dashboard/showcase-dashboard.component';
 import { ShowcaseCategoriesComponent } from './showcase-categories/showcase-categories.component';
+import { ShowcaseCategoriesSubcategoriesComponent } from './showcase-categories/showcase-categories-subcategories/showcase-categories-subcategories.component';
+import {RouterModule} from "@angular/router";
+import { ShowcaseCategoriesCategoryLinkComponent } from './showcase-categories/showcase-categories-category-link/showcase-categories-category-link.component';
 
 
 @NgModule({
@@ -26,13 +29,16 @@ import { ShowcaseCategoriesComponent } from './showcase-categories/showcase-cate
     ShowcaseProductCardComponent,
     ShowcaseFiltersComponent,
     ShowcaseDashboardComponent,
-    ShowcaseCategoriesComponent
+    ShowcaseCategoriesComponent,
+    ShowcaseCategoriesSubcategoriesComponent,
+    ShowcaseCategoriesCategoryLinkComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     SharedModule,
     NgbModule,
+    RouterModule,
   ]
 })
 export class ShowcaseModule {
