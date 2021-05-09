@@ -8,6 +8,7 @@
 
   <ngb-pagination
     (pageChange)="onPageChange($event)"
+    [maxSize]="5"
     [(page)]="pagination.pageNo"
     [pageSize]="pagination.pageSize"
     [collectionSize]="pagination.total"></ngb-pagination>

@@ -1,0 +1,14 @@
+<div>
+  <ngb-toast
+    class="global-toaster"
+    *ngFor="let message of messages"
+    [class]="getCssClass(message.type)"
+    [autohide]="true"
+    [delay]="4000"
+    (hidden)="removeMessage(message)"
+  >
+    {{message.message}}
+  </ngb-toast>
+</div>
+
+

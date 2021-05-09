@@ -14,6 +14,7 @@ import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from './pagination/pagination.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NotImplementedComponent} from './component/not-implemented/not-implemented.component';
+import { GlobalToasterComponent } from './component/global-toaster/global-toaster.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {NotImplementedComponent} from './component/not-implemented/not-implement
     AsyncDropdownComponent,
     PaginationComponent,
     NotImplementedComponent,
+    GlobalToasterComponent,
   ],
   exports: [
     InProgressComponent,
@@ -39,7 +41,8 @@ import {NotImplementedComponent} from './component/not-implemented/not-implement
     CurrencyUsdPipe,
     CurrencyUahPipe,
     PaginationComponent,
-    NotImplementedComponent
+    NotImplementedComponent,
+    GlobalToasterComponent
   ],
   imports: [
     CommonModule,

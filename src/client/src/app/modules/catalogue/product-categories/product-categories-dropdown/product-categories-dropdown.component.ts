@@ -25,7 +25,6 @@ export class ProductCategoriesDropdownComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
     this.categoriesState.inProgress();
     this.categories$ = this.productCategoryService.getProductCategories()
       .subscribe(

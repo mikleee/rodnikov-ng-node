@@ -71,7 +71,6 @@ export class ProductCategoryComponent implements OnInit {
   }
 
   onCategoryChange(category: ProductCategory) {
-    debugger;
     this.categoryForm?.controls.parent?.setValue(category?.id)
   }
 

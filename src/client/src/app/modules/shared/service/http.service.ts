@@ -1,18 +1,29 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
+import {GlobalToasterService} from "../component/global-toaster/global-toaster.service";
+import {catchError} from "rxjs/operators";
 
 
 @Injectable({providedIn: "root"})
 export class HttpService {
 
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private globalToasterService: GlobalToasterService
+  ) {
 
   }
 
   get(url: string, params?: HttpParams): Observable<any> {
-    return this.http.get(url, {params});
+    return this.http.get(url, {params})
+      .pipe(
+        catchError(error => {
+          this.globalToasterService.error(error.message);
+          return throwError(error);
+        })
+      )
   }
 
   post(url: string, body?: Object, params?: HttpParams): Observable<any> {
@@ -21,10 +32,15 @@ export class HttpService {
       body != null ? JSON.stringify(body) : null,
       {headers: new HttpHeaders({'Content-Type': 'application/json'}), params: params}
     )
+      .pipe(
+        catchError(error => {
+          this.globalToasterService.error(error.message);
+          return throwError(error);
+        })
+      )
   }
 
   postMultipartFormData(url: string, formData: FormData, params?: Object): Promise<any> {
-
     if (params != null) {
       let parts = url.split('?');
       let uri = parts[0];
@@ -44,17 +60,24 @@ export class HttpService {
           if (response.ok) {
             resolve(await response.json());
           } else {
+            let responseBody = await response.text();
+            let result;
             try {
-              reject(await response.json());
+              let responseBodyObject = JSON.parse(responseBody);
+              result = responseBodyObject?.message;
             } catch (e) {
-              reject(await response.text());
+              result = responseBody;
             }
+            this.globalToasterService.error(result);
+            reject({message: result});
           }
         },
-        (reject) => resolve(reject)
+        (error) => {
+          this.globalToasterService.error(error);
+          resolve(reject);
+        }
       )
     });
-
-
   }
+
 }

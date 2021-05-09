@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Subject} from "rxjs";
+import {randomString} from "../../utils";
 
 @Component({
   selector: 'app-image-upload',
@@ -8,7 +9,7 @@ import {Subject} from "rxjs";
 })
 export class ImageUploadComponent implements OnInit {
   @Input() subject$?: Subject<File[]>
-  @Input() id: string = Math.random().toString();
+  @Input() id: string = randomString();
   @Input() multiple: boolean = false;
   @Input("upload-title") title: string = 'Upload image';
 

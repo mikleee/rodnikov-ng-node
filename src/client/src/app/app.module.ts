@@ -8,6 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {ShowcaseModule} from "./modules/showcase/showcase.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {SharedModule} from "./modules/shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     CatalogueModule,
     ShowcaseModule,
     BrowserAnimationsModule,
-    NgbModule
+    NgbModule,
+    SharedModule
   ],
   providers: [],
   exports: [],

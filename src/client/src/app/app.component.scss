@@ -47,3 +47,11 @@ $height: 50px;
   }
 
 }
+
+.global-toaster {
+  position: fixed;
+  top: calc(100px + 1em);
+  width: 200px;
+  right: 1em;
+  z-index: 999999;
+}

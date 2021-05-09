@@ -1,7 +1,10 @@
 .heading {
+
   h3 {
-    display: inline-block;
+    display: flex;
+    align-items: center;
   }
+
 }
 
 a, label {
