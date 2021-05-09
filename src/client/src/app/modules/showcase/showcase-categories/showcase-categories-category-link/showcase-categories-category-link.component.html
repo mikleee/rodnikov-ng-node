@@ -1,5 +1,5 @@
 <a *ngIf="category"
    [routerLink]="['/products']"
-   [queryParams]="{filterCategory: category.id}">
+   [queryParams]="{'f-category': category.id}">
   {{category.name}}
 </a>

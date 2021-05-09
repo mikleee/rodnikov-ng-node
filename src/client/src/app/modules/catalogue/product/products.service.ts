@@ -42,10 +42,10 @@ export class ProductsService {
       if (filter.suppliers?.length && !filter.suppliers.includes(product.supplier)) {
         return false;
       }
-      if (filter.priceFromUah && filter.priceFromUah > product.priceUah) {
+      if (filter.priceFrom && filter.priceFrom > product.priceUah) {
         return false;
       }
-      if (filter.priceToUah && filter.priceToUah < product.priceUah) {
+      if (filter.priceTo && filter.priceTo < product.priceUah) {
         return false;
       }
       if (filter.name && !product.name?.toUpperCase().includes(filter.name.toUpperCase())) {

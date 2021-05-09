@@ -3,6 +3,9 @@ import {ViewState, ViewStateState} from "../../shared/model/view-state.model";
 import {Product, ProductsFilter} from "../../catalogue/catalogue.models";
 import {ProductsService} from "../../catalogue/product/products.service";
 import {Pagination} from "../../shared/model/pagination.model";
+import {ActivatedRoute} from "@angular/router";
+import {first} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-showcase-products',
@@ -12,29 +15,46 @@ import {Pagination} from "../../shared/model/pagination.model";
 export class ShowcaseProductsComponent implements OnInit {
   pagination: Pagination;
 
-  productsFilter: ProductsFilter = new ProductsFilter();
+  filter: ProductsFilter = new ProductsFilter();
   productsState: ViewState = new ViewState();
   products: Product[] = [];
   productsToShow: Product[] = [];
 
 
-  constructor(private productsService: ProductsService) {
+  constructor(private productsService: ProductsService,
+              private activatedRoute: ActivatedRoute) {
     this.pagination = new Pagination();
     this.pagination.pageSizeOptions = [3 * 3, 5 * 3, 10 * 3];
     this.pagination.pageSize = this.pagination.pageSizeOptions[1];
   }
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.initProducts();
   }
 
   onPagination($event: any) {
     this.paginate(this.products);
   }
 
-  loadProducts() {
+  initProducts(): void {
+    this.activatedRoute.queryParams
+      .pipe(first())
+      .subscribe(params => {
+        this.filter = new ProductsFilter(
+          params['f-keyword'],
+          params['f-name'],
+          params['f-category'],
+          params['f-suppliers'],
+          params['f-priceFrom'],
+          params['f-priceTo'],
+        );
+        this.loadProducts(this.filter);
+      });
+  }
+
+  loadProducts(filter: ProductsFilter): Subscription {
     this.productsState.inProgress();
-    this.productsService.getProducts(this.productsFilter)
+    return this.productsService.getProducts(filter)
       .subscribe(
         result => this.resolveProducts(result, ViewStateState.READY, undefined),
         error => this.resolveProducts([], ViewStateState.ERROR, error)

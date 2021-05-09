@@ -36,13 +36,14 @@ export class ProductListComponent extends ProductsBaseComponent {
   }
 
   initFilter() {
-    let filter = new ProductsFilter();
-    filter.category = this.category || undefined;
-    filter.name = this.name || undefined;
-    if (this.supplier) {
-      filter.suppliers.push(this.supplier);
-    }
-    return filter;
+    return new ProductsFilter(
+      undefined,
+      this.name,
+      this.category,
+      this.supplier,
+      undefined,
+      undefined
+    );
   }
 
   initProducts(value: Product[]) {

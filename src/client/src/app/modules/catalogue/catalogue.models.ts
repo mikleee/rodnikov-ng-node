@@ -1,13 +1,36 @@
 import {BaseModel} from "../shared/model/base.model";
 
 export class ProductsFilter {
-  category: string | undefined = undefined;
+  category?: string;
   suppliers: string[] = [];
-  priceFromUah: number | undefined = undefined;
-  priceToUah: number | undefined = undefined;
-  keyword: string | undefined;
-  name: string | undefined;
+  priceFrom?: number;
+  priceTo?: number;
+  keyword?: string;
+  name?: string;
+
+
+  constructor(keyword?: string,
+              name?: string,
+              category?: string,
+              suppliers?: string[] | string,
+              priceFrom?: number,
+              priceTo?: number) {
+    this.name = name;
+    this.category = category;
+    if (!suppliers) {
+      this.suppliers = [];
+    } else if (suppliers instanceof Array) {
+      this.suppliers = suppliers;
+    } else {
+      this.suppliers = [suppliers];
+    }
+    this.priceFrom = priceFrom;
+    this.priceTo = priceTo;
+    this.keyword = keyword;
+  }
+
 }
+
 
 export interface Product extends BaseModel {
   name: string;
