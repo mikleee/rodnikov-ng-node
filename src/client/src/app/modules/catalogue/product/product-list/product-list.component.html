@@ -1,5 +1,5 @@
 <header class="heading">
-  <h3>Products <span *ngIf="productsState.isReady()" class="badge bg-secondary">{{products.length}}</span></h3>
+  <h3>Products <span *ngIf="productsState.isReady()" class="badge bg-secondary">{{filteredProducts.length}}</span></h3>
 </header>
 
 <app-pagination *ngIf="productsState.isReady()"
@@ -28,7 +28,9 @@
     </tr>
     <tr>
       <td class="img"></td>
-      <td></td>
+      <td>
+        <input type="text" class="form-control" [(ngModel)]="name" (ngModelChange)="applyFilter()">
+      </td>
       <td>
         <div>
           <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>

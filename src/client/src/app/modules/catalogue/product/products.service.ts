@@ -36,7 +36,7 @@ export class ProductsService {
   filterProducts(products: Product[], filter?: ProductsFilter): Product[] {
     if (!filter) return products;
     return products.filter(product => {
-      if (filter.categories?.length && !filter.categories.includes(product.category)) {
+      if (filter.category && filter.category != product.category) {
         return false;
       }
       if (filter.suppliers?.length && !filter.suppliers.includes(product.supplier)) {
@@ -46,6 +46,9 @@ export class ProductsService {
         return false;
       }
       if (filter.priceToUah && filter.priceToUah < product.priceUah) {
+        return false;
+      }
+      if (filter.name && !product.name?.toUpperCase().includes(filter.name.toUpperCase())) {
         return false;
       }
       return true;

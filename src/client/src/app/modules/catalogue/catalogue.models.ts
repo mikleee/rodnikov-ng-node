@@ -1,11 +1,12 @@
 import {BaseModel} from "../shared/model/base.model";
 
 export class ProductsFilter {
-  categories: string[] = [];
+  category: string | undefined = undefined;
   suppliers: string[] = [];
   priceFromUah: number | undefined = undefined;
   priceToUah: number | undefined = undefined;
   keyword: string | undefined;
+  name: string | undefined;
 }
 
 export interface Product extends BaseModel {

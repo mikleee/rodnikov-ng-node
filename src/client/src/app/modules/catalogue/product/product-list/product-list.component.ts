@@ -4,7 +4,7 @@ import {ProductsService} from "../products.service";
 import {ProductsBaseComponent} from "../products-base.component";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
 import {Pagination} from "../../../shared/model/pagination.model";
-import {Product} from "../../catalogue.models";
+import {Product, ProductsFilter} from "../../catalogue.models";
 import {ViewStateState} from "../../../shared/model/view-state.model";
 
 @Component({
@@ -13,8 +13,12 @@ import {ViewStateState} from "../../../shared/model/view-state.model";
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent extends ProductsBaseComponent {
+  filter = this.initFilter();
+  filteredProducts: Product[] = [];
+
   supplier?: string;
   category?: string;
+  name?: string;
 
   pagination: Pagination = new Pagination();
   productsToShow: Product[] = []
@@ -26,20 +30,31 @@ export class ProductListComponent extends ProductsBaseComponent {
   }
 
   applyFilter() {
-    this.productsFilter.categories = [];
-    this.productsFilter.suppliers = [];
-    if (this.category) {
-      this.productsFilter.categories.push(this.category);
-    }
-    if (this.supplier) {
-      this.productsFilter.suppliers.push(this.supplier);
-    }
-    this.loadProducts();
+    debugger
+    this.filter = this.initFilter();
+    this.initProducts(this.products);
   }
 
+  initFilter() {
+    let filter = new ProductsFilter();
+    filter.category = this.category || undefined;
+    filter.name = this.name || undefined;
+    if (this.supplier) {
+      filter.suppliers.push(this.supplier);
+    }
+    return filter;
+  }
+
+  initProducts(value: Product[]) {
+    this.filteredProducts = this.productsService.filterProducts(value, this.filter);
+    this.pagination.total = this.filteredProducts.length;
+    this.productsToShow = this.pagination.getPage(this.filteredProducts);
+  }
 
   protected resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
     super.resolveProducts(value, state, message);
-    this.productsToShow = this.pagination.getPage(value);
+    this.initProducts(value);
   }
+
+
 }

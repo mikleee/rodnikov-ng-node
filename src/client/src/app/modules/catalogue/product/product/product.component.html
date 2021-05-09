@@ -1,4 +1,5 @@
-<h3>Product</h3>
+<h3 class="heading">Product</h3>
+
 <fieldset>
   <app-shared-in-progress *ngIf="productState.isInProgress()"></app-shared-in-progress>
   <app-shared-error *ngIf="productState.isError()" [message]="productState.getMessage()"></app-shared-error>
