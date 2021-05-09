@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "../../shared/service/http.service";
 import {ProductSupplier} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
-import {modelsToMap} from "../../shared/model/base.model";
 import {Observable} from "rxjs";
 
 
@@ -13,12 +12,10 @@ export class ProductSuppliersService {
 
   }
 
-  getSuppliers(): Observable<{ [key: string]: ProductSupplier }> {
+  getSuppliers(): Observable<ProductSupplier[]> {
     return this.http.get('/api/suppliers/list')
       .pipe(
-        first(),
         map(result => result || []),
-        map(result => modelsToMap(result as ProductSupplier[])),
       );
   }
 

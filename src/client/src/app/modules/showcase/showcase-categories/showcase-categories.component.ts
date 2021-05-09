@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductCategory} from "../../catalogue/catalogue.models";
 import {ViewState, ViewStateState} from "../../shared/model/view-state.model";
 import {ProductCategoryService} from "../../catalogue/product-categories/product-category.service";
+import {toMap} from "../../shared/utils";
 
 @Component({
   selector: 'app-showcase-categories',
@@ -23,7 +24,7 @@ export class ShowcaseCategoriesComponent implements OnInit {
     this.categoriesTreeState.inProgress();
     this.productCategoryService.getProductCategories()
       .subscribe(
-        result => this.resolveCategories(result, ViewStateState.READY, undefined),
+        result => this.resolveCategories(toMap(result), ViewStateState.READY, undefined),
         error => this.resolveCategories({}, ViewStateState.ERROR, error),
       );
   }

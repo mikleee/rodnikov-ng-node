@@ -1,10 +1,10 @@
 <header class="heading">
-  <h3>Products <span *ngIf="productsState.isReady()" class="badge bg-secondary">{{filteredProducts.length}}</span></h3>
+  <h3>Products <span *ngIf="state.isReady()" class="badge bg-secondary">{{filteredProducts.length}}</span></h3>
 </header>
 
-<app-pagination *ngIf="productsState.isReady()"
+<app-pagination *ngIf="state.isReady()"
                 [pagination]="pagination"
-                (onPagination)="productsToShow = pagination.getPage(products)"></app-pagination>
+                (onPagination)="initProducts(products)"></app-pagination>
 
 <table class="table results-table">
   <thead>
@@ -27,17 +27,14 @@
       </th>
     </tr>
     <tr>
-      <td class="img"></td>
-      <td>
+      <td colspan="2">
         <input type="text" class="form-control" [(ngModel)]="name" (ngModelChange)="applyFilter()">
       </td>
       <td>
         <div>
-          <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="suppliersState.isError()" [message]="suppliersState.getMessage()"></app-shared-error>
           <select id="productSupplier" class="form-control"
-                  *ngIf="suppliersState.isReady()"
                   [(ngModel)]="supplier"
+                  [disabled]="!state.isReady()"
                   (ngModelChange)="applyFilter()">
             <option [ngValue]="undefined">All</option>
             <option *ngFor="let s of (suppliers | keyvalue)" [ngValue]="s.value.id">{{s.value.name}}</option>
@@ -46,11 +43,9 @@
       </td>
       <td>
         <div>
-          <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="categoriesState.isError()" [message]="categoriesState.getMessage()"></app-shared-error>
           <select id="productGroup" class="form-control"
-                  *ngIf="categoriesState.isReady()"
                   [(ngModel)]="category"
+                  [disabled]="!state.isReady()"
                   (ngModelChange)="applyFilter()">
             <option [ngValue]="undefined">All</option>
             <option *ngFor="let c of (categories | keyvalue)" [ngValue]="c.value.id">{{c.value.name}}</option>
@@ -61,58 +56,57 @@
       <td></td>
       <td></td>
       <td></td>
-      <td class="actions"></td>
+      <td></td>
+      <td class="actions">
+        <button type="button"
+                class="btn btn-outline-secondary btn-sm"
+                (click)="clearFilter()"
+                *ngIf="!filter.isEmpty()">sdfds</button>
+      </td>
     </tr>
   </thead>
-  <tbody *ngIf="productsState.isInProgress()">
+  <tbody *ngIf="state.isInProgress()">
     <tr>
       <td colspan="10">
         <app-shared-in-progress></app-shared-in-progress>
       </td>
     </tr>
   </tbody>
-  <tbody *ngIf="productsState.isError()">
+  <tbody *ngIf="state.isError()">
     <tr>
       <td colspan="10">
         <app-shared-error></app-shared-error>
       </td>
     </tr>
   </tbody>
-  <tbody *ngIf="productsState.isReady()">
+  <tbody *ngIf="state.isReady()">
     <tr *ngFor="let product of productsToShow">
       <td class="img">
-        <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
+        <app-server-image cssClass="table-image" [imageId]="product.value.mainImage || product.value.additionalImages[0] || undefined"></app-server-image>
       </td>
-      <td><a [routerLink]="['/catalogue/products/product', product.id]">{{product.name}}</a></td>
+      <td><a [routerLink]="['/catalogue/products/product', product.value.id]">{{product.value.name}}</a></td>
       <td>
-        <div *ngIf="product.supplier">
-          <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="suppliersState.isError()"></app-shared-error>
-          <div *ngIf="suppliersState.isReady()">
-            {{suppliers[product.supplier]?.name}}
-          </div>
+        <div *ngIf="product.value.supplier">
+          {{suppliers[product.value.supplier]?.name}}
         </div>
       </td>
       <td>
-        <div *ngIf="product.category">
-          <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
-          <app-shared-error *ngIf="categoriesState.isError()"></app-shared-error>
-          <div *ngIf="categoriesState.isReady()">
-            {{categories[product.category]?.name}}
-          </div>
+        <div *ngIf="product.value.category">
+          {{categories[product.value.category]?.name}}
         </div>
       </td>
-      <td class="currency">{{product.cost | currencyUsd}}</td>
-      <td class="currency">{{product.priceUplift}}</td>
-      <td class="currency">{{product.price | currencyUsd}}</td>
-      <td class="currency">{{product.margin | currencyUsd}}</td>
-      <td class="currency">{{product.priceUah | currencyUah}}</td>
+      <td class="currency">{{product.value.cost | currencyUsd}}</td>
+      <td class="currency">{{product.value.priceUplift}}</td>
+      <td class="currency">{{product.value.price | currencyUsd}}</td>
+      <td class="currency">{{product.value.margin | currencyUsd}}</td>
+      <td class="currency">{{product.value.priceUah | currencyUah}}</td>
       <td class="actions">
-        <app-shared-error *ngIf="individualProductsState[product.id]?.isError()" [message]="individualProductsState[product.id]?.getMessage()"></app-shared-error>
+        <app-shared-error *ngIf="product.state.isError()"
+                          [message]="product.state.getMessage()"></app-shared-error>
         <button type="button"
                 class="btn btn-outline-danger btn-sm"
                 (click)="deleteProduct(product)"
-                [disabled]="individualProductsState[product.id]?.isInProgress()">
+                [disabled]="product.state.isInProgress()">
           <i class="bi-trash"></i>
         </button>
       </td>

@@ -1,38 +1,52 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductSuppliersService} from "../../product-suppliers/product-suppliers.service";
 import {ProductsService} from "../products.service";
-import {ProductsBaseComponent} from "../products-base.component";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
 import {Pagination} from "../../../shared/model/pagination.model";
-import {Product, ProductsFilter} from "../../catalogue.models";
-import {ViewStateState} from "../../../shared/model/view-state.model";
+import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../../catalogue.models";
+import {ViewState} from "../../../shared/model/view-state.model";
+import {forkJoin} from "rxjs";
+import {first} from "rxjs/operators";
+import {toAsyncModels, toMap} from "../../../shared/utils";
+import {AsyncModel} from "../../../shared/model/async.model";
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent extends ProductsBaseComponent {
+export class ProductListComponent implements OnInit {
+  state: ViewState = new ViewState();
+
+  suppliers: { [key: string]: ProductSupplier } = {};
+  categories: { [key: string]: ProductCategory } = {};
+  products: Product[] = [];
+
   filter = this.initFilter();
   filteredProducts: Product[] = [];
+
+  pagination: Pagination = new Pagination();
+  productsToShow: AsyncModel<Product>[] = []
 
   supplier?: string;
   category?: string;
   name?: string;
 
-  pagination: Pagination = new Pagination();
-  productsToShow: Product[] = []
-
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
               protected categoryService: ProductCategoryService) {
-    super(productsService, suppliersService, categoryService);
   }
 
   applyFilter() {
-    debugger
     this.filter = this.initFilter();
     this.initProducts(this.products);
+  }
+
+  clearFilter() {
+    this.supplier = undefined;
+    this.category = undefined;
+    this.name = undefined;
+    this.applyFilter();
   }
 
   initFilter() {
@@ -49,13 +63,40 @@ export class ProductListComponent extends ProductsBaseComponent {
   initProducts(value: Product[]) {
     this.filteredProducts = this.productsService.filterProducts(value, this.filter);
     this.pagination.total = this.filteredProducts.length;
-    this.productsToShow = this.pagination.getPage(this.filteredProducts);
+    this.productsToShow = toAsyncModels(this.pagination.getPage(this.filteredProducts));
   }
 
-  protected resolveProducts(value: Product[], state: ViewStateState, message: string | undefined) {
-    super.resolveProducts(value, state, message);
-    this.initProducts(value);
+  deleteProduct(product: AsyncModel<Product>) {
+    product.state.inProgress();
+    this.productsService.deleteProduct(product.value.id)
+      .then(
+        (result) => {
+          this.products = this.products.filter(p => p.id != product.value.id);
+          this.initProducts(this.products);
+          product.state.ready()
+        },
+        (error) => product.state.error(error.message),
+      )
   }
 
+  ngOnInit(): void {
+    this.state.inProgress();
+    forkJoin([
+      this.productsService.getProducts(),
+      this.suppliersService.getSuppliers(),
+      this.categoryService.getProductCategories()
+    ])
+      .pipe(first())
+      .subscribe(
+        (value) => {
+          this.products = value[0];
+          this.suppliers = toMap(value[1]);
+          this.categories = toMap(value[2]);
+          this.initProducts(this.products);
+          this.state.ready();
+        },
+        error => this.state.error(error)
+      )
+  }
 
 }

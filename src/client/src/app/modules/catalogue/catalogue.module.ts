@@ -12,6 +12,7 @@ import {ProductCategoriesTreeComponent} from "./product-categories/product-categ
 import {ProductCategoryComponent} from "./product-categories/product-category/product-category.component";
 import {ProductCategoriesDropdownComponent} from "./product-categories/product-categories-dropdown/product-categories-dropdown.component";
 import {ProductCategoriesListComponent} from "./product-categories/product-categories-list/product-categories-list.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {ProductCategoriesListComponent} from "./product-categories/product-categ
     SharedModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ]
 })
 export class CatalogueModule {

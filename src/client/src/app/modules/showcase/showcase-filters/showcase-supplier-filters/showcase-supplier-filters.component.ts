@@ -3,6 +3,7 @@ import {ViewState, ViewStateState} from "../../../shared/model/view-state.model"
 import {ProductSuppliersService} from "../../../catalogue/product-suppliers/product-suppliers.service";
 import {first} from "rxjs/operators";
 import {ProductSupplier} from "../../../catalogue/catalogue.models";
+import {toMap} from "../../../shared/utils";
 
 @Component({
   selector: 'app-showcase-supplier-filters',
@@ -23,7 +24,7 @@ export class ShowcaseSupplierFiltersComponent implements OnInit {
         first()
       )
       .subscribe(
-        result => this.resolveSuppliers(result, ViewStateState.READY, undefined),
+        result => this.resolveSuppliers(toMap(result), ViewStateState.READY, undefined),
         error => this.resolveSuppliers({}, ViewStateState.ERROR, error),
       );
 

@@ -1,5 +1,3 @@
-import {BaseModel} from "./base.model";
-
 export class ViewState {
   public _state: ViewStateState = ViewStateState.UNTOUCHED;
   private _message?: String;
@@ -63,11 +61,4 @@ export enum ViewStateState {
   ERROR,
 }
 
-
-export function mapToViewStates<T extends BaseModel>(models: T[]): { [key: string]: ViewState } {
-  return models.reduce((a, v) => {
-    a[v.id] = new ViewState();
-    return a;
-  }, {} as { [key: string]: ViewState })
-}
 

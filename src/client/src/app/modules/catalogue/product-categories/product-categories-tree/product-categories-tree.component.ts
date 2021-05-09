@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProductCategory} from "../../catalogue.models";
-import {mapToViewStates, ViewState} from "../../../shared/model/view-state.model";
+import {ViewState} from "../../../shared/model/view-state.model";
 import {ProductCategoryService} from "../product-category.service";
+import {mapToViewStates} from "../../../shared/utils";
 
 @Component({
   selector: 'app-product-categories-tree',

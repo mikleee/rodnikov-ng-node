@@ -1,0 +1,13 @@
+<div #stateOverlay class="state-overlay" [hidden]="!state?.isInProgress() && !state?.isError()">
+  <div class="card">
+    <div class="card-body">
+      <div *ngIf="state?.isInProgress()">
+        <app-shared-in-progress></app-shared-in-progress>
+      </div>
+      <div *ngIf="state?.isError()">
+        <app-shared-error [message]="state?.getMessage()"></app-shared-error>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductSupplier} from "../../catalogue.models";
-import {AsyncModel, toAsyncModels} from "../../../shared/model/async.model";
+import {AsyncModel} from "../../../shared/model/async.model";
 import {ViewStateState} from "../../../shared/model/view-state.model";
 import {Subscription} from "rxjs";
 import {ProductSuppliersService} from "../product-suppliers.service";
 import {map} from "rxjs/operators";
 import {Pagination} from "../../../shared/model/pagination.model";
+import {toAsyncModels} from "../../../shared/utils";
 
 @Component({
   selector: 'app-product-supplier-list',

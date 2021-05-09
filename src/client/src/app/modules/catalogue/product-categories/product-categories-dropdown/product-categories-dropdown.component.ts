@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {ProductCategory} from "../../catalogue.models";
 import {ProductCategoryService} from "../product-category.service";
+import {toMap, randomString} from "../../../shared/utils";
 
 
 @Component({
@@ -12,7 +13,7 @@ import {ProductCategoryService} from "../product-category.service";
 })
 export class ProductCategoriesDropdownComponent implements OnInit {
   @Input() nullOption?: string;
-  @Input() selectId: string = Math.random().toString();
+  @Input() selectId: string = randomString();
   @Input() category?: string;
   @Output() categoryChange = new EventEmitter<ProductCategory>();
 
@@ -28,7 +29,7 @@ export class ProductCategoriesDropdownComponent implements OnInit {
     this.categoriesState.inProgress();
     this.categories$ = this.productCategoryService.getProductCategories()
       .subscribe(
-        result => this.resolveGroups(result, ViewStateState.READY, undefined),
+        result => this.resolveGroups(toMap(result), ViewStateState.READY, undefined),
         error => this.resolveGroups({}, ViewStateState.ERROR, error)
       );
   }

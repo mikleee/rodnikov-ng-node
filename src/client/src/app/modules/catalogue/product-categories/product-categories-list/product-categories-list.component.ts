@@ -2,9 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductCategory} from "../../catalogue.models";
 import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
-import {AsyncModel, toAsyncModels} from "../../../shared/model/async.model";
+import {AsyncModel} from "../../../shared/model/async.model";
 import {ProductCategoryService} from "../product-category.service";
 import {Pagination} from "../../../shared/model/pagination.model";
+import {toAsyncModels, toMap} from "../../../shared/utils";
 
 
 @Component({
@@ -29,7 +30,7 @@ export class ProductCategoriesListComponent implements OnInit, OnDestroy {
     this.categories.state.inProgress();
     this.categories$ = this.productCategoryService.getProductCategories()
       .subscribe(
-        result => this.resolveCategories(result, ViewStateState.READY, undefined),
+        result => this.resolveCategories(toMap(result), ViewStateState.READY, undefined),
         error => this.resolveCategories({}, ViewStateState.ERROR, error),
       );
   }

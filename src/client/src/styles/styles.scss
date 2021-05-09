@@ -2,6 +2,7 @@
 @import "variables-bootstarp-ext";
 
 .rodnikov {
+  @import "carousel";
   @import "grid";
   @import "form";
   @import "table";

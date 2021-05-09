@@ -29,6 +29,15 @@ export class ProductsFilter {
     this.keyword = keyword;
   }
 
+  isEmpty() {
+    return this.category == undefined
+      && !this.suppliers?.length
+      && this.priceFrom == undefined
+      && this.priceTo == undefined
+      && this.keyword == undefined
+      && this.name == undefined
+  }
+
 }
 
 

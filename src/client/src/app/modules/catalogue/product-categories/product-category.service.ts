@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "../../shared/service/http.service";
 import {ProductCategory, ProductSupplier} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
-import {modelsToMap} from "../../shared/model/base.model";
 import {Observable} from "rxjs";
 
 
@@ -13,12 +12,11 @@ export class ProductCategoryService {
 
   }
 
-  getProductCategories(): Observable<{ [key: string]: ProductCategory }> {
+  getProductCategories(): Observable<ProductCategory[]> {
     return this.http.get('/api/categories/list')
       .pipe(
         first(),
         map(result => result || []),
-        map(result => modelsToMap(result as ProductCategory[])),
       )
   }
 

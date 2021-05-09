@@ -21,8 +21,8 @@ export class ProductsService {
       )
   }
 
-  getProduct(id: String): Promise<Product> {
-    return this.http.get('/api/products/product/' + id).toPromise();
+  getProduct(id: String): Observable<Product> {
+    return this.http.get('/api/products/product/' + id);
   }
 
   submitProduct(supplier: FormData): Promise<Product> {

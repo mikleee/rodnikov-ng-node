@@ -15,6 +15,8 @@ import {PaginationComponent} from './pagination/pagination.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NotImplementedComponent} from './component/not-implemented/not-implemented.component';
 import { GlobalToasterComponent } from './component/global-toaster/global-toaster.component';
+import { StateOverlayComponent } from './component/state-overlay/state-overlay.component';
+import { UpliftPipe } from './transform/uplift.pipe';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { GlobalToasterComponent } from './component/global-toaster/global-toaste
     PaginationComponent,
     NotImplementedComponent,
     GlobalToasterComponent,
+    StateOverlayComponent,
+    UpliftPipe,
   ],
   exports: [
     InProgressComponent,
@@ -42,7 +46,9 @@ import { GlobalToasterComponent } from './component/global-toaster/global-toaste
     CurrencyUahPipe,
     PaginationComponent,
     NotImplementedComponent,
-    GlobalToasterComponent
+    GlobalToasterComponent,
+    StateOverlayComponent,
+    UpliftPipe
   ],
   imports: [
     CommonModule,

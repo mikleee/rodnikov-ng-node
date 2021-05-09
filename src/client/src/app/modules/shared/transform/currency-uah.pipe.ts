@@ -8,7 +8,7 @@ export class CurrencyUahPipe extends CurrencyPipe {
 
   transform(value: unknown, ...args: unknown[]): unknown {
     let number = super.transform(value, args);
-    return number == null ? null : number + '₴';
+    return number == null ? null : '₴' + number;
   }
 
 }

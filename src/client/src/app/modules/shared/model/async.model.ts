@@ -10,6 +10,3 @@ export class AsyncModel<T> {
   }
 }
 
-export function toAsyncModels<T>(input: T[]): AsyncModel<T>[] {
-  return input.map(m => new AsyncModel(ViewStateState.UNTOUCHED, m));
-}

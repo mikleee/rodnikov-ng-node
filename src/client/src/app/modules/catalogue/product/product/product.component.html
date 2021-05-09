@@ -1,76 +1,82 @@
-<h3 class="heading">Product</h3>
+<h3 class="heading">Продукт</h3>
 
 <fieldset>
-  <app-shared-in-progress *ngIf="productState.isInProgress()"></app-shared-in-progress>
-  <app-shared-error *ngIf="productState.isError()" [message]="productState.getMessage()"></app-shared-error>
-
-  <form [formGroup]="productForm" (ngSubmit)="submitProductForm()" *ngIf="productState.isReady()">
+  <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
+    <app-state-overlay [state]="state"></app-state-overlay>
     <div class="row">
       <div class="col-7">
-        <table class="report" *ngIf="product.id">
+        <table class="report">
           <tr>
-            <td>Cost</td>
-            <td>{{product.cost | currencyUsd}}</td>
+            <td>Цена закупки</td>
+            <td>{{product?.cost | currencyUsd}}</td>
           </tr>
           <tr>
-            <td>Uplift</td>
-            <td>{{product.priceUplift}}</td>
+            <td>Наценка</td>
+            <td>{{product?.priceUplift | uplift}}</td>
           </tr>
           <tr>
-            <td>Margin $</td>
-            <td>{{product.margin | currency}}</td>
+            <td>Доход</td>
+            <td>{{product?.margin | currencyUsd}}</td>
           </tr>
           <tr>
-            <td>Price $</td>
-            <td>{{product.price | currency}}</td>
+            <td>Цена</td>
+            <td>{{product?.price | currencyUsd}}</td>
           </tr>
           <tr>
-            <td>Price ₴</td>
-            <td>{{product.priceUah | currency}}</td>
+            <td>Цена</td>
+            <td>{{product?.priceUah | currencyUah}}</td>
           </tr>
         </table>
+      </div>
+      <div class="col-5">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-7">
         <div class="form-controls">
-          <label for="productName" class="form-label">Name</label>
+          <label for="productName" class="form-label">Имя</label>
           <input id="productName" class="form-control" type="text" formControlName="name">
         </div>
         <div class="form-controls">
-          <label for="productDescription" class="form-label">Description</label>
+          <label for="productDescription" class="form-label">Описание</label>
           <textarea id="productDescription" class="form-control" formControlName="description"></textarea>
         </div>
         <div class="form-controls">
-          <label for="productSupplier" class="form-label">Supplier</label>
+          <label for="productSupplier" class="form-label">Производитель</label>
           <div>
-            <app-shared-in-progress *ngIf="suppliersState.isInProgress()"></app-shared-in-progress>
-            <app-shared-error *ngIf="suppliersState.isError()" [message]="suppliersState.getMessage()"></app-shared-error>
-            <select id="productSupplier" class="form-control" formControlName="supplier" *ngIf="suppliersState.isReady()">
+            <select id="productSupplier" class="form-control" formControlName="supplier">
               <option [ngValue]="undefined">---</option>
-              <option *ngFor="let s of (suppliers  | keyvalue)" [ngValue]="s.value.id">{{s.value.name}}</option>
+              <option *ngFor="let s of suppliers" [ngValue]="s.id">{{s.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-controls">
-          <label for="productGroup" class="form-label">Category</label>
+          <label for="productGroup" class="form-label">Категория</label>
           <div>
-            <app-shared-in-progress *ngIf="categoriesState.isInProgress()"></app-shared-in-progress>
-            <app-shared-error *ngIf="categoriesState.isError()" [message]="categoriesState.getMessage()"></app-shared-error>
-            <select id="productGroup" class="form-control" formControlName="category" *ngIf="categoriesState.isReady()">
+            <select id="productGroup" class="form-control" formControlName="category">
               <option [ngValue]="undefined">---</option>
-              <option *ngFor="let c of (categories | keyvalue)" [ngValue]="c.value.id">{{c.value.name}}</option>
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
             </select>
           </div>
         </div>
         <div class="form-controls row">
           <div class="form-controls col">
-            <label for="productPrice" class="form-label">Cost</label>
-            <input id="productPrice" type="text" class="form-control" formControlName="cost">
+            <label for="productPrice" class="form-label">Цена закупки</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input id="productPrice" type="text" class="form-control" formControlName="cost">
+            </div>
           </div>
           <div class="form-controls col">
-            <label for="productPriceUplift" class="form-label">Uplift</label>
-            <input id="productPriceUplift" type="text" class="form-control" formControlName="priceUplift">
+            <label for="productPriceUplift" class="form-label">Наценка</label>
+            <div class="input-group">
+              <span class="input-group-text">%</span>
+              <input id="productPriceUplift" type="text" class="form-control" formControlName="priceUplift">
+            </div>
           </div>
         </div>
         <div class="form-controls">
-          <label for="productMainUpload" class="form-label">Main image</label>
+          <label for="productMainUpload" class="form-label">Логотип</label>
           <div>
             <app-image-upload id="productMainUpload"
                               [subject$]="mainImage$"
@@ -79,7 +85,7 @@
           </div>
         </div>
         <div class="form-controls">
-          <label for="productImagesUpload" class="form-label">Additional image</label>
+          <label for="productImagesUpload" class="form-label">Дополнительные фото</label>
           <div>
             <app-image-upload id="productImagesUpload"
                               [subject$]="images$"
@@ -89,21 +95,25 @@
         </div>
       </div>
       <div class="col-5">
-        <div>
-          <app-server-image *ngIf="product.mainImage" [imageId]="product.mainImage" cssClass="form-image"></app-server-image>
-        </div>
-        <div>
-          <app-server-image *ngFor="let img of product.additionalImages" [imageId]="img" cssClass="form-image"></app-server-image>
-        </div>
+        <ngb-carousel *ngIf="product.mainImage || product.additionalImages?.length">
+          <ng-template ngbSlide *ngIf="product.mainImage">
+            <div class="carousel-item-image">
+              <app-server-image [imageId]="product.mainImage"></app-server-image>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide *ngFor="let img of product.additionalImages">
+            <div class="carousel-item-image">
+              <app-server-image [imageId]="img"></app-server-image>
+            </div>
+          </ng-template>
+        </ngb-carousel>
       </div>
     </div>
     <div class="form-controls-buttons">
-      <button type="submit" class="btn btn-outline-primary" [disabled]="productForm.disabled">Submit</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="productForm.disabled">Сохранить</button>
       <app-shared-error *ngIf="productFormState.isError()" [message]="productFormState.getMessage()"></app-shared-error>
     </div>
   </form>
-
-
 </fieldset>
 
 
