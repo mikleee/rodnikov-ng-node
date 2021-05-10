@@ -32,8 +32,18 @@ class ModelService {
         return this.modelType.deleteOne({_id: id});
     }
 
-    _toIds(models) {
+    /**
+     * @returns String[]
+     */
+    toIds(models) {
         return models.map(m => m.id);
+    }
+
+    toMap(models) {
+        return [...models].reduce((acc, m) => {
+            acc[m.id] = m;
+            return acc;
+        }, {});
     }
 
 

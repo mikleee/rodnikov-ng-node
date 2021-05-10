@@ -33,3 +33,7 @@ export function mapToViewStates<T extends BaseModel>(models: T[]): { [key: strin
 export function toAsyncModels<T>(input: T[]): AsyncModel<T>[] {
   return input.map(m => new AsyncModel(ViewStateState.UNTOUCHED, m));
 }
+
+export function addQueryParams<T>(input: T[]): AsyncModel<T>[] {
+  return input.map(m => new AsyncModel(ViewStateState.UNTOUCHED, m));
+}

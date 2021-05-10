@@ -16,8 +16,8 @@ export class HttpService {
 
   }
 
-  get(url: string, params?: HttpParams): Observable<any> {
-    return this.http.get(url, {params})
+  get(url: string, params: HttpParams | { [param: string]: string | string[] } = {}): Observable<any> {
+    return this.http.get(url, {params: params})
       .pipe(
         catchError(error => {
           this.globalToasterService.error(error.message);

@@ -1,11 +1,16 @@
 <div>
-  <app-shared-in-progress *ngIf="productsState.isInProgress()"></app-shared-in-progress>
-  <app-shared-error *ngIf="productsState.isError()" [message]="productsState.getMessage()"></app-shared-error>
-  <div *ngIf="productsState.isReady()">
-    <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
-    <div class="showcase-products">
-      <app-showcase-product-card *ngFor="let product of productsToShow" [product]="product" class="showcase-product"></app-showcase-product-card>
+  <app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
+  <app-shared-error *ngIf="state.isError()" [message]="state.getMessage()"></app-shared-error>
+  <div *ngIf="state.isReady()">
+    <div *ngIf="productsToShow.length">
+      <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
+      <div class="showcase-products">
+        <app-showcase-product-card *ngFor="let product of productsToShow" [product]="product" class="showcase-product"></app-showcase-product-card>
+      </div>
+      <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
     </div>
-    <app-pagination [pagination]="pagination" (onPagination)="onPagination($event)"></app-pagination>
+    <div *ngIf="!productsToShow.length">
+      <app-not-found></app-not-found>
+    </div>
   </div>
 </div>

@@ -21,6 +21,20 @@ export class ProductsService {
       )
   }
 
+  getProductsByCriteria(keyword?: string, category?: string, suppliers?: string[]): Observable<Product[]> {
+    debugger;
+    const params: { [param: string]: string | string[] } = {};
+    if (keyword) params['keyword'] = keyword;
+    if (category) params['category'] = category;
+    if (suppliers?.length) params['suppliers'] = suppliers;
+
+    return this.http.get('/api/products/showcase', params)
+      .pipe(
+        first(),
+        map(result => result || []),
+      )
+  }
+
   getProduct(id: String): Observable<Product> {
     return this.http.get('/api/products/product/' + id);
   }

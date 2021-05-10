@@ -4,7 +4,7 @@ import {ShowcaseComponent} from "./showcase/showcase.component";
 import {ShowcasePriceFiltersComponent} from './showcase-filters/showcase-price-filters/showcase-price-filters.component';
 import {ShowcaseSortComponent} from './showcase-sort/showcase-sort.component';
 import {ShowcaseSearchComponent} from './showcase-search/showcase-search.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShowcaseSupplierFiltersComponent} from "./showcase-filters/showcase-supplier-filters/showcase-supplier-filters.component";
 import {ShowcaseProductsComponent} from './showcase-products/showcase-products.component';
 import {SharedModule} from "../shared/shared.module";
@@ -16,6 +16,7 @@ import {ShowcaseCategoriesComponent} from './showcase-categories/showcase-catego
 import {ShowcaseCategoriesSubcategoriesComponent} from './showcase-categories/showcase-categories-subcategories/showcase-categories-subcategories.component';
 import {RouterModule} from "@angular/router";
 import {ShowcaseCategoriesCategoryLinkComponent} from './showcase-categories/showcase-categories-category-link/showcase-categories-category-link.component';
+import { ShowcaseProductCategoriesComponent } from './showcase-product-categories/showcase-product-categories.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {ShowcaseCategoriesCategoryLinkComponent} from './showcase-categories/sho
     ShowcaseDashboardComponent,
     ShowcaseCategoriesComponent,
     ShowcaseCategoriesSubcategoriesComponent,
-    ShowcaseCategoriesCategoryLinkComponent
+    ShowcaseCategoriesCategoryLinkComponent,
+    ShowcaseProductCategoriesComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import {ShowcaseCategoriesCategoryLinkComponent} from './showcase-categories/sho
     SharedModule,
     NgbModule,
     RouterModule,
+    ReactiveFormsModule,
   ]
 })
 export class ShowcaseModule {

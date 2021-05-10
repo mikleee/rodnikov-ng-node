@@ -9,11 +9,17 @@
     </div>
     <br/>
     <div class="row">
-      <div class="col-3">
-        <app-showcase-filters></app-showcase-filters>
+      <div class="col-3" *ngIf="state.isReady()">
+        <app-showcase-filters
+          [suppliers]="suppliers"
+          [products]="products"
+        ></app-showcase-filters>
       </div>
       <div class="col-8">
-        <app-showcase-products></app-showcase-products>
+        <app-showcase-products
+          [products]="products"
+          [state]="productsState"
+        ></app-showcase-products>
       </div>
     </div>
   </div>

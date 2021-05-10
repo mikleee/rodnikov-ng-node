@@ -15,7 +15,7 @@ class ProductSupplierService extends ModelService {
 
     async getAllWrappers(showSensitiveData) {
         let all = await this.getAll();
-        return await this._toWrappers(all, showSensitiveData);
+        return await this.toWrappers(all, showSensitiveData);
     }
 
     async getWrapperById(id, showSensitiveData) {
@@ -77,7 +77,7 @@ class ProductSupplierService extends ModelService {
         }
     }
 
-    async _toWrappers(products, showSensitiveData) {
+    async toWrappers(products, showSensitiveData) {
         let result = [];
         if (!products?.length) {
             return result;
@@ -116,7 +116,7 @@ class ProductSupplierService extends ModelService {
     }
 
     async _toWrapper(product, showSensitiveData) {
-        let results = await this._toWrappers(product ? [product] : [], showSensitiveData);
+        let results = await this.toWrappers(product ? [product] : [], showSensitiveData);
         return results[0];
     }
 

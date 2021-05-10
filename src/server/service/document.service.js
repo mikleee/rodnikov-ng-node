@@ -46,7 +46,7 @@ class DocumentService extends ModelService {
         }
 
 
-        return this._toIds(documents);
+        return this.toIds(documents);
     }
 
 

@@ -17,6 +17,7 @@ import {NotImplementedComponent} from './component/not-implemented/not-implement
 import { GlobalToasterComponent } from './component/global-toaster/global-toaster.component';
 import { StateOverlayComponent } from './component/state-overlay/state-overlay.component';
 import { UpliftPipe } from './transform/uplift.pipe';
+import { NotFoundComponent } from './component/not-found/not-found.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { UpliftPipe } from './transform/uplift.pipe';
     GlobalToasterComponent,
     StateOverlayComponent,
     UpliftPipe,
+    NotFoundComponent,
   ],
   exports: [
     InProgressComponent,
@@ -48,7 +50,8 @@ import { UpliftPipe } from './transform/uplift.pipe';
     NotImplementedComponent,
     GlobalToasterComponent,
     StateOverlayComponent,
-    UpliftPipe
+    UpliftPipe,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,

@@ -51,7 +51,6 @@ export class ProductListComponent implements OnInit {
 
   initFilter() {
     return new ProductsFilter(
-      undefined,
       this.name,
       this.category,
       this.supplier,

@@ -5,12 +5,10 @@ export class ProductsFilter {
   suppliers: string[] = [];
   priceFrom?: number;
   priceTo?: number;
-  keyword?: string;
   name?: string;
 
 
-  constructor(keyword?: string,
-              name?: string,
+  constructor(name?: string,
               category?: string,
               suppliers?: string[] | string,
               priceFrom?: number,
@@ -26,7 +24,6 @@ export class ProductsFilter {
     }
     this.priceFrom = priceFrom;
     this.priceTo = priceTo;
-    this.keyword = keyword;
   }
 
   isEmpty() {
@@ -34,10 +31,35 @@ export class ProductsFilter {
       && !this.suppliers?.length
       && this.priceFrom == undefined
       && this.priceTo == undefined
-      && this.keyword == undefined
       && this.name == undefined
   }
 
+}
+
+export class ProductsCriteria {
+  page?: Page;
+  filter?: ProductsFilter;
+  keyword?: string;
+
+  isEmpty() {
+    return this.keyword == undefined
+      && (this.page == undefined || this.page.isEmpty())
+      && (this.filter == undefined || this.filter.isEmpty())
+  }
+}
+
+export class Page {
+  page?: number;
+  size?: number;
+
+  constructor(page: number, size: number) {
+    this.page = page;
+    this.size = size;
+  }
+
+  isEmpty() {
+    return this.page == undefined || this.size
+  }
 }
 
 
