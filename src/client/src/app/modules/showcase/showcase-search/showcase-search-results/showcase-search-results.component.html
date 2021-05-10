@@ -1,0 +1,26 @@
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+      </div>
+      <div class="col-8">
+        <app-showcase-search></app-showcase-search>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-3" *ngIf="state.isReady()">
+        <app-showcase-filters
+          [suppliers]="suppliers"
+          [products]="products"
+        ></app-showcase-filters>
+      </div>
+      <div class="col-8">
+        <app-showcase-products
+          [products]="products"
+          [state]="productsState"
+        ></app-showcase-products>
+      </div>
+    </div>
+  </div>
+</div>

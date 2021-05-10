@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {HttpService} from "../../shared/service/http.service";
 import {Product, ProductsFilter} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
+import {DatatableResponse} from "../../shared/model/datatable.model";
 
 
 @Injectable({providedIn: "root"})
@@ -22,7 +23,6 @@ export class ProductsService {
   }
 
   getProductsByCriteria(keyword?: string, category?: string, suppliers?: string[]): Observable<Product[]> {
-    debugger;
     const params: { [param: string]: string | string[] } = {};
     if (keyword) params['keyword'] = keyword;
     if (category) params['category'] = category;
@@ -33,6 +33,13 @@ export class ProductsService {
         first(),
         map(result => result || []),
       )
+  }
+
+  searchProducts(keyword: string, limit?: number): Observable<DatatableResponse<Product>> {
+    const params: { [param: string]: string | string[] } = {};
+    if (keyword) params['keyword'] = keyword;
+    if (limit) params['limit'] = limit.toString();
+    return this.http.get('/api/products/search', params);
   }
 
   getProduct(id: String): Observable<Product> {

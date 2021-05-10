@@ -4,7 +4,7 @@ import {ProductSuppliersService} from "../../catalogue/product-suppliers/product
 import {ProductCategoryService} from "../../catalogue/product-categories/product-category.service";
 import {forkJoin} from "rxjs";
 import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../../catalogue/catalogue.models";
-import {first, switchMap} from "rxjs/operators";
+import {first} from "rxjs/operators";
 import {ViewState} from "../../shared/model/view-state.model";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -25,14 +25,19 @@ export class ShowcaseComponent implements OnInit {
   products: Product[] = [];
 
 
-  constructor(private productsService: ProductsService,
-              private suppliersService: ProductSuppliersService,
-              private categoryService: ProductCategoryService,
-              private router: Router,
-              private activatedRoute: ActivatedRoute) {
+  constructor(protected productsService: ProductsService,
+              protected suppliersService: ProductSuppliersService,
+              protected categoryService: ProductCategoryService,
+              protected router: Router,
+              protected activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.loadPage();
+    this.loadProducts();
+  }
+
+  loadPage() {
     this.state.inProgress();
     forkJoin([
       this.suppliersService.getSuppliers(),
@@ -47,8 +52,9 @@ export class ShowcaseComponent implements OnInit {
         },
         error => this.state.error(error)
       );
+  }
 
-
+  loadProducts() {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.productsState.inProgress();
@@ -64,7 +70,6 @@ export class ShowcaseComponent implements OnInit {
             error => this.productsState.error(error)
           )
       });
-
   }
 
 }

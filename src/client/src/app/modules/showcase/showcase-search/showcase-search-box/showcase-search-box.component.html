@@ -1,0 +1,41 @@
+<form class="search-box" (ngSubmit)="onSubmit()" [formGroup]="fm">
+  <div>
+    <div class="input-group">
+      <input type="text" class="form-control" formControlName="keyword"
+             (keyup)="trySearch()"
+             (paste)="trySearch()"
+      >
+      <button class="btn btn-outline-secondary" type="submit" [disabled]="fm.invalid"><i class="bi-search"></i></button>
+    </div>
+  </div>
+  <br>
+  <div class="search-results">
+    <app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
+    <app-shared-error *ngIf="state.isError()" [message]="state.getMessage()"></app-shared-error>
+    <div *ngIf="state.isReady() && fm.valid">
+      <div *ngIf="results.results.length">
+        <table class="table results-table">
+          <tbody>
+            <tr *ngFor="let product of results.results">
+              <td class="img">
+                <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
+              </td>
+              <td><a [routerLink]="['/catalogue/products/product', product.id]">{{product.name}}</a></td>
+              <td class="currency">{{product.priceUah | currencyUah}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="results.results.length < results.total" class="text-center">
+          <br>
+          <a
+            [routerLink]="['/search/products/product']"
+            [queryParams]="{'keyword': fm.controls.keyword.value}"
+          >Показать ещё {{results.total - results.results.length}}</a>
+        </div>
+      </div>
+      <div *ngIf="!results.results.length">
+        <app-not-found></app-not-found>
+      </div>
+    </div>
+  </div>
+</form>

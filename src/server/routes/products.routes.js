@@ -18,6 +18,14 @@ router.get('/showcase', async (req, res, next) => {
     return await productsShowcaseService.getShowcaseProducts(request, true);
 });
 
+router.get('/search', async (req, res, next) => {
+    let query = req.query;
+    return await productsShowcaseService.search(
+        query['keyword'],
+        query['limit'],
+        true);
+});
+
 router.get('/product/:id', async (req, res, next) => {
     const id = req.params['id'];
     return await productsService.getWrapperById(id, true);

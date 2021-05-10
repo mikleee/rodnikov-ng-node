@@ -1,3 +1,4 @@
+const {DatatableResponse} = require("../wrapper/datatable.model.wrappers")
 const productCategoriesService = require("./product.categories.service");
 const productService = require("./products.service");
 const {ProductSupplier} = require("../db/product.supplier.model");
@@ -14,40 +15,65 @@ class ProductShowcaseService {
         return await productService.toWrappers(products, showSensitiveData);
     }
 
-    async #getShowcaseProductsQuery(request) {
-        let query;
-        if (request.keyword) {
-            let results = await Promise.all([
-                ProductCategory.find({name: {$regex: '.*' + request.keyword + '.*', $options: 'i'}}),
-                ProductSupplier.find({name: {$regex: '.*' + request.keyword + '.*', $options: 'i'}}),
-            ]);
-
+    async search(keyword, limit, showSensitiveData) {
+        if (keyword) {
             let filter = {
                 $or: [
-                    {name: {$regex: '.*' + request.keyword + '.*', $options: 'i'}}
+                    {name: {$regex: '.*' + keyword + '.*', $options: 'i'}}
                 ]
             };
-            if (results[0].length) {
-                let ids = productService.toIds(results[0]);
-                filter.$or.push({category: {$in: ids}});
-            }
-            if (results[1].length) {
-                let ids = productService.toIds(results[1]);
-                filter.$or.push({supplier: {$in: ids}});
+            {
+                let results = await Promise.all([
+                    ProductCategory.find({name: {$regex: '.*' + keyword + '.*', $options: 'i'}}),
+                    ProductSupplier.find({name: {$regex: '.*' + keyword + '.*', $options: 'i'}}),
+                ]);
+                if (results[0].length) {
+                    let ids = productService.toIds(results[0]);
+                    filter.$or.push({category: {$in: ids}});
+                }
+                if (results[1].length) {
+                    let ids = productService.toIds(results[1]);
+                    filter.$or.push({supplier: {$in: ids}});
+                }
             }
 
-            query = Product.find(filter);
+            let products;
+            let count;
+
+            if (isNaN(limit)) {
+                let results = await Product.find(filter);
+                products = results;
+                count = results.length;
+            } else {
+                let results = await Promise.all([
+                    Product.find(filter).limit(+limit),
+                    Product.find(filter).count(),
+                ]);
+                products = results[0];
+                count = results[1];
+            }
+            return new DatatableResponse(
+                await productService.toWrappers(products, showSensitiveData),
+                count
+            );
         } else {
-            query = Product.find();
-            if (request.category) {
-                let categories = await productCategoriesService.getRelatedCategories(request.category);
-                query.where({category: {$in: categories.map(c => c.id)}});
-            }
-
-            if (request.suppliers?.length) {
-                query.where({supplier: {$in: request.suppliers}});
-            }
+            return new DatatableResponse();
         }
+    }
+
+    async #getShowcaseProductsQuery(request) {
+        let query;
+
+        query = Product.find();
+        if (request.category) {
+            let categories = await productCategoriesService.getRelatedCategories(request.category);
+            query.where({category: {$in: categories.map(c => c.id)}});
+        }
+
+        if (request.suppliers?.length) {
+            query.where({supplier: {$in: request.suppliers}});
+        }
+
         return query;
     }
 
