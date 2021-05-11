@@ -67,13 +67,7 @@ $height: 50px;
       li {
         a {
           border-radius: $borderRadius;
-
           color: $inverseThemeColor;
-
-          &.active {
-            background: $inverseThemeColor;
-            color: $mainThemeColor;
-          }
         }
       }
     }
