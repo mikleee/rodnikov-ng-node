@@ -42,7 +42,8 @@ import { ShowcaseSearchTriggerComponent } from './showcase-search/showcase-searc
     ShowcaseSearchTriggerComponent
   ],
   exports: [
-    ShowcaseSearchBoxComponent
+    ShowcaseSearchBoxComponent,
+    ShowcaseCategoriesComponent
   ],
   imports: [
     CommonModule,
