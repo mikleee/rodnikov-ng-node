@@ -16,28 +16,29 @@ function buildSchema(definitions) {
             return this._id ? this._id.toString() : null;
         })
 
-    schema.pre(['save'], async function (next) {
-        await assignMeta(this, this.isNew);
-        next();
+    schema.post('validate', function (model) {
+        if (model.isNew) {
+            model.createdDate = new Date();
+        }
+        model.modifiedDate = new Date();
     });
-
-    schema.pre(['insertMany'], function (next, data) {
-        data?.forEach(model => assignMeta(model, true))
-        next();
-    });
-
 
     return schema;
 }
 
-async function assignMeta(model, isNew) {
-    if (isNew) {
-        model.createdDate = new Date();
+function generateFriendlyId(idObj) {
+    let hash = 0, i, chr, id = idObj.toString();
+    if (id.length === 0) return hash;
+    for (i = 0; i < id.length; i++) {
+        chr = id.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
     }
-    model.modifiedDate = new Date();
+    return Math.abs(hash);
 }
 
 
 module.exports = {
-    buildSchema: buildSchema
+    buildSchema: buildSchema,
+    generateFriendlyId: generateFriendlyId
 }

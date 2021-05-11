@@ -135,7 +135,7 @@ const {Product} = require("./product.model");
         for (const category of categories) {
             let products = await Product.find({category: category});
             let toCreate = [];
-            while (toCreate.length + products.length < 300) {
+            while (toCreate.length + products.length < 2) {
                 let supplier = null;
                 let root = getRootCategory(category);
                 for (const t of template) {

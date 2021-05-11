@@ -1,6 +1,7 @@
 const {BaseWrapper} = require("./base.model.wrapper");
 
 class ProductWrapper extends BaseWrapper {
+    code;
     name;
     description;
     category;

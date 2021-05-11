@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/products');
 const db = require('./db/db');
 
 const app = express();
@@ -21,7 +20,6 @@ app.set('views', path.join(__dirname, 'public/view'));
 app.set('view engine', 'ejs');
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api/suppliers', require('./routes/product.suppliers.routes'));
 app.use('/api/categories', require('./routes/product.categories.routes'));
 app.use('/api/products', require('./routes/products.routes'));

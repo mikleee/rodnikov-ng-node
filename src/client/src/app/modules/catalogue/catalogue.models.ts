@@ -64,6 +64,7 @@ export class Page {
 
 
 export interface Product extends BaseModel {
+  code: string;
   name: string;
   description: string;
   supplier: string,

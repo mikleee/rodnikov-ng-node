@@ -1,0 +1,35 @@
+<div class="showcase-categories">
+  <ul class="list-group list-group-flush showcase-categories-root">
+    <li class="list-group-item d-flex justify-content-between" *ngFor="let topCategory of categories"
+        (mouseout)="activeCategory = undefined"
+        (mouseover)="activeCategory = topCategory.categories?.length ? topCategory : undefined">
+
+      <a [routerLink]="['/products']" [queryParams]="{'f-category': topCategory.id}">{{topCategory.name}}</a>
+      <span class="bi-chevron-right" *ngIf="topCategory.categories?.length"></span>
+
+      <div class="showcase-categories-first-child" [hidden]="activeCategory != topCategory">
+        <div class="card">
+          <div class="card-body">
+            <div class="showcase-product-categories-subcategories">
+
+              <div class="showcase-product-categories-subcategory" *ngIf="topCategory?.categories?.length">
+                <div *ngTemplateOutlet="recursiveList; context:{ $implicit: topCategory?.categories }"></div>
+                <ng-template #recursiveList let-categories>
+                  <div *ngFor="let category of categories">
+                    <div class="showcase-product-categories-subcategory-root">
+                      <a [routerLink]="['/products']" [queryParams]="{'f-category': category.id}">{{category.name}}</a>
+                    </div>
+                    <div *ngIf="category.categories?.length" class="showcase-product-categories-subcategory-child">
+                      <div *ngTemplateOutlet="recursiveList; context:{ $implicit: category.categories }"></div>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

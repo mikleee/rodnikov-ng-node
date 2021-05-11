@@ -36,6 +36,11 @@ $height: 50px;
 
     .header-top-logo {
       justify-content: flex-start;
+
+      img {
+        height: 50px;
+        width: auto;
+      }
     }
 
     .header-top-links {

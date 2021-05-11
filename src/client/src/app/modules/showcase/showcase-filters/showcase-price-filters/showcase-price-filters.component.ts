@@ -21,7 +21,6 @@ export class ShowcasePriceFiltersComponent implements OnInit, OnChanges {
   }
 
   initRange(products: Product[]) {
-    debugger
     this.products = products;
     this.range = [];
     products.forEach(p => {

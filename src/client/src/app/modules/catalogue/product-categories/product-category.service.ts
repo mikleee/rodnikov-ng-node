@@ -17,6 +17,7 @@ export class ProductCategoryService {
       .pipe(
         first(),
         map(result => result || []),
+        map(result => this.assignSubcategories(result)),
       )
   }
 

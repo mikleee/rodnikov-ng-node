@@ -1,4 +1,4 @@
-<div class="paginator">
+<div class="paginator" [style.visibility]="pagination.total / pagination.pageSize > 1 ? 'visible' : 'hidden'">
 
   <ngb-pagination
     (pageChange)="onPageChange($event)"
@@ -6,7 +6,6 @@
     [(page)]="pagination.pageNo"
     [pageSize]="pagination.pageSize"
     [collectionSize]="pagination.total"></ngb-pagination>
-
 
   <label>
     <span></span>

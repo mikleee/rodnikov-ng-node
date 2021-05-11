@@ -66,18 +66,6 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  // initProductForm(fm: FormGroup, product: Product | undefined) {
-  //   fm.addControl('id', new FormControl(product?.id, []))
-  //   fm.addControl('name', new FormControl(product?.name, [Validators.required]))
-  //   fm.addControl('description', new FormControl(product?.description, []))
-  //   fm.addControl('supplier', new FormControl(product?.supplier, []))
-  //   fm.addControl('category', new FormControl(product?.category, []))
-  //   fm.addControl('cost', new FormControl(product?.cost, [Validators.required]))
-  //   fm.addControl('priceUplift', new FormControl(product?.priceUplift, []))
-  //   debugger
-  //   return fm;
-  // }
-
   buildProductForm(product: Product | undefined) {
     return new FormGroup({
       id: new FormControl(product?.id, []),

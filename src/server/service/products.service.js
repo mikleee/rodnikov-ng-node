@@ -89,6 +89,7 @@ class ProductSupplierService extends ModelService {
         for (const product of products) {
             let productWrapper = new ProductWrapper();
             productWrapper.id = product.id;
+            productWrapper.code = product.code;
             productWrapper.name = product.name;
             productWrapper.description = product.description;
             productWrapper.category = product.category;

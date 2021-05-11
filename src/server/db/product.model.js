@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 
 let schema = schemaBuilder.buildSchema({
+    code: Schema.Types.String,
     name: Schema.Types.String,
     description: Schema.Types.String,
     cost: Schema.Types.Number,
@@ -14,6 +15,11 @@ let schema = schemaBuilder.buildSchema({
     additionalImages: [{type: Schema.Types.ObjectId, ref: 'Document'}]
 });
 
+schema.post('validate',  function (model) {
+    if (model.isNew) {
+        model.code = schemaBuilder.generateFriendlyId(model._id).toString();
+    }
+});
 
 const Product = mongoose.model('Product', schema);
 

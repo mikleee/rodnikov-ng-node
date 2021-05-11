@@ -19,9 +19,11 @@ class ProductShowcaseService {
         if (keyword) {
             let filter = {
                 $or: [
+                    {code: keyword},
                     {name: {$regex: '.*' + keyword + '.*', $options: 'i'}}
                 ]
             };
+
             {
                 let results = await Promise.all([
                     ProductCategory.find({name: {$regex: '.*' + keyword + '.*', $options: 'i'}}),

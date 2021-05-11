@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {ShowcaseComponent} from "./showcase/showcase.component";
 import {ShowcasePriceFiltersComponent} from './showcase-filters/showcase-price-filters/showcase-price-filters.component';
 import {ShowcaseSortComponent} from './showcase-sort/showcase-sort.component';
-import {ShowcaseSearchComponent} from './showcase-search1/showcase-search.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShowcaseSupplierFiltersComponent} from "./showcase-filters/showcase-supplier-filters/showcase-supplier-filters.component";
 import {ShowcaseProductsComponent} from './shared/showcase-products/showcase-products.component';
@@ -12,14 +11,13 @@ import {ShowcaseProductCardComponent} from './shared/showcase-product-card/showc
 import {ShowcaseFiltersComponent} from './showcase-filters/showcase-filters.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ShowcaseDashboardComponent} from './showcase-dashboard/showcase-dashboard.component';
-import {ShowcaseCategoriesComponent} from './showcase-categories/showcase-categories.component';
-import {ShowcaseCategoriesSubcategoriesComponent} from './showcase-categories/showcase-categories-subcategories/showcase-categories-subcategories.component';
 import {RouterModule} from "@angular/router";
-import {ShowcaseCategoriesCategoryLinkComponent} from './showcase-categories/showcase-categories-category-link/showcase-categories-category-link.component';
-import { ShowcaseProductCategoriesComponent } from './showcase-product-categories/showcase-product-categories.component';
-import { ShowcaseSearchResultsComponent } from './showcase-search/showcase-search-results/showcase-search-results.component';
-import { ShowcaseSearchBoxComponent } from './showcase-search/showcase-search-box/showcase-search-box.component';
-import { ShowcaseSearchTriggerComponent } from './showcase-search/showcase-search-trigger/showcase-search-trigger.component';
+import {ShowcaseSearchResultsComponent} from './showcase-search/showcase-search-results/showcase-search-results.component';
+import {ShowcaseSearchBoxComponent} from './showcase-search/showcase-search-box/showcase-search-box.component';
+import {ShowcaseProductComponent} from './shared/showcase-product/showcase-product.component';
+import {ShowcaseProductCategoriesForProductsComponent} from "./shared/showcase-product-categories-for-products/showcase-product-categories-for-products.component";
+import {ShowcaseProductCategoriesComponent} from "./shared/showcase-product-categories/showcase-product-categories.component";
+import { ShowcaseProductCategoriesLayoutComponent } from './shared/showcase-product-categories-layout/showcase-product-categories-layout.component';
 
 
 @NgModule({
@@ -28,22 +26,20 @@ import { ShowcaseSearchTriggerComponent } from './showcase-search/showcase-searc
     ShowcaseSupplierFiltersComponent,
     ShowcasePriceFiltersComponent,
     ShowcaseSortComponent,
-    ShowcaseSearchComponent,
     ShowcaseProductsComponent,
     ShowcaseProductCardComponent,
     ShowcaseFiltersComponent,
     ShowcaseDashboardComponent,
-    ShowcaseCategoriesComponent,
-    ShowcaseCategoriesSubcategoriesComponent,
-    ShowcaseCategoriesCategoryLinkComponent,
     ShowcaseProductCategoriesComponent,
     ShowcaseSearchResultsComponent,
     ShowcaseSearchBoxComponent,
-    ShowcaseSearchTriggerComponent
+    ShowcaseProductComponent,
+    ShowcaseProductCategoriesForProductsComponent,
+    ShowcaseProductCategoriesLayoutComponent,
   ],
   exports: [
     ShowcaseSearchBoxComponent,
-    ShowcaseCategoriesComponent
+    ShowcaseProductCategoriesComponent
   ],
   imports: [
     CommonModule,

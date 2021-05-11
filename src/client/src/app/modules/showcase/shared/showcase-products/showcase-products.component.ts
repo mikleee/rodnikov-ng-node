@@ -1,10 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
-import {Product, ProductsFilter} from "../../../catalogue/catalogue.models";
-import {ProductsService} from "../../../catalogue/product/products.service";
+import {ViewState} from "../../../shared/model/view-state.model";
+import {Product, ProductCategory} from "../../../catalogue/catalogue.models";
 import {Pagination} from "../../../shared/model/pagination.model";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-showcase-products',
@@ -13,14 +10,14 @@ import {Subscription} from "rxjs";
 })
 export class ShowcaseProductsComponent implements OnInit, OnChanges {
   @Input() products: Product[] = [];
+  @Input() categories: ProductCategory[] = [];
   @Input() state: ViewState = new ViewState();
 
   pagination: Pagination;
   productsToShow: Product[] = [];
 
 
-  constructor(private productsService: ProductsService,
-              private activatedRoute: ActivatedRoute) {
+  constructor() {
     this.pagination = new Pagination();
     this.pagination.pageSizeOptions = [3 * 3, 5 * 3, 10 * 3];
     this.pagination.pageSize = this.pagination.pageSizeOptions[0];
@@ -35,10 +32,12 @@ export class ShowcaseProductsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.paginate(changes.products.currentValue);
+    if (changes.products) {
+      this.paginate(changes.products.currentValue);
+    }
   }
 
-  paginate(products: Product[]) {
+  paginate(products: Product[] = []) {
     this.productsToShow = this.pagination.getPage(products);
   }
 

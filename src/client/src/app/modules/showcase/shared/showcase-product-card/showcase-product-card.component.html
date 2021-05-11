@@ -1,8 +1,8 @@
 <div class="product-card">
-  <a class="product-card-logo">
+  <a class="product-card-logo" [routerLink]="['/product', product.id]">
     <app-server-image [imageId]="product.mainImage"></app-server-image>
   </a>
-  <a class="product-card-name">
+  <a class="product-card-name" [routerLink]="['/product', product.id]">
     {{product.name}}
   </a>
   <div class="product-card-price">{{product.priceUah | currencyUah}}</div>

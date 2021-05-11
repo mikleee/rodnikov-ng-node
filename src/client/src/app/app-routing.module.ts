@@ -14,6 +14,8 @@ import {ShowcaseDashboardComponent} from "./modules/showcase/showcase-dashboard/
 import {ContactsComponent} from "./modules/simple-pages/contacts/contacts.component";
 import {PaymentAndDeliveryComponent} from "./modules/simple-pages/payment-and-delivery/payment-and-delivery.component";
 import {AboutUsComponent} from "./modules/simple-pages/about-us/about-us.component";
+import {ShowcaseProductComponent} from "./modules/showcase/shared/showcase-product/showcase-product.component";
+import {ShowcaseSearchResultsComponent} from "./modules/showcase/showcase-search/showcase-search-results/showcase-search-results.component";
 
 
 const routes: Routes = [
@@ -21,6 +23,8 @@ const routes: Routes = [
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
   {path: '', pathMatch: 'full', component: ShowcaseDashboardComponent},
   {path: 'products', component: ShowcaseComponent},
+  {path: 'product/:id', component: ShowcaseProductComponent},
+  {path: 'search', component: ShowcaseSearchResultsComponent},
   {path: 'contacts', pathMatch: 'full', component: ContactsComponent},
   {path: 'payment-and-delivery', pathMatch: 'full', component: PaymentAndDeliveryComponent},
   {path: 'about-us', pathMatch: 'full', component: AboutUsComponent},

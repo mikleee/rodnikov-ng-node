@@ -1,20 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductCategory} from "../../catalogue/catalogue.models";
-import {ViewState, ViewStateState} from "../../shared/model/view-state.model";
-import {ProductCategoryService} from "../../catalogue/product-categories/product-category.service";
-import {toMap} from "../../shared/utils";
+import {ProductCategory} from "../../../catalogue/catalogue.models";
+import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
+import {ProductCategoryService} from "../../../catalogue/product-categories/product-category.service";
+import {toMap} from "../../../shared/utils";
 
 @Component({
-  selector: 'app-showcase-categories',
-  templateUrl: './showcase-categories.component.html',
-  styleUrls: ['./showcase-categories.component.scss']
+  selector: 'app-showcase-product-categories',
+  templateUrl: './showcase-product-categories.component.html',
+  styleUrls: ['./showcase-product-categories.component.scss']
 })
-export class ShowcaseCategoriesComponent implements OnInit {
+export class ShowcaseProductCategoriesComponent implements OnInit {
   categoriesTree: ProductCategory[] = [];
   categoriesTreeState: ViewState = new ViewState();
-  stack: Stack = new Stack();
-  lookupChildren = false;
-  activeCategory?: ProductCategory;
 
   constructor(private productCategoryService: ProductCategoryService) {
 
@@ -36,27 +33,5 @@ export class ShowcaseCategoriesComponent implements OnInit {
     let values = Object.values(value);
     this.categoriesTree = this.productCategoryService.buildTree(values);
   }
-
-  debugLog(o: any) {
-    console.log(o);
-  }
-
-}
-
-export class Stack {
-  value: number = 0;
-
-  increase() {
-    this.value++;
-  }
-
-  decrease() {
-    this.value--;
-  }
-
-  waitAndDecrease() {
-    setTimeout(() => this.decrease(), 1000);
-  }
-
 
 }

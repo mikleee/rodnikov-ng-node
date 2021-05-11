@@ -5,7 +5,11 @@
              (keyup)="trySearch()"
              (paste)="trySearch()"
       >
-      <button class="btn btn-outline-secondary" type="submit" [disabled]="fm.invalid"><i class="bi-search"></i></button>
+      <button class="btn btn-outline-secondary"
+              type="submit"
+              [routerLink]="['/search']"
+              [queryParams]="{'keyword': fm.controls.keyword.value}"
+              [disabled]="fm.invalid"><i class="bi-search"></i></button>
     </div>
   </div>
   <br>
@@ -20,7 +24,7 @@
               <td class="img">
                 <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
               </td>
-              <td><a [routerLink]="['/catalogue/products/product', product.id]">{{product.name}}</a></td>
+              <td><a [routerLink]="['/product', product.id]">{{product.name}}</a></td>
               <td class="currency">{{product.priceUah | currencyUah}}</td>
             </tr>
           </tbody>
@@ -28,7 +32,7 @@
         <div *ngIf="results.results.length < results.total" class="text-center">
           <br>
           <a
-            [routerLink]="['/search/products/product']"
+            [routerLink]="['/search']"
             [queryParams]="{'keyword': fm.controls.keyword.value}"
           >Показать ещё {{results.total - results.results.length}}</a>
         </div>

@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col">
             <div class="header-top-logo">
-              тут будет логотип
+              <img src="assets/img/logo.jpg" alt="">
             </div>
           </div>
           <div class="col">
@@ -31,15 +31,15 @@
         <nav class="header-bottom">
           <ul>
             <li><a routerLink=""><i class="bi-house-door"></i></a></li>
-            <li ngbDropdown>
+            <li *ngIf="!categoriesLinkInteractive"><a routerLink=""> <i class="bi-list"></i> Kaтегории</a></li>
+            <li ngbDropdown *ngIf="categoriesLinkInteractive">
               <a ngbDropdownToggle class="search-trigger">
                 <i class="bi-list"></i> Kaтегории
                 <div ngbDropdownMenu>
-                  <app-showcase-categories></app-showcase-categories>
+                  <app-showcase-product-categories></app-showcase-product-categories>
                 </div>
               </a>
             </li>
-            <li><a routerLink="products" routerLinkActive="active">Продукты</a></li>
             <li><a routerLink="catalogue" routerLinkActive="active">Каталог</a></li>
             <li><a routerLink="configuration" routerLinkActive="active">Настройки</a></li>
           </ul>
