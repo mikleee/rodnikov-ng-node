@@ -9,6 +9,8 @@ import {Product} from "../../../catalogue/catalogue.models";
 export class ShowcasePriceFiltersComponent implements OnInit, OnChanges {
   @Input() products?: Product[] = [];
   range: number[] = [];
+  min?: number;
+  max?: number;
 
   constructor() {
   }
@@ -30,6 +32,8 @@ export class ShowcasePriceFiltersComponent implements OnInit, OnChanges {
       }
     });
     this.range.sort((p1, p2) => p1 - p2);
+    this.min = this.range[0] != null ? Math.ceil(this.range[0]) : undefined;
+    this.max = this.range[this.range.length - 1] != null ? Math.floor(this.range[this.range.length - 1]) : undefined;
   }
 
 

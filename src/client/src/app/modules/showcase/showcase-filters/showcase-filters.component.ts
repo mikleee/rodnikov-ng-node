@@ -7,8 +7,8 @@ import {Product, ProductSupplier} from "../../catalogue/catalogue.models";
   styleUrls: ['./showcase-filters.component.scss']
 })
 export class ShowcaseFiltersComponent implements OnInit {
-  @Input() suppliers?: ProductSupplier[];
-  @Input() products?: Product[] = [];
+  @Input() suppliers: ProductSupplier[] = [];
+  @Input() products: Product[] = [];
 
   disabled = false;
 

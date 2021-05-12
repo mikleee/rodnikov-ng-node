@@ -6,7 +6,8 @@ import {ProductCategoryService} from "../../../catalogue/product-categories/prod
 import {ViewState} from "../../../shared/model/view-state.model";
 import {forkJoin} from "rxjs";
 import {first} from "rxjs/operators";
-import {ProductCategory} from "../../../catalogue/catalogue.models";
+import {ProductCategory, ProductSupplier} from "../../../catalogue/catalogue.models";
+import {ProductSuppliersService} from "../../../catalogue/product-suppliers/product-suppliers.service";
 
 
 @Component({
@@ -19,10 +20,12 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
 
   pageState: ViewState = new ViewState();
   categories: ProductCategory[] = [];
+  suppliers: ProductSupplier[] = [];
 
   constructor(
     private categoryService: ProductCategoryService,
-    protected activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private productSuppliersService: ProductSuppliersService,
     protected productsService: ProductsService) {
     super(productsService);
   }
@@ -41,12 +44,14 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
   loadPage() {
     this.pageState.inProgress();
     forkJoin([
-      this.categoryService.getProductCategories()
+      this.categoryService.getProductCategories(),
+      this.productSuppliersService.getSuppliers()
     ])
       .pipe(first())
       .subscribe(
         (value) => {
           this.categories = value[0];
+          this.suppliers = value[1];
           this.pageState.ready();
         },
         error => this.pageState.error(error)

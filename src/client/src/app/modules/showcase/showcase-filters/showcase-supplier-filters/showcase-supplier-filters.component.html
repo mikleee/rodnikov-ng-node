@@ -1,10 +1,12 @@
 <div class="card-body">
   <h5 class="card-title showcase-filters-title">Производители</h5>
   <div class="showcase-filters-items">
-    <div class="showcase-filters-item" *ngFor="let supplier of suppliers">
+    <div class="showcase-filters-item" *ngFor="let supplier of supplierFilters">
       <label>
-        <input type="checkbox" [(ngModel)]="supplier.checked">
-        <span> {{supplier.name}}</span>
+        <input type="checkbox" [(ngModel)]="supplier.checked" [disabled]="supplier.productsCount === 0">
+        <span class="showcase-filters-name text-muted" *ngIf="!supplier.productsCount"> {{supplier.name}}</span>
+        <a class="showcase-filters-name" *ngIf="supplier.productsCount"> {{supplier.name}}</a>
+        <span class="badge bg-secondary showcase-filters-count" *ngIf="supplier.productsCount != undefined"> {{supplier.productsCount}}</span>
       </label>
     </div>
   </div>

@@ -1,7 +1,10 @@
 @import "src/styles/variables";
 
+$fullHeight: 300px;
+$logoHeight: 200px;
+
 ::ng-deep .product-card {
-  height: 350px;
+  height: $fullHeight;
   border-radius: $borderRadius;
   display: flex;
   flex-direction: column;
@@ -21,12 +24,12 @@
   }
 
   .product-card-logo {
-    height: 250px;
+    height: $logoHeight;
     display: flex;
     align-items: center;
 
     img {
-      max-height: 250px;
+      max-height: $logoHeight;
       max-width: 100%;
     }
   }

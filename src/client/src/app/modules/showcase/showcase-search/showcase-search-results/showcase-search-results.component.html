@@ -6,7 +6,11 @@
           [categories]="categories"
           [products]="results.results"
         ></app-showcase-products-categories-for-products>
-        todo probably show filters
+        <br/>
+       <app-showcase-filters
+         [suppliers]="suppliers"
+         [products]="results.results"
+       ></app-showcase-filters>
       </div>
       <div class="col-8">
         <app-showcase-products
