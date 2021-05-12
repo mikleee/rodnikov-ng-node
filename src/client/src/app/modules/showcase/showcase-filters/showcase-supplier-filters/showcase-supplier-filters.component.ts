@@ -23,16 +23,16 @@ export class ShowcaseSupplierFiltersComponent implements OnInit, OnChanges {
   resolveSuppliers(suppliers: ProductSupplier[], products: Product[]) {
     this.supplierFilters = suppliers as ProductSupplierFilter[];
 
-    if (products.length) {
-      let counts: { [key: string]: number } = products.reduce((acc, product) => {
-        acc[product.supplier] = (acc[product.supplier] ?? 0) + 1;
-        return acc;
-      }, {} as { [key: string]: number })
+    let counts: { [key: string]: number } = products.reduce((acc, product) => {
+      acc[product.supplier] = (acc[product.supplier] ?? 0) + 1;
+      return acc;
+    }, {} as { [key: string]: number })
 
-      for (const supplier of this.supplierFilters) {
-        supplier.productsCount = counts[supplier.id] ?? 0;
-      }
+    for (const supplier of this.supplierFilters) {
+      supplier.productsCount = counts[supplier.id] ?? 0;
     }
+
+    this.supplierFilters = this.supplierFilters.filter(f => f.productsCount > 0);
   }
 
   onSupplierFilterChange() {
