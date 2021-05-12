@@ -3,10 +3,11 @@ import {ProductsService} from "../../catalogue/product/products.service";
 import {ProductSuppliersService} from "../../catalogue/product-suppliers/product-suppliers.service";
 import {ProductCategoryService} from "../../catalogue/product-categories/product-category.service";
 import {forkJoin} from "rxjs";
-import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../../catalogue/catalogue.models";
+import {Product, ProductCategory, ProductSupplier} from "../../catalogue/catalogue.models";
 import {first} from "rxjs/operators";
 import {ViewState} from "../../shared/model/view-state.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ShowcaseFilters} from "../showcase-filters/showcase-filters.component";
 
 @Component({
   selector: 'app-showcase',
@@ -16,13 +17,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class ShowcaseComponent implements OnInit {
   state: ViewState = new ViewState();
 
-  filter: ProductsFilter = new ProductsFilter();
-
   suppliers: ProductSupplier[] = [];
   categories: ProductCategory[] = [];
 
   productsState: ViewState = new ViewState();
   products: Product[] = [];
+  filteredProducts: Product[] = [];
 
 
   constructor(protected productsService: ProductsService,
@@ -65,11 +65,28 @@ export class ShowcaseComponent implements OnInit {
           .subscribe(
             (value) => {
               this.products = value;
+              this.filteredProducts = value;
               this.productsState.ready();
             },
             error => this.productsState.error(error)
           )
       });
+  }
+
+  onFiltersChange(filters: ShowcaseFilters) {
+    debugger;
+    this.filteredProducts = this.products;
+    if (filters.suppliers?.length) {
+      this.filteredProducts = this.filteredProducts.filter(p => filters.suppliers.includes(p.supplier));
+    }
+    if (filters.priceMin !== undefined) {
+      let value = filters.priceMin;
+      this.filteredProducts = this.filteredProducts.filter(p => p.priceUah >= value);
+    }
+    if (filters.priceMax !== undefined) {
+      let value = filters.priceMax;
+      this.filteredProducts = this.filteredProducts.filter(p => p.priceUah <= value);
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Product, ProductSupplier} from "../../../catalogue/catalogue.models";
 
 @Component({
@@ -9,6 +9,8 @@ import {Product, ProductSupplier} from "../../../catalogue/catalogue.models";
 export class ShowcaseSupplierFiltersComponent implements OnInit, OnChanges {
   @Input('suppliers') suppliers: ProductSupplier[] = [];
   @Input('products') products: Product[] = [];
+
+  @Output() selectedSuppliersChange: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   supplierFilters: ProductSupplierFilter[] = [];
 
@@ -31,6 +33,14 @@ export class ShowcaseSupplierFiltersComponent implements OnInit, OnChanges {
         supplier.productsCount = counts[supplier.id] ?? 0;
       }
     }
+  }
+
+  onSupplierFilterChange() {
+    this.selectedSuppliersChange.emit(
+      this.supplierFilters
+        .filter(f => f.checked)
+        .map(f => f.id)
+    )
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -4,5 +4,6 @@
   <app-showcase-supplier-filters
     [suppliers]="suppliers"
     [products]="products"
+    (selectedSuppliersChange)="selectedSuppliersChange($event)"
   ></app-showcase-supplier-filters>
 </div>

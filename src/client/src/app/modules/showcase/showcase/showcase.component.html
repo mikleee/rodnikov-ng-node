@@ -4,12 +4,13 @@
       <app-showcase-filters
         [suppliers]="suppliers"
         [products]="products"
+        (filtersChange)="onFiltersChange($event)"
       ></app-showcase-filters>
     </div>
     <div class="col-8">
       <app-showcase-products
         [categories]="categories"
-        [products]="products"
+        [products]="filteredProducts"
         [state]="productsState"
       ></app-showcase-products>
     </div>

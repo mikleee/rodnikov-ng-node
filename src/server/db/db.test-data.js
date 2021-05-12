@@ -12,10 +12,12 @@ const {Product} = require("./product.model");
         let template = [
             'Adidas',
             'Pidoras',
+            'Андрэ Тан',
             'Белшина',
             'Росава',
             'Sony',
             'Электроника',
+            'Алёша',
         ];
 
         for (const name of template) {
@@ -97,23 +99,28 @@ const {Product} = require("./product.model");
                 name: 'Одежда', supp: [
                     'Adidas',
                     'Pidoras',
+                    'Андрэ Тан',
+                    'Алёша',
                 ]
             },
             {
                 name: 'Шины', supp: [
                     'Белшина',
                     'Росава',
+                    'Алёша',
                 ]
             },
             {
                 name: 'Элетроника', supp: [
                     'Sony',
                     'Электроника',
+                    'Алёша',
                 ]
             },
             {
                 name: 'Разная дрянь', supp: [
                     'Pidoras',
+                    'Алёша',
                 ]
             }
         ];
