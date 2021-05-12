@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const appConfig = require('../app.config')
+const environment = require('../app.environment')
 const logger = require('../service/logger').createLogger('db')
 
-let dbUrl = appConfig["db.url"];
+let dbUrl = environment.environmentDbUrl;
 
 
 let db = mongoose.connect(dbUrl, {
@@ -15,7 +15,7 @@ db.then(
     reason => logger.error(`Error on connecting to ${dbUrl}: ${reason.stack}`)
 )
 
-if (appConfig["db.test.data"]) {
+if (environment.environmentDbTestData) {
     require('./db.test-data')
 }
 
