@@ -14,10 +14,11 @@ import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from './pagination/pagination.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NotImplementedComponent} from './component/not-implemented/not-implemented.component';
-import { GlobalToasterComponent } from './component/global-toaster/global-toaster.component';
-import { StateOverlayComponent } from './component/state-overlay/state-overlay.component';
-import { UpliftPipe } from './transform/uplift.pipe';
-import { NotFoundComponent } from './component/not-found/not-found.component';
+import {GlobalToasterComponent} from './component/global-toaster/global-toaster.component';
+import {StateOverlayComponent} from './component/state-overlay/state-overlay.component';
+import {UpliftPipe} from './transform/uplift.pipe';
+import {NotFoundComponent} from './component/not-found/not-found.component';
+import {InputNumberDirective} from './directive/input-number.directive';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
     StateOverlayComponent,
     UpliftPipe,
     NotFoundComponent,
+    InputNumberDirective,
   ],
   exports: [
     InProgressComponent,
@@ -51,7 +53,8 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
     GlobalToasterComponent,
     StateOverlayComponent,
     UpliftPipe,
-    NotFoundComponent
+    NotFoundComponent,
+    InputNumberDirective
   ],
   imports: [
     CommonModule,

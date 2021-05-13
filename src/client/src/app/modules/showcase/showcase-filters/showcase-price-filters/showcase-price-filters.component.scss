@@ -1,0 +1,24 @@
+.showcase-price-range {
+  display: flex;
+  padding: 0;
+
+  .range-controls {
+    display: flex;
+    align-items: center;
+
+    &.buttons {
+      margin-left: 1em;
+    }
+
+    .range-divisor {
+      display: block;
+      margin: 0 0.3em;
+    }
+
+    input {
+      width: 65px;
+    }
+
+  }
+
+}

@@ -7,15 +7,15 @@
           [products]="results.results"
         ></app-showcase-products-categories-for-products>
         <br/>
-       <app-showcase-filters
-         [suppliers]="suppliers"
-         [products]="results.results"
-       ></app-showcase-filters>
+        <app-showcase-filters
+          [suppliers]="suppliers"
+          [products]="results.results"
+        ></app-showcase-filters>
       </div>
       <div class="col-8">
         <app-showcase-products
           [categories]="categories"
-          [products]="results.results"
+          [products]="filteredProducts"
           [state]="state"
         ></app-showcase-products>
       </div>

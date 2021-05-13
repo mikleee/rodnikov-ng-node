@@ -1,12 +1,16 @@
 <div class="card-body">
   <h5 class="card-title showcase-filters-title">Цена</h5>
-  {{min}} - {{max}}
-  <!--  <div class="showcase-filters-items">-->
-  <!--    <div class="showcase-filters-item" *ngFor="let supplier of (suppliers | keyvalue)">-->
-  <!--      <label>-->
-  <!--        <input type="checkbox" [(ngModel)]="supplier.value.checked">-->
-  <!--        <span> {{supplier.value.name}}</span>-->
-  <!--      </label>-->
-  <!--    </div>-->
-  <!--  </div>-->
+  <form [formGroup]="fm" class="showcase-price-range" (ngSubmit)="submitPriceFilter(fm)">
+    <div class="range-controls">
+      <input type="text" class="form-control form-control-sm" formControlName="min" [placeholder]="min || ''" app-input-number>
+      <span class="range-divisor">-</span>
+      <input type="text" class="form-control form-control-sm" formControlName="max" [placeholder]="max || ''">
+    </div>
+    <div class="range-controls buttons">
+      <button type="submit" class="btn btn-outline-secondary btn-sm"
+              app-button-ok
+              [disabled]="fm.invalid">
+      </button>
+    </div>
+  </form>
 </div>

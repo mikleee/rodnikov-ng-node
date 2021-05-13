@@ -37,3 +37,12 @@ export function toAsyncModels<T>(input: T[]): AsyncModel<T>[] {
 export function addQueryParams<T>(input: T[]): AsyncModel<T>[] {
   return input.map(m => new AsyncModel(ViewStateState.UNTOUCHED, m));
 }
+
+export function isBlank(value: string | undefined): boolean {
+  return value === undefined || value === '' || value === null;
+}
+
+export function isNotBlank(value: string | undefined): boolean {
+  return !isBlank(value);
+}
+

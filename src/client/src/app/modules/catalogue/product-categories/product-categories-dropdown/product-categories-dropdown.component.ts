@@ -3,7 +3,7 @@ import {Subscription} from "rxjs";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {ProductCategory} from "../../catalogue.models";
 import {ProductCategoryService} from "../product-category.service";
-import {toMap, randomString} from "../../../shared/utils";
+import {randomString, toMap} from "../../../shared/utils";
 
 
 @Component({

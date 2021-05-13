@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Product, ProductSupplier} from "../../../catalogue/catalogue.models";
+import {ShowcaseFiltersService} from "../showcase-filters.service";
 
 @Component({
   selector: 'app-showcase-supplier-filters',
@@ -10,11 +11,9 @@ export class ShowcaseSupplierFiltersComponent implements OnInit, OnChanges {
   @Input('suppliers') suppliers: ProductSupplier[] = [];
   @Input('products') products: Product[] = [];
 
-  @Output() selectedSuppliersChange: EventEmitter<string[]> = new EventEmitter<string[]>();
-
   supplierFilters: ProductSupplierFilter[] = [];
 
-  constructor() {
+  constructor(private showcaseFiltersService: ShowcaseFiltersService) {
   }
 
   ngOnInit(): void {
@@ -36,7 +35,7 @@ export class ShowcaseSupplierFiltersComponent implements OnInit, OnChanges {
   }
 
   onSupplierFilterChange() {
-    this.selectedSuppliersChange.emit(
+    this.showcaseFiltersService.setSuppliers(
       this.supplierFilters
         .filter(f => f.checked)
         .map(f => f.id)

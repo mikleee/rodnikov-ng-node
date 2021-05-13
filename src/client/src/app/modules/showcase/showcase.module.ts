@@ -17,7 +17,9 @@ import {ShowcaseSearchBoxComponent} from './showcase-search/showcase-search-box/
 import {ShowcaseProductComponent} from './shared/showcase-product/showcase-product.component';
 import {ShowcaseProductCategoriesForProductsComponent} from "./shared/showcase-product-categories-for-products/showcase-product-categories-for-products.component";
 import {ShowcaseProductCategoriesComponent} from "./shared/showcase-product-categories/showcase-product-categories.component";
-import { ShowcaseProductCategoriesLayoutComponent } from './shared/showcase-product-categories-layout/showcase-product-categories-layout.component';
+import {ShowcaseProductCategoriesLayoutComponent} from './shared/showcase-product-categories-layout/showcase-product-categories-layout.component';
+import {ButtonOkDirective} from "../shared/directive/button-ok.directive";
+import {ButtonResetDirective} from "../shared/directive/button-reset.directive";
 
 
 @NgModule({
@@ -36,6 +38,8 @@ import { ShowcaseProductCategoriesLayoutComponent } from './shared/showcase-prod
     ShowcaseProductComponent,
     ShowcaseProductCategoriesForProductsComponent,
     ShowcaseProductCategoriesLayoutComponent,
+    ButtonOkDirective,
+    ButtonResetDirective,
   ],
   exports: [
     ShowcaseSearchBoxComponent,

@@ -4,10 +4,12 @@ import {ActivatedRoute} from "@angular/router";
 import {ProductsService} from "../../../catalogue/product/products.service";
 import {ProductCategoryService} from "../../../catalogue/product-categories/product-category.service";
 import {ViewState} from "../../../shared/model/view-state.model";
-import {forkJoin} from "rxjs";
+import {forkJoin, Subscription} from "rxjs";
 import {first} from "rxjs/operators";
-import {ProductCategory, ProductSupplier} from "../../../catalogue/catalogue.models";
+import {Product, ProductCategory, ProductSupplier} from "../../../catalogue/catalogue.models";
 import {ProductSuppliersService} from "../../../catalogue/product-suppliers/product-suppliers.service";
+import {ShowcaseFiltersService} from "../../showcase-filters/showcase-filters.service";
+import {DatatableResponse} from "../../../shared/model/datatable.model";
 
 
 @Component({
@@ -22,10 +24,15 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
   categories: ProductCategory[] = [];
   suppliers: ProductSupplier[] = [];
 
+  filteredProducts: Product[] = [];
+
+  filterChange$?: Subscription;
+
   constructor(
     private categoryService: ProductCategoryService,
     private activatedRoute: ActivatedRoute,
     private productSuppliersService: ProductSuppliersService,
+    private showcaseFiltersService: ShowcaseFiltersService,
     protected productsService: ProductsService) {
     super(productsService);
   }
@@ -39,6 +46,7 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
       })
 
     this.loadPage();
+    this.subscribeOnFiltersChange();
   }
 
   loadPage() {
@@ -56,6 +64,22 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
         },
         error => this.pageState.error(error)
       );
+  }
+
+
+  onProductsRetrieved(result: DatatableResponse<Product>) {
+    this.filteredProducts = result.results;
+  }
+
+  subscribeOnFiltersChange() {
+    this.showcaseFiltersService.resetFilters();
+    this.filterChange$ = this.showcaseFiltersService.filters$.subscribe(filters => {
+      this.filteredProducts = this.showcaseFiltersService.applyOnProducts(this.results.results, filters);
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.filterChange$?.unsubscribe();
   }
 
 

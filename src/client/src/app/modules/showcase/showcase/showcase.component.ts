@@ -1,20 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductsService} from "../../catalogue/product/products.service";
 import {ProductSuppliersService} from "../../catalogue/product-suppliers/product-suppliers.service";
 import {ProductCategoryService} from "../../catalogue/product-categories/product-category.service";
-import {forkJoin} from "rxjs";
+import {forkJoin, Subscription} from "rxjs";
 import {Product, ProductCategory, ProductSupplier} from "../../catalogue/catalogue.models";
 import {first} from "rxjs/operators";
 import {ViewState} from "../../shared/model/view-state.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ShowcaseFilters} from "../showcase-filters/showcase-filters.component";
+import {ShowcaseFiltersService} from "../showcase-filters/showcase-filters.service";
 
 @Component({
   selector: 'app-showcase',
   templateUrl: './showcase.component.html',
   styleUrls: ['./showcase.component.scss']
 })
-export class ShowcaseComponent implements OnInit {
+export class ShowcaseComponent implements OnInit, OnDestroy {
   state: ViewState = new ViewState();
 
   suppliers: ProductSupplier[] = [];
@@ -24,17 +24,21 @@ export class ShowcaseComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
 
+  filterChange$?: Subscription;
 
-  constructor(protected productsService: ProductsService,
-              protected suppliersService: ProductSuppliersService,
-              protected categoryService: ProductCategoryService,
-              protected router: Router,
-              protected activatedRoute: ActivatedRoute) {
+
+  constructor(private productsService: ProductsService,
+              private suppliersService: ProductSuppliersService,
+              private categoryService: ProductCategoryService,
+              private showcaseFiltersService: ShowcaseFiltersService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.loadPage();
     this.loadProducts();
+    this.subscribeOnFiltersChange();
   }
 
   loadPage() {
@@ -73,20 +77,16 @@ export class ShowcaseComponent implements OnInit {
       });
   }
 
-  onFiltersChange(filters: ShowcaseFilters) {
-    debugger;
-    this.filteredProducts = this.products;
-    if (filters.suppliers?.length) {
-      this.filteredProducts = this.filteredProducts.filter(p => filters.suppliers.includes(p.supplier));
-    }
-    if (filters.priceMin !== undefined) {
-      let value = filters.priceMin;
-      this.filteredProducts = this.filteredProducts.filter(p => p.priceUah >= value);
-    }
-    if (filters.priceMax !== undefined) {
-      let value = filters.priceMax;
-      this.filteredProducts = this.filteredProducts.filter(p => p.priceUah <= value);
-    }
+  subscribeOnFiltersChange() {
+    this.showcaseFiltersService.resetFilters();
+    this.filterChange$ = this.showcaseFiltersService.filters$.subscribe(filters => {
+      this.filteredProducts = this.showcaseFiltersService.applyOnProducts(this.products, filters);
+    })
   }
+
+  ngOnDestroy(): void {
+    this.filterChange$?.unsubscribe();
+  }
+
 
 }
