@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from "../../shared/service/http.service";
-import {ProductCategory, ProductSupplier} from "../catalogue.models";
+import {ProductCategory} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
 import {Observable} from "rxjs";
 
@@ -29,7 +29,7 @@ export class ProductCategoryService {
     return this.http.post('/api/categories/category/submit', supplier).toPromise();
   }
 
-  deleteGroup(id: String): Promise<ProductSupplier> {
+  deleteCategory(id: String): Promise<ProductCategory> {
     return this.http.post('/api/categories/category/delete/' + id).toPromise();
   }
 

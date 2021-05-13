@@ -24,7 +24,7 @@ export class ProductCategoriesTreeComponent implements OnInit {
   deleteGroup(category: ProductCategory) {
     let state = this.states[category.id];
     state?.inProgress();
-    this.productCategoryService.deleteGroup(category.id)
+    this.productCategoryService.deleteCategory(category.id)
       .then(
         (result) => state?.ready(),
         (error) => state?.error(error.message),

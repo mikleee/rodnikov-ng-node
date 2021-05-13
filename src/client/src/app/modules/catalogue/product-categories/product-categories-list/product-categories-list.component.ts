@@ -5,7 +5,8 @@ import {ViewState, ViewStateState} from "../../../shared/model/view-state.model"
 import {AsyncModel} from "../../../shared/model/async.model";
 import {ProductCategoryService} from "../product-category.service";
 import {Pagination} from "../../../shared/model/pagination.model";
-import {toAsyncModels, toMap} from "../../../shared/utils";
+import {toAsyncModels} from "../../../shared/utils";
+import {first} from "rxjs/operators";
 
 
 @Component({
@@ -29,9 +30,12 @@ export class ProductCategoriesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.categories.state.inProgress();
     this.categories$ = this.productCategoryService.getProductCategories()
+      .pipe(
+        first(),
+      )
       .subscribe(
-        result => this.resolveCategories(toMap(result), ViewStateState.READY, undefined),
-        error => this.resolveCategories({}, ViewStateState.ERROR, error),
+        result => this.resolveCategories(result, ViewStateState.READY, undefined),
+        error => this.resolveCategories([], ViewStateState.ERROR, error),
       );
   }
 
@@ -39,20 +43,25 @@ export class ProductCategoriesListComponent implements OnInit, OnDestroy {
     this.categories$?.unsubscribe();
   }
 
-  deleteGroup(category: AsyncModel<ProductCategory>) {
+  deleteCategory(category: AsyncModel<ProductCategory>) {
     category.state.inProgress();
-    this.productCategoryService.deleteGroup(category.value.id)
+    this.productCategoryService.deleteCategory(category.value.id)
       .then(
-        (result) => category.state.ready(),
+        (result) => {
+          let categories = this.categories.value
+            .filter(v => v.value.id != category.value.id)
+            .map(v => v.value);
+          this.resolveCategories(categories, ViewStateState.READY, undefined);
+          category.state.ready();
+        },
         (error) => category.state.error(error.message),
       )
   }
 
-  resolveCategories(value: { [key: string]: ProductCategory }, state: ViewStateState, message: string | undefined) {
-    let values = Object.values(value);
-    let asyncModels = toAsyncModels(values);
+  resolveCategories(value: ProductCategory[], state: ViewStateState, message: string | undefined) {
+    let asyncModels = toAsyncModels(value);
     this.categories = new AsyncModel(state, asyncModels, message)
-    this.tree = this.productCategoryService.buildTree(values);
+    this.tree = this.productCategoryService.buildTree(value);
     this.categoriesToShow = this.pagination.getPage(asyncModels);
   }
 

@@ -1,5 +1,6 @@
 const ModelService = require("./model.service");
 const {ProductCategory} = require("../db/product.category.model");
+const {Product} = require("../db/product.model");
 
 class ProductCategoriesService extends ModelService {
 
@@ -54,6 +55,15 @@ class ProductCategoriesService extends ModelService {
         return result;
     }
 
+
+    async delete(id) {
+        let results = await Promise.all([
+            ProductCategory.updateMany({parent: id}, {parent: null}),
+            Product.updateMany({category: id}, {category: null}),
+            super.delete(id),
+        ]);
+        return results[2];
+    }
 }
 
 

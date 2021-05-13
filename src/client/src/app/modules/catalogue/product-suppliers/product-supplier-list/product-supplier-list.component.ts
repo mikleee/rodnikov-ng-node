@@ -4,7 +4,7 @@ import {AsyncModel} from "../../../shared/model/async.model";
 import {ViewStateState} from "../../../shared/model/view-state.model";
 import {Subscription} from "rxjs";
 import {ProductSuppliersService} from "../product-suppliers.service";
-import {map} from "rxjs/operators";
+import {first, map} from "rxjs/operators";
 import {Pagination} from "../../../shared/model/pagination.model";
 import {toAsyncModels} from "../../../shared/utils";
 
@@ -28,7 +28,11 @@ export class ProductSupplierListComponent implements OnInit, OnDestroy {
     supplier.state.inProgress();
     this.suppliersService.deleteSupplier(supplier.value.id)
       .then(
-        (result) => supplier.state.ready(),
+        (result) => {
+          let suppliers = this.suppliers.value.filter(v => v.value.id != supplier.value.id);
+          this.resolveSuppliers(suppliers, ViewStateState.READY, undefined);
+          supplier.state.ready()
+        },
         (error) => supplier.state.error(error.message),
       )
   }
@@ -37,6 +41,7 @@ export class ProductSupplierListComponent implements OnInit, OnDestroy {
     this.suppliers.state.inProgress();
     this.suppliers$ = this.suppliersService.getSuppliers()
       .pipe(
+        first(),
         map(v => toAsyncModels(Object.values(v)))
       )
       .subscribe(

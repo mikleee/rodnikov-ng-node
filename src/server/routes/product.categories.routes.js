@@ -15,7 +15,7 @@ router.post('/category/submit', async (req, res, next) => {
     return await productCategoryService.saveOrUpdate(req.body);
 });
 
-router.post('/group/delete/:id', async (req, res, next) => {
+router.post('/category/delete/:id', async (req, res, next) => {
     const id = req.params['id'];
     await productCategoryService.delete(id);
 });

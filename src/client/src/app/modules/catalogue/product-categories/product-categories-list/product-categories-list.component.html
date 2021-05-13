@@ -38,7 +38,7 @@
         <app-shared-error *ngIf="individualStates[category.value.id]?.isError()" [message]="individualStates[category.value.id]?.getMessage()"></app-shared-error>
         <button type="button"
                 class="btn btn-outline-danger btn-sm"
-                (click)="deleteGroup(category)"
+                (click)="deleteCategory(category)"
                 [disabled]="individualStates[category.value.id]?.isInProgress()">
           <i class="bi-trash"></i>
         </button>

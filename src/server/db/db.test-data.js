@@ -142,7 +142,8 @@ const {Product} = require("./product.model");
         for (const category of categories) {
             let products = await Product.find({category: category});
             let toCreate = [];
-            while (toCreate.length + products.length < 300) {
+            let max = randomNumber(100);
+            while (toCreate.length + products.length < max) {
                 let supplier = null;
                 let root = getRootCategory(category);
                 for (const t of template) {

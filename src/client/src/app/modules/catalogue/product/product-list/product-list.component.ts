@@ -7,7 +7,7 @@ import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../../c
 import {ViewState} from "../../../shared/model/view-state.model";
 import {forkJoin} from "rxjs";
 import {first} from "rxjs/operators";
-import {toAsyncModels, toMap} from "../../../shared/utils";
+import {removeFromCollection, toAsyncModels, toMap} from "../../../shared/utils";
 import {AsyncModel} from "../../../shared/model/async.model";
 
 @Component({
@@ -70,7 +70,7 @@ export class ProductListComponent implements OnInit {
     this.productsService.deleteProduct(product.value.id)
       .then(
         (result) => {
-          this.products = this.products.filter(p => p.id != product.value.id);
+          this.products = removeFromCollection(this.products, product.value.id);
           this.initProducts(this.products);
           product.state.ready()
         },

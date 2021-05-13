@@ -46,3 +46,22 @@ export function isNotBlank(value: string | undefined): boolean {
   return !isBlank(value);
 }
 
+export function removeFromCollection<T extends BaseModel>(input: T[], id: string): T[] {
+  return input.filter(m => m.id != id);
+}
+
+export function addToCollection<T extends BaseModel>(input: T[], model: T): T[] {
+  input = [...input];
+  input.push(model);
+  return input;
+}
+
+export function updateInCollection<T extends BaseModel>(input: T[], model: T): T[] {
+  input = [...input];
+  input.forEach(m => {
+    if (m.id === model.id) {
+      Object.assign(m, model);
+    }
+  });
+  return input;
+}
