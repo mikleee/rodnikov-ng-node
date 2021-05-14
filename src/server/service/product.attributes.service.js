@@ -12,23 +12,43 @@ class ProductAttributesService extends ModelService {
         super(ProductAttribute);
     }
 
+    async getAttributeWrappersForProduct(id) {
+        let results = Object.values(await this.getAttributeWrappersForProductsByIds([id]));
+        return results[0] || [];
+    }
+
     async getAttributeWrappersForProducts(products) {
+        return this.getAttributeWrappersForProductsByIds(
+            modelsToIds(products)
+        );
+    }
+
+
+    async saveOrUpdateProductAttributes(productAttribute) {
+        let existingAttribute = await ProductAttribute.findOne(
+            {product: productAttribute.product, template: productAttribute.template}
+        );
+        if (existingAttribute) {
+            existingAttribute.value = productAttribute.value;
+            return await existingAttribute.save();
+        } else {
+            return await ProductAttribute.create(productAttribute);
+        }
+    }
+
+    async getAttributeWrappersForProductsByIds(productIds) {
         let result = {};
-        if (products.length) {
+        if (productIds.length) {
             let source = await Promise.all([
                 ProductAttributeTemplate.find(),
-                ProductAttribute.find({product: {$in: modelsToIds(products)}})
+                ProductAttribute.find({product: {$in: productIds}})
             ]);
 
             let attributeTemplatesMap = modelsToMap(source[0]);
             for (const attribute of source[1]) {
                 let template = attributeTemplatesMap[attribute.template];
                 if (template) {
-                    let attributeWrapper = new ProductAttributeWrapper();
-                    attributeWrapper.id = attribute.id;
-                    attributeWrapper.name = template.name;
-                    attributeWrapper.value = attribute.value;
-                    attributeWrapper.template = template.id;
+                    let attributeWrapper = this.#convertToWrapperFromAttributeAndTemplate(attribute, template);
                     addToBundle(result, attribute.product, attributeWrapper);
                 } else {
                     logger.warn(`Product attribute template ${attribute.template} doesn't exist`);
@@ -36,6 +56,20 @@ class ProductAttributesService extends ModelService {
             }
         }
         return result;
+    }
+
+    async convertToWrapper(attribute) {
+        let template = await ProductAttributeTemplate.findById(attribute.template);
+        return this.#convertToWrapperFromAttributeAndTemplate(attribute, template);
+    }
+
+    #convertToWrapperFromAttributeAndTemplate(attribute, template) {
+        let attributeWrapper = new ProductAttributeWrapper();
+        attributeWrapper.id = attribute.id;
+        attributeWrapper.name = template?.name;
+        attributeWrapper.value = attribute.value;
+        attributeWrapper.template = template?.id;
+        return attributeWrapper;
     }
 
 }

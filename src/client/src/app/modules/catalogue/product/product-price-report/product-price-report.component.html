@@ -1,0 +1,22 @@
+<table class="report">
+  <tr>
+    <td>Цена закупки</td>
+    <td>{{product?.cost | currencyUsd}}</td>
+  </tr>
+  <tr>
+    <td>Наценка</td>
+    <td>{{product?.priceUplift | uplift}}</td>
+  </tr>
+  <tr>
+    <td>Доход</td>
+    <td>{{product?.margin | currencyUsd}}</td>
+  </tr>
+  <tr>
+    <td>Цена</td>
+    <td>{{product?.price | currencyUsd}}</td>
+  </tr>
+  <tr>
+    <td>Цена</td>
+    <td>{{product?.priceUah | currencyUah}}</td>
+  </tr>
+</table>

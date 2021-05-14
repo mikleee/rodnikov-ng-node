@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 
 let schema = schemaBuilder.buildSchema({
-    code: Schema.Types.String,
-    name: Schema.Types.String,
+    code: {type: Schema.Types.String, unique: true, required: true},
+    name: {type: Schema.Types.String, unique: true, required: true},
     description: Schema.Types.String,
     cost: Schema.Types.Number,
     priceUplift: Schema.Types.Number,
@@ -15,7 +15,8 @@ let schema = schemaBuilder.buildSchema({
     additionalImages: [{type: Schema.Types.ObjectId, ref: 'Document'}]
 });
 
-schema.post('validate',  function (model) {
+schema.pre('validate', function () {
+    let model = this;
     if (model.isNew) {
         model.code = schemaBuilder.generateFriendlyId(model._id).toString();
     }

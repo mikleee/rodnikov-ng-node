@@ -15,6 +15,8 @@ import {ProductCategoriesListComponent} from "./product-categories/product-categ
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ProductAttributeTemplateComponent} from "./product-attribute-templates/product-attribute-template/product-attribute-template.component";
 import {ProductAttributeTemplatesListComponent} from './product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component';
+import {ProductAttributesComponent} from './product/product-attributes/product-attributes.component';
+import {ProductPriceReportComponent} from './product/product-price-report/product-price-report.component';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import {ProductAttributeTemplatesListComponent} from './product-attribute-templa
     ProductCategoriesTreeComponent,
     ProductAttributeTemplateComponent,
     ProductAttributeTemplatesListComponent,
+    ProductAttributesComponent,
+    ProductPriceReportComponent,
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,10 @@ export function toMap<T extends BaseModel>(models: T[]): { [key: string]: T } {
   }, {} as { [key: string]: T })
 }
 
+export function toIds<T extends BaseModel>(models: T[]): string[] {
+  return models.map(m => m.id);
+}
+
 export function mapToViewStates<T extends BaseModel>(models: T[]): { [key: string]: ViewState } {
   return models.reduce((a, v) => {
     a[v.id] = new ViewState();

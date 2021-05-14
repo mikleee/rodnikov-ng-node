@@ -1,12 +1,8 @@
 const ModelService = require("./model.service");
 const enums = require("../db/model.enum");
-const {ProductSupplier} = require("../db/product.supplier.model");
 const documentService = require("./document.service");
 const configurationService = require("./configuration.service");
 const productAttributesService = require("./product.attributes.service");
-const {ProductAttributeWrapper} = require("../wrapper/product.attribute.model.wrapper");
-const {ProductAttribute} = require("../db/product.attribute.model");
-const {ProductAttributeTemplate} = require("../db/product.attribute.template.model");
 const {ProductWrapper} = require("../wrapper/product.model.wrapper");
 const {Product} = require("../db/product.model");
 

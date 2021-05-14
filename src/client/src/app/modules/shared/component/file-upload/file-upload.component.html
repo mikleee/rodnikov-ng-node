@@ -1,7 +1,8 @@
 <div class="file-upload-container">
   <button class="file-upload-trigger btn btn-outline-secondary" type="button">
     <label>
-      <span>{{title || 'Upload'}}</span>
+      <span *ngIf="title">{{title}}</span>
+      <span *ngIf="!title" class="bi-upload"></span>
       <input
         class="file-upload-input"
         type="file"

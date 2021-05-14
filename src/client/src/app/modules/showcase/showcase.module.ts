@@ -18,8 +18,6 @@ import {ShowcaseProductComponent} from './shared/showcase-product/showcase-produ
 import {ShowcaseProductCategoriesForProductsComponent} from "./shared/showcase-product-categories-for-products/showcase-product-categories-for-products.component";
 import {ShowcaseProductCategoriesComponent} from "./shared/showcase-product-categories/showcase-product-categories.component";
 import {ShowcaseProductCategoriesLayoutComponent} from './shared/showcase-product-categories-layout/showcase-product-categories-layout.component';
-import {ButtonOkDirective} from "../shared/directive/button-ok.directive";
-import {ButtonResetDirective} from "../shared/directive/button-reset.directive";
 import {ShowcaseAttributeFiltersComponent} from './showcase-filters/showcase-attribute-filters/showcase-attribute-filters.component';
 
 
@@ -39,8 +37,6 @@ import {ShowcaseAttributeFiltersComponent} from './showcase-filters/showcase-att
     ShowcaseProductComponent,
     ShowcaseProductCategoriesForProductsComponent,
     ShowcaseProductCategoriesLayoutComponent,
-    ButtonOkDirective,
-    ButtonResetDirective,
     ShowcaseAttributeFiltersComponent,
     ShowcaseAttributeFiltersComponent,
   ],

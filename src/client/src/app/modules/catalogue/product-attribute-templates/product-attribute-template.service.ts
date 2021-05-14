@@ -20,7 +20,7 @@ export class ProductAttributeTemplateService {
       );
   }
 
-  getSupplier(id: String): Promise<ProductSupplier> {
+  getAttributeTemplate(id: String): Promise<ProductSupplier> {
     return this.http.get('/api/product-attribute-templates/template/' + id)
       .pipe(
         first()
@@ -28,11 +28,15 @@ export class ProductAttributeTemplateService {
       .toPromise();
   }
 
-  submitSupplier(supplier: FormData): Promise<ProductSupplier> {
-    return this.http.postMultipartFormData('/api/product-attribute-templates/submit', supplier)
+  submitTemplate(template: ProductAttributeTemplate): Promise<ProductAttributeTemplate> {
+    return this.http.post('/api/product-attribute-templates/submit', template)
+      .pipe(
+        first()
+      )
+      .toPromise();
   }
 
-  deleteTemplate(id: String): Promise<ProductSupplier> {
+  deleteTemplate(id: String): Promise<ProductAttributeTemplate> {
     return this.http.post('/api/product-attribute-templates/delete/' + id)
       .pipe(
         first()

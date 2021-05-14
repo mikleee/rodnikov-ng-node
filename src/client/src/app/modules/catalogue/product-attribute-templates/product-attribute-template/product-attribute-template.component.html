@@ -1,1 +1,28 @@
-<p>product-attribute-template works!</p>
+<h3>template</h3>
+
+
+<fieldset>
+  <app-shared-in-progress *ngIf="templateState.isInProgress()"></app-shared-in-progress>
+  <app-shared-error *ngIf="templateState.isError()"></app-shared-error>
+
+  <div *ngIf="templateState.isReady()">
+    <form [formGroup]="templateForm" (ngSubmit)="submitAttributeTemplateForm()">
+      <div>
+        <div class="form-controls">
+          <label for="templateName" class="form-label">Name</label>
+          <input id="templateName" type="text" formControlName="name" class="form-control">
+        </div>
+      </div>
+      <div class="form-controls-buttons">
+        <button type="submit" class="btn btn-outline-primary" [disabled]="templateForm.disabled">Submit</button>
+        <app-shared-error *ngIf="templateFormState.isError()" [message]="templateFormState.getMessage()"></app-shared-error>
+      </div>
+    </form>
+  </div>
+
+
+</fieldset>
+
+
+
+

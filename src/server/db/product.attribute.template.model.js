@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 
 let schema = schemaBuilder.buildSchema({
-    name: Schema.Types.String
+    name: {type: Schema.Types.String, unique: true, required: true}
 });
 
 const ProductAttributeTemplate = mongoose.model('ProductAttributeTemplate', schema);

@@ -46,6 +46,7 @@ const routes: Routes = [
       {path: 'products/product', component: ProductComponent},
       {path: 'products/product/:id', component: ProductComponent},
       {path: 'attribute-template', component: ProductAttributeTemplatesListComponent},
+      {path: 'attribute-template/template', component: ProductAttributeTemplateComponent},
       {path: 'attribute-template/template/:id', component: ProductAttributeTemplateComponent},
       // {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
       {path: '**', pathMatch: 'full', component: ProductListComponent},
