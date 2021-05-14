@@ -6,10 +6,7 @@ const Schema = mongoose.Schema;
 
 let schema = schemaBuilder.buildSchema({
     name: Schema.Types.String,
-    type: {
-        type: Schema.Types.String,
-        enum: Object.values(enums.DocumentType)
-    },
+    type: {type: Schema.Types.String, enum: Object.values(enums.DocumentType), required: true},
     contentType: Schema.Types.String,
     content: Schema.Types.Buffer,
 });

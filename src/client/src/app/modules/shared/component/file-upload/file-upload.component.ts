@@ -12,7 +12,7 @@ export class FileUploadComponent implements OnInit {
   @Input() id: string = randomString();
   @Input() multiple: boolean = false;
   @Input() accept?: string;
-  @Input("upload-title") title: string = 'Upload';
+  @Input("upload-title") title?: string;
   files: File[] = [];
   label: string = '';
 

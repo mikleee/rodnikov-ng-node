@@ -19,6 +19,7 @@ import {StateOverlayComponent} from './component/state-overlay/state-overlay.com
 import {UpliftPipe} from './transform/uplift.pipe';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 import {InputNumberDirective} from './directive/input-number.directive';
+import {ButtonAddDirective, ButtonCancelDirective, ButtonDeleteDirective, ButtonEditDirective, ButtonOkDirective, ButtonResetDirective, ButtonSaveDirective} from "./directive/button.directives";
 
 
 @NgModule({
@@ -40,6 +41,13 @@ import {InputNumberDirective} from './directive/input-number.directive';
     UpliftPipe,
     NotFoundComponent,
     InputNumberDirective,
+    ButtonAddDirective,
+    ButtonCancelDirective,
+    ButtonDeleteDirective,
+    ButtonEditDirective,
+    ButtonOkDirective,
+    ButtonResetDirective,
+    ButtonSaveDirective,
   ],
   exports: [
     InProgressComponent,
@@ -54,7 +62,14 @@ import {InputNumberDirective} from './directive/input-number.directive';
     StateOverlayComponent,
     UpliftPipe,
     NotFoundComponent,
-    InputNumberDirective
+    InputNumberDirective,
+    ButtonAddDirective,
+    ButtonCancelDirective,
+    ButtonDeleteDirective,
+    ButtonEditDirective,
+    ButtonOkDirective,
+    ButtonResetDirective,
+    ButtonSaveDirective,
   ],
   imports: [
     CommonModule,
@@ -64,3 +79,6 @@ import {InputNumberDirective} from './directive/input-number.directive';
 })
 export class SharedModule {
 }
+
+
+

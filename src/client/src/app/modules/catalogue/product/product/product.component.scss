@@ -1,0 +1,8 @@
+$height: 200px;
+.carousel-item-image {
+  height: $height !important;
+
+  img {
+    max-height: $height !important;
+  }
+}

@@ -26,11 +26,11 @@ export class ProductCategoryService {
   }
 
   submitProductCategory(supplier: ProductCategory): Promise<ProductCategory> {
-    return this.http.post('/api/categories/category/submit', supplier).toPromise();
+    return this.http.post('/api/categories/submit', supplier).toPromise();
   }
 
   deleteCategory(id: String): Promise<ProductCategory> {
-    return this.http.post('/api/categories/category/delete/' + id).toPromise();
+    return this.http.post('/api/categories/delete/' + id).toPromise();
   }
 
   assignSubcategories(input: ProductCategory[]): ProductCategory[] {

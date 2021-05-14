@@ -16,6 +16,8 @@ import {PaymentAndDeliveryComponent} from "./modules/simple-pages/payment-and-de
 import {AboutUsComponent} from "./modules/simple-pages/about-us/about-us.component";
 import {ShowcaseProductComponent} from "./modules/showcase/shared/showcase-product/showcase-product.component";
 import {ShowcaseSearchResultsComponent} from "./modules/showcase/showcase-search/showcase-search-results/showcase-search-results.component";
+import {ProductAttributeTemplatesListComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component";
+import {ProductAttributeTemplateComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-template/product-attribute-template.component";
 
 
 const routes: Routes = [
@@ -43,6 +45,9 @@ const routes: Routes = [
       {path: 'products', component: ProductListComponent},
       {path: 'products/product', component: ProductComponent},
       {path: 'products/product/:id', component: ProductComponent},
+      {path: 'attribute-template', component: ProductAttributeTemplatesListComponent},
+      {path: 'attribute-template/template', component: ProductAttributeTemplateComponent},
+      {path: 'attribute-template/template/:id', component: ProductAttributeTemplateComponent},
       // {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
       {path: '**', pathMatch: 'full', component: ProductListComponent},
     ]

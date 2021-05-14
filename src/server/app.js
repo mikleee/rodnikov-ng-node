@@ -9,7 +9,7 @@ const app = express();
 
 app.use(logger('dev'));
 app.use(express.urlencoded());
-app.use(fileUpload({createParentPath: true, debug: true}));
+app.use(fileUpload({createParentPath: true, debug: false}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public/ngjs')));
@@ -23,6 +23,8 @@ app.use('/api/suppliers', require('./routes/product.suppliers.routes'));
 app.use('/api/categories', require('./routes/product.categories.routes'));
 app.use('/api/products', require('./routes/products.routes'));
 app.use('/api/document', require('./routes/document.routes'));
+app.use('/api/product-attribute-templates', require('./routes/product.attribute.templates.routes'));
+app.use('/api/product-attributes', require('./routes/product.attribute.routes'));
 app.use('/', require('./routes/render'));
 
 module.exports = app;

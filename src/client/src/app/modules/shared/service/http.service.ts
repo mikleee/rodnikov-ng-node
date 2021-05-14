@@ -34,8 +34,9 @@ export class HttpService {
     )
       .pipe(
         catchError(error => {
-          this.globalToasterService.error(error.message);
-          return throwError(error);
+          let message = error.error?.message ?? error.message;
+          this.globalToasterService.error(message);
+          return throwError({message: message});
         })
       )
   }

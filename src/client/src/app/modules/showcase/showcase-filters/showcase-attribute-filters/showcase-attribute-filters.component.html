@@ -1,0 +1,12 @@
+<div class="card-body" *ngFor="let filter of filters">
+  <h5 class="card-title showcase-filters-title">{{filter.name}}</h5>
+  <div class="showcase-filters-items">
+    <div class="showcase-filters-item" *ngFor="let value of filter.values">
+      <label>
+        <input type="checkbox" [(ngModel)]="value.checked" (change)="onAttributeFilterChange()">
+        <a class="showcase-filters-name"> {{value.value}}</a>
+        <span class="badge bg-secondary showcase-filters-count">{{value.productsCount}}</span>
+      </label>
+    </div>
+  </div>
+</div>

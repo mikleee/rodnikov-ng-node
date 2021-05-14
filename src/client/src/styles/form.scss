@@ -12,6 +12,18 @@ form {
 
 }
 
+input,
+select,
+textarea {
+  &.form-control {
+    max-width: 300px;
+  }
+}
+
+.input-group {
+  max-width: 300px;
+}
+
 
 .form-controls-buttons {
   margin-top: 10px;

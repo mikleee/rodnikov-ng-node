@@ -11,7 +11,7 @@ export class ImageUploadComponent implements OnInit {
   @Input() subject$?: Subject<File[]>
   @Input() id: string = randomString();
   @Input() multiple: boolean = false;
-  @Input("upload-title") title: string = 'Upload image';
+  @Input("upload-title") title?: string;
 
   constructor() {
   }

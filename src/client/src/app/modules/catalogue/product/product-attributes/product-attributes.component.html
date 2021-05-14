@@ -1,0 +1,86 @@
+<app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
+<app-shared-error *ngIf="state.isError()" message="Невозможно загрузить характеристики"></app-shared-error>
+<div *ngIf="state.isReady()">
+  <app-pagination *ngIf="state.isReady()"
+                  [pagination]="pagination"
+                  (onPagination)="attributesToShow = pagination.getPage(attributes)"></app-pagination>
+
+  <form [formGroup]="fm">
+    <table class="table results-table">
+      <thead>
+        <tr formGroupName="new" (submit)="addAttribute(fm.controls['new'], newAttribute)">
+          <th>
+            <select class="form-control"
+                    name="template"
+                    formControlName="template"
+            >
+              <option [ngValue]="undefined">---</option>
+              <option *ngFor="let t of availableTemplates" [ngValue]="t.id">{{t.name}}</option>
+            </select>
+          </th>
+          <th>
+            <input type="text"
+                   name="value"
+                   class="form-control"
+                   formControlName="value"
+            />
+          </th>
+          <th class="actions">
+            <app-shared-error *ngIf="newAttribute.state.isError()" [message]="newAttribute.state.getMessage()"></app-shared-error>
+            <button class="btn btn-outline-secondary btn-sm"
+                    type="button"
+                    app-button-add
+                    (click)="addAttribute(fm.controls['new'], newAttribute)"
+                    [disabled]="fm.controls['new'].invalid || newAttribute.state.isInProgress()"
+            ></button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attr of attributesToShow" [formGroupName]="attr.id">
+          <td>{{attr.name}}</td>
+          <td>
+            <span *ngIf="!attr.editing">{{attr.value}}</span>
+            <input class="form-control"
+                   *ngIf="attr.editing"
+                   formControlName="value"
+                   [value]="attr.value"/>
+          </td>
+          <td class="actions">
+            <app-shared-error *ngIf="attr.state.isError()" [message]="attr.state.getMessage()"></app-shared-error>
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    *ngIf="!attr.editing"
+                    (click)="attr.editing = true"
+                    app-button-edit
+            ></button>
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    *ngIf="attr.editing"
+                    (click)="attr.editing = false"
+                    [disabled]="attr.state.isInProgress()"
+                    app-button-cancel
+            ></button>
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    *ngIf="attr.editing"
+                    [disabled]="fm.controls[attr.id].invalid || attr.state.isInProgress()"
+                    (click)="updateAttribute(fm.controls[attr.id], attr)"
+                    app-button-save
+            ></button>
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    app-button-delete
+                    [disabled]="attr.state.isInProgress()"
+                    (click)="deleteAttribute(attr)"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+
+</div>
+
+
+

@@ -23,6 +23,10 @@ export function toMap<T extends BaseModel>(models: T[]): { [key: string]: T } {
   }, {} as { [key: string]: T })
 }
 
+export function toIds<T extends BaseModel>(models: T[]): string[] {
+  return models.map(m => m.id);
+}
+
 export function mapToViewStates<T extends BaseModel>(models: T[]): { [key: string]: ViewState } {
   return models.reduce((a, v) => {
     a[v.id] = new ViewState();
@@ -64,4 +68,14 @@ export function updateInCollection<T extends BaseModel>(input: T[], model: T): T
     }
   });
   return input;
+}
+
+export function addToBundle<T>(bundles: { [key: string]: T[] }, identifier: string, entity: T): T {
+  let bundle = bundles[identifier];
+  if (!bundle) {
+    bundle = [];
+    bundles[identifier] = bundle;
+  }
+  bundle.push(entity);
+  return entity;
 }
