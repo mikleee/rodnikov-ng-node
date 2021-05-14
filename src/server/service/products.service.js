@@ -3,6 +3,10 @@ const enums = require("../db/model.enum");
 const {ProductSupplier} = require("../db/product.supplier.model");
 const documentService = require("./document.service");
 const configurationService = require("./configuration.service");
+const productAttributesService = require("./product.attributes.service");
+const {ProductAttributeWrapper} = require("../wrapper/product.attribute.model.wrapper");
+const {ProductAttribute} = require("../db/product.attribute.model");
+const {ProductAttributeTemplate} = require("../db/product.attribute.template.model");
 const {ProductWrapper} = require("../wrapper/product.model.wrapper");
 const {Product} = require("../db/product.model");
 
@@ -83,6 +87,7 @@ class ProductSupplierService extends ModelService {
             return result;
         }
 
+        let attributes = await productAttributesService.getAttributeWrappersForProducts(products);
         let globalPriceUplift = await configurationService.findByKey(enums.ConfigurationKey.PRICE_UPLIFT) || 0;
         let usdToUah = await configurationService.findByKey(enums.ConfigurationKey.CURRENCY_USD_TO_UAH) || 27;
 
@@ -110,6 +115,9 @@ class ProductSupplierService extends ModelService {
                 productWrapper.cost = cost;
                 productWrapper.margin = margin;
             }
+
+            productWrapper.attributes = attributes[product.id] || [];
+
             result.push(productWrapper);
         }
 

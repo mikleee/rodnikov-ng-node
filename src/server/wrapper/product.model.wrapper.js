@@ -13,6 +13,7 @@ class ProductWrapper extends BaseWrapper {
     price;
     priceUah;
     margin;
+    attributes;
 }
 
 module.exports.ProductWrapper = ProductWrapper;
