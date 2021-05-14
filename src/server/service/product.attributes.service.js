@@ -1,5 +1,5 @@
 const ModelService = require("./model.service");
-const {modelsToMap, modelsToIds, addToBundleBundle} = require("./util.service");
+const {modelsToMap, modelsToIds, addToBundle} = require("./util.service");
 const {ProductAttributeWrapper} = require("../wrapper/product.attribute.model.wrapper");
 const {ProductAttribute} = require("../db/product.attribute.model");
 const {ProductAttributeTemplate} = require("../db/product.attribute.template.model");
@@ -26,10 +26,10 @@ class ProductAttributesService extends ModelService {
                 if (template) {
                     let attributeWrapper = new ProductAttributeWrapper();
                     attributeWrapper.id = attribute.id;
-                    attributeWrapper.templateId = template.id;
                     attributeWrapper.name = template.name;
                     attributeWrapper.value = attribute.value;
-                    addToBundleBundle(result, attribute.product, attributeWrapper);
+                    attributeWrapper.template = template.id;
+                    addToBundle(result, attribute.product, attributeWrapper);
                 } else {
                     logger.warn(`Product attribute template ${attribute.template} doesn't exist`);
                 }

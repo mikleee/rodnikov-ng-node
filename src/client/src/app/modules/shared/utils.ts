@@ -65,3 +65,13 @@ export function updateInCollection<T extends BaseModel>(input: T[], model: T): T
   });
   return input;
 }
+
+export function addToBundle<T>(bundles: { [key: string]: T[] }, identifier: string, entity: T): T {
+  let bundle = bundles[identifier];
+  if (!bundle) {
+    bundle = [];
+    bundles[identifier] = bundle;
+  }
+  bundle.push(entity);
+  return entity;
+}

@@ -36,32 +36,6 @@ export class ProductsFilter {
 
 }
 
-export class ProductsCriteria {
-  page?: Page;
-  filter?: ProductsFilter;
-  keyword?: string;
-
-  isEmpty() {
-    return this.keyword == undefined
-      && (this.page == undefined || this.page.isEmpty())
-      && (this.filter == undefined || this.filter.isEmpty())
-  }
-}
-
-export class Page {
-  page?: number;
-  size?: number;
-
-  constructor(page: number, size: number) {
-    this.page = page;
-    this.size = size;
-  }
-
-  isEmpty() {
-    return this.page == undefined || this.size
-  }
-}
-
 
 export interface Product extends BaseModel {
   code: string;
@@ -76,6 +50,7 @@ export interface Product extends BaseModel {
   price: number,
   priceUah: number,
   margin: number,
+  attributes: ProductAttribute[]
 }
 
 export interface ProductSupplier extends BaseModel {
@@ -87,4 +62,14 @@ export interface ProductCategory extends BaseModel {
   name: string;
   parent: string;
   categories: ProductCategory[];
+}
+
+export interface ProductAttribute extends BaseModel {
+  name: string;
+  value: string;
+  template: string;
+}
+
+export interface ProductAttributeTemplate extends BaseModel {
+  name: string;
 }

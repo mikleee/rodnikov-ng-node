@@ -23,6 +23,18 @@ export class ShowcaseFiltersService {
     })
   }
 
+  setAttributes(attributes: { [key: string]: string[] } = {}) {
+    this.update((filters) => {
+      let attributesToCheck: { [key: string]: string[] } = {};
+      for (const [template, values] of Object.entries(attributes)) {
+        if (values && values.length) {
+          attributesToCheck[template] = values;
+        }
+      }
+      filters.attributes = attributesToCheck;
+    })
+  }
+
   applyOnProducts(products: Product[] = [], filters: ShowcaseFilters) {
     let result = products;
     if (filters.suppliers?.length) {
@@ -35,6 +47,9 @@ export class ShowcaseFiltersService {
     if (filters.priceMax !== undefined) {
       let value = filters.priceMax;
       result = result.filter(p => p.priceUah <= value);
+    }
+    if (filters.attributes !== undefined) {
+      result = result.filter(p => this.matchAttributeFilters(p, filters.attributes));
     }
     return result;
   }
@@ -52,19 +67,46 @@ export class ShowcaseFiltersService {
     }
   }
 
+  private matchAttributeFilters(product: Product, attributes: { [key: string]: string[] }) {
+    let productsAttributes: { [key: string]: string } = {};
+    product.attributes.forEach(attr => {
+      productsAttributes[attr.template] = attr.value;
+    })
+
+    for (const [template, values] of Object.entries(attributes)) {
+      if (!Object.keys(productsAttributes).includes(template)) {
+        return false;
+      }
+      let attributeValue: string = productsAttributes[template];
+      if (!values.includes(attributeValue)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
 }
 
 export class ShowcaseFilters {
   suppliers: string[] = [];
   priceMin: number | undefined;
   priceMax: number | undefined;
+  attributes: { [key: string]: string[] } = {}
 
   hash() {
+    let attributes = [];
+    for (const [k, v] of Object.entries(this.attributes)) {
+      attributes.push(`${k}=${v.sort().join('*')}`)
+    }
+
     return [
       this.priceMin,
       this.priceMax,
       this.suppliers.length,
-      this.suppliers.sort().join('|')
+      this.suppliers.sort().join('|'),
+      attributes.length,
+      attributes.sort().join('|'),
     ].join('--')
   }
 
@@ -72,6 +114,7 @@ export class ShowcaseFilters {
     return this.priceMin === undefined
       && this.priceMax === undefined
       && this.suppliers.length === 0
+      && Object.keys(this.attributes).length === 0
   }
 
   equals(that: ShowcaseFilters) {

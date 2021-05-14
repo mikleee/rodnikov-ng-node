@@ -1,7 +1,7 @@
 module.exports = {
     modelsToMap: modelsToMap,
     modelsToIds: modelsToIds,
-    addToBundleBundle: addToBundleBundle,
+    addToBundle: addToBundle,
 }
 
 
@@ -16,7 +16,7 @@ function modelsToMap(models) {
     }, {});
 }
 
-function addToBundleBundle(bundles, identifier, entity) {
+function addToBundle(bundles, identifier, entity) {
     let bundle = bundles[identifier];
     if (!bundle) {
         bundle = [];
