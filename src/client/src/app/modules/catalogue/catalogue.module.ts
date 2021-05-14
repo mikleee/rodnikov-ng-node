@@ -13,6 +13,8 @@ import {ProductCategoryComponent} from "./product-categories/product-category/pr
 import {ProductCategoriesDropdownComponent} from "./product-categories/product-categories-dropdown/product-categories-dropdown.component";
 import {ProductCategoriesListComponent} from "./product-categories/product-categories-list/product-categories-list.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {ProductAttributeTemplateComponent} from "./product-attribute-templates/product-attribute-template/product-attribute-template.component";
+import {ProductAttributeTemplatesListComponent} from './product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ProductComponent,
     ProductCategoriesDropdownComponent,
     ProductCategoriesTreeComponent,
+    ProductAttributeTemplateComponent,
+    ProductAttributeTemplatesListComponent,
   ],
   imports: [
     CommonModule,

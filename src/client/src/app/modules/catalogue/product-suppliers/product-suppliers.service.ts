@@ -28,11 +28,11 @@ export class ProductSuppliersService {
   }
 
   submitSupplier(supplier: FormData): Promise<ProductSupplier> {
-    return this.http.postMultipartFormData('/api/suppliers/supplier/submit', supplier)
+    return this.http.postMultipartFormData('/api/suppliers/submit', supplier)
   }
 
   deleteSupplier(id: String): Promise<ProductSupplier> {
-    return this.http.post('/api/suppliers/supplier/delete/' + id)
+    return this.http.post('/api/suppliers/delete/' + id)
       .pipe(
         first()
       )

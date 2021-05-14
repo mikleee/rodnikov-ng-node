@@ -1,0 +1,48 @@
+<header class="heading">
+  <h3>Характеристики <span *ngIf="templates.state.isReady()" class="badge bg-secondary">{{templates.value.length}}</span></h3>
+</header>
+
+<app-pagination *ngIf="templates.state.isReady()"
+                [pagination]="pagination"
+                (onPagination)="templatesToShow = pagination.getPage(templates.value)"></app-pagination>
+
+<table class="table results-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th class="actions">
+        <button class="btn btn-outline-secondary btn-sm" [routerLink]="['template']">
+          <i class="bi-plus"></i>
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <tbody *ngIf="templates.state.isInProgress()">
+    <tr>
+      <td colspan="2">
+        <app-shared-in-progress></app-shared-in-progress>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="templates.state.isError()">
+    <tr>
+      <td colspan="2">
+        <app-shared-error></app-shared-error>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="templates.state.isReady()">
+    <tr *ngFor="let template of templatesToShow">
+      <td><a [routerLink]="['template', template.value.id]">{{template.value.name}}</a></td>
+      <td class="actions">
+        <app-shared-error *ngIf="template.state.isError()" [message]="template.state.getMessage()"></app-shared-error>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm"
+                (click)="deleteTemplate(template)"
+                [disabled]="template.state.isInProgress()">
+          <i class="bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

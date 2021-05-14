@@ -11,11 +11,11 @@ router.get('/category/:id', async (req, res, next) => {
     return await productCategoryService.findById(id);
 });
 
-router.post('/category/submit', async (req, res, next) => {
+router.post('/submit', async (req, res, next) => {
     return await productCategoryService.saveOrUpdate(req.body);
 });
 
-router.post('/category/delete/:id', async (req, res, next) => {
+router.post('/delete/:id', async (req, res, next) => {
     const id = req.params['id'];
     await productCategoryService.delete(id);
 });
