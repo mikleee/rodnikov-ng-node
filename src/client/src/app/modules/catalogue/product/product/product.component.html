@@ -1,6 +1,6 @@
 <h3 class="heading">Продукт</h3>
 
-<fieldset>
+<fieldset class="product-details-form">
   <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
 
     <app-state-overlay [state]="state"></app-state-overlay>
@@ -63,12 +63,12 @@
     <!-- attributes -->
     <div class="row">
       <div class="col-12">
-        <div class="form-controls">
-          <app-product-attributes
-            *ngIf="product.id"
-            [product]="product"
-          ></app-product-attributes>
-        </div>
+        <br>
+        <app-product-attributes
+          *ngIf="product.id"
+          [product]="product"
+        ></app-product-attributes>
+        <br>
       </div>
     </div>
     <!--images-->
@@ -97,12 +97,12 @@
         <ngb-carousel *ngIf="product.mainImage || product.additionalImages?.length">
           <ng-template ngbSlide *ngIf="product.mainImage">
             <div class="carousel-item-image">
-              <app-server-image [imageId]="product.mainImage"></app-server-image>
+              <app-server-image [imageId]="product.mainImage" cssClass="product-details-form-logo"></app-server-image>
             </div>
           </ng-template>
           <ng-template ngbSlide *ngFor="let img of product.additionalImages">
             <div class="carousel-item-image">
-              <app-server-image [imageId]="img"></app-server-image>
+              <app-server-image [imageId]="img" cssClass="product-details-form-logo"></app-server-image>
             </div>
           </ng-template>
         </ngb-carousel>

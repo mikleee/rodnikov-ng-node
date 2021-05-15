@@ -58,9 +58,9 @@ export class ProductAttributesComponent implements OnInit {
 
   init(templates: ProductAttributeTemplate[], attributes: ProductAttribute[] = []) {
     debugger;
-    this.fm.removeControl('new');
-    this.fm.addControl('new', this.buildFormSegment(this.newAttribute));
-    attributes.forEach(attr => this.fm.addControl(attr.id, this.buildFormSegment(attr)));
+    let newControl = this.buildFormSegment(this.newAttribute);
+    this.fm.setControl('new', newControl);
+    attributes.forEach(attr => this.fm.setControl(attr.id, this.buildFormSegment(attr)));
 
     this.attributes = attributes.map(attr => {
       let result = attr as ProductAttributeOption;
@@ -72,6 +72,12 @@ export class ProductAttributesComponent implements OnInit {
 
     let existing = this.attributes.map(a => a.template);
     this.availableTemplates = templates.filter(t => !existing.includes(t.id));
+    if (this.availableTemplates.length) {
+      newControl.enable();
+      newControl.controls.template.setValue(undefined);
+    } else {
+      newControl.disable();
+    }
   }
 
   addAttribute(fm: AbstractControl, attr: ProductAttributeOption) {
@@ -121,6 +127,7 @@ export class ProductAttributesComponent implements OnInit {
         value => {
           attr.state.ready();
           this.fm.removeControl(attr.id);
+          debugger;
           this.attributes = removeFromCollection(this.attributes, attr.id);
           this.init(this.templates, this.attributes)
         },
