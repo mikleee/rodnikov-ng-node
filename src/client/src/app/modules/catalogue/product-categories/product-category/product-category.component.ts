@@ -4,6 +4,8 @@ import {ProductCategory} from "../../catalogue.models";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {ProductCategoryService} from "../product-category.service";
+import {forkJoin, of} from "rxjs";
+import {first} from "rxjs/operators";
 
 
 @Component({
@@ -12,67 +14,63 @@ import {ProductCategoryService} from "../product-category.service";
   styleUrls: ['./product-category.component.scss']
 })
 export class ProductCategoryComponent implements OnInit {
-  categoryState: ViewState = new ViewState();
+  state: ViewState = new ViewState();
   categoryFormState: ViewState = new ViewState(ViewStateState.READY);
   category: ProductCategory = {} as ProductCategory;
-  categoryForm: FormGroup = this.buildCategoryForm(this.category);
+  fm: FormGroup;
+  categories: ProductCategory[] = [];
 
 
   constructor(private route: ActivatedRoute,
               protected categoriesService: ProductCategoryService) {
-
+    this.fm = new FormGroup({});
+    this.populateCategoryForm(this.category);
   }
 
   submitCategoryForm() {
-    if (this.categoryForm.valid) {
-      this.categoryForm.disable();
+    if (this.fm.valid) {
+      this.fm.disable();
       this.categoryFormState.inProgress();
-      this.categoriesService.submitProductCategory(this.categoryForm.value)
+      this.categoriesService.submitProductCategory(this.fm.value)
         .then(
           value => {
-            this.categoryForm.enable();
-            this.resolveGroup(value, ViewStateState.READY);
+            this.fm.enable();
+            this.resolveProductCategoryPage(this.categories, value, ViewStateState.READY);
           },
           reason => {
-            this.categoryForm.enable();
-            this.resolveGroup({} as ProductCategory, ViewStateState.ERROR, reason)
+            this.fm.enable();
+            this.resolveProductCategoryPage(this.categories, {} as ProductCategory, ViewStateState.ERROR, reason)
           },
         );
     }
   }
 
-  buildCategoryForm(category: ProductCategory | undefined) {
-    return new FormGroup({
-      id: new FormControl(category?.id, []),
-      name: new FormControl(category?.name, [Validators.required]),
-      parent: new FormControl(category?.parent)
-    });
+  populateCategoryForm(category: ProductCategory | undefined) {
+    this.fm.setControl('id', new FormControl(category?.id, []));
+    this.fm.setControl('name', new FormControl(category?.name, [Validators.required]));
+    this.fm.setControl('parent', new FormControl(category?.parent, []));
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.categoryState.inProgress();
-      this.categoriesService.getProductCategory(id)
-        .then(
-          value => this.resolveGroup(value, ViewStateState.READY),
-          reason => this.resolveGroup({} as ProductCategory, ViewStateState.ERROR, reason)
-        );
-    } else {
-      this.resolveGroup({} as ProductCategory, ViewStateState.READY)
-    }
+    this.state.inProgress();
+    forkJoin([
+      this.categoriesService.getProductCategories(),
+      id ? this.categoriesService.getProductCategory(id) : of({} as ProductCategory),
+    ])
+      .pipe(first())
+      .subscribe(
+        value => this.resolveProductCategoryPage(value[0], value[1], ViewStateState.READY, undefined),
+        error => this.resolveProductCategoryPage([], {} as ProductCategory, ViewStateState.ERROR, error.message)
+      )
   }
 
-  resolveGroup(value: ProductCategory, state: ViewStateState, message?: string) {
-    this.categoryState.setState(state);
-    this.categoryState.setMessage(message);
-    this.category = value
-    this.categoryForm = this.buildCategoryForm(value);
+  resolveProductCategoryPage(categories: ProductCategory[], category: ProductCategory, state: ViewStateState, message?: string) {
+    this.state.setState(state);
+    this.state.setMessage(message);
+    this.category = category
+    this.categories = categories;
+    this.populateCategoryForm(category)
   }
-
-  onCategoryChange(category: ProductCategory) {
-    this.categoryForm?.controls.parent?.setValue(category?.id)
-  }
-
 
 }

@@ -1,40 +1,25 @@
-<h3>Category</h3>
-
-
+<h3>Категория</h3>
 <fieldset>
-  <div>
-    <app-shared-in-progress *ngIf="categoryState.isInProgress()"></app-shared-in-progress>
-    <app-shared-error *ngIf="categoryState.isError()" [message]="categoryState.getMessage()"></app-shared-error>
-  </div>
-  <div class="row" *ngIf="categoryState.isReady()">
-    <div class="col">
-      <form [formGroup]="categoryForm" (ngSubmit)="submitCategoryForm()">
-        <div class="form-controls">
-          <label for="categoryName" class="form-label">Name</label>
-          <input id="categoryName" class="form-control" type="text" formControlName="name">
-        </div>
-        <div class="form-controls">
-          <!--suppress XmlInvalidId -->
-          <label for="categoryParent" class="form-label">Parent</label>
-          <div>
-            <app-product-categories-dropdown
-              selectId="categoryParent"
-              [category]="category.parent"
-              (categoryChange)="onCategoryChange($event)"
-              [nullOption]="'---'"></app-product-categories-dropdown>
-            <input type="hidden" formControlName="parent">
-          </div>
-        </div>
-        <div class="form-controls-buttons">
-          <app-shared-error *ngIf="categoryFormState.isError()" [message]="categoryFormState.getMessage()"></app-shared-error>
-          <button type="submit" class="btn btn-outline-primary" [disabled]="categoryForm.disabled">Submit</button>
-        </div>
-      </form>
+  <app-state-overlay [state]="state"></app-state-overlay>
+  <form [formGroup]="fm" (ngSubmit)="submitCategoryForm()">
+    <div class="form-controls">
+      <label for="categoryName" class="form-label">Имя</label>
+      <input id="categoryName" class="form-control" type="text" formControlName="name">
     </div>
-    <div class="col">
-      <app-product-categories-tree [categories]="[category]"></app-product-categories-tree>
+    <div class="form-controls">
+      <label for="categoryParent" class="form-label">Родительская категория</label>
+      <div>
+        <select id="categoryParent" class="form-control" formControlName="parent">
+          <option [ngValue]="null">----</option>
+          <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
+        </select>
+      </div>
     </div>
-  </div>
+    <div class="form-controls-buttons">
+      <app-shared-error *ngIf="categoryFormState.isError()" [message]="categoryFormState.getMessage()"></app-shared-error>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="fm.disabled">Submit</button>
+    </div>
+  </form>
 </fieldset>
 
 

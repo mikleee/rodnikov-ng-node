@@ -1,17 +1,22 @@
 <div>
   <div class="container-fluid">
     <div class="row">
-      <section class="col-3">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" routerLink="products" routerLinkActive="active"><a>Подукты</a></li>
-          <li class="list-group-item" routerLink="categories" routerLinkActive="active"><a>Категории</a></li>
-          <li class="list-group-item" routerLink="suppliers" routerLinkActive="active"><a>Производители</a></li>
-          <li class="list-group-item" routerLink="attribute-template" routerLinkActive="active"><a>Характеристики</a></li>
-        </ul>
-      </section>
-      <section class="col-8">
+      <div class="col-12">
+        <nav class="navbar navbar-light bg-light">
+          <div>
+            <a class="navbar-brand" routerLink="products" routerLinkActive="active">Подукты</a>
+            <a class="navbar-brand" routerLink="categories" routerLinkActive="active">Категории</a>
+            <a class="navbar-brand" routerLink="suppliers" routerLinkActive="active">Производители</a>
+            <a class="navbar-brand" routerLink="attribute-template" routerLinkActive="active">Характеристики</a>
+          </div>
+        </nav>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
         <router-outlet></router-outlet>
-      </section>
+      </div>
     </div>
   </div>
 </div>

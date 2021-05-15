@@ -13,11 +13,13 @@ import {ShowcaseDashboardComponent} from "./modules/showcase/showcase-dashboard/
 import {ContactsComponent} from "./modules/simple-pages/contacts/contacts.component";
 import {PaymentAndDeliveryComponent} from "./modules/simple-pages/payment-and-delivery/payment-and-delivery.component";
 import {AboutUsComponent} from "./modules/simple-pages/about-us/about-us.component";
-import {ShowcaseProductComponent} from "./modules/showcase/shared/showcase-product/showcase-product.component";
+import {ShowcaseProductComponent} from "./modules/showcase/showcase-product/showcase-product.component";
 import {ShowcaseSearchResultsComponent} from "./modules/showcase/showcase-search/showcase-search-results/showcase-search-results.component";
 import {ProductAttributeTemplatesListComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component";
 import {ProductAttributeTemplateComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-template/product-attribute-template.component";
 import {ConfigurationDashboardComponent} from "./modules/configuration/configuration/configuration-dashboard.component";
+import {ShowcaseProductGeneralComponent} from "./modules/showcase/showcase-product/showcase-product-general/showcase-product-general.component";
+import {ShowcaseProductAttributesComponent} from "./modules/showcase/showcase-product/showcase-product-attributes/showcase-product-attributes.component";
 
 
 const routes: Routes = [
@@ -25,7 +27,15 @@ const routes: Routes = [
   // {path: '**', pathMatch: 'full', component: NotFoundComponent},
   {path: '', pathMatch: 'full', component: ShowcaseDashboardComponent},
   {path: 'products', component: ShowcaseComponent},
-  {path: 'product/:id', component: ShowcaseProductComponent},
+
+  {path: 'product/:id', pathMatch: 'full', redirectTo: 'product/:id/g'},
+  {
+    path: 'product/:id', component: ShowcaseProductComponent, children: [
+      {path: 'g', component: ShowcaseProductGeneralComponent},
+      {path: 'c', component: ShowcaseProductAttributesComponent},
+    ]
+  },
+
   {path: 'search', component: ShowcaseSearchResultsComponent},
   {path: 'contacts', pathMatch: 'full', component: ContactsComponent},
   {path: 'payment-and-delivery', pathMatch: 'full', component: PaymentAndDeliveryComponent},
@@ -34,6 +44,8 @@ const routes: Routes = [
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},
   {path: 'configuration', component: ConfigurationDashboardComponent},
+
+  {path: 'catalogue', pathMatch: 'full', redirectTo: 'catalogue/products'},
   {
     path: 'catalogue', component: CatalogueComponent, children: [
       {path: 'suppliers', component: ProductSupplierListComponent},

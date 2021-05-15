@@ -14,11 +14,13 @@ import {ShowcaseDashboardComponent} from './showcase-dashboard/showcase-dashboar
 import {RouterModule} from "@angular/router";
 import {ShowcaseSearchResultsComponent} from './showcase-search/showcase-search-results/showcase-search-results.component';
 import {ShowcaseSearchBoxComponent} from './showcase-search/showcase-search-box/showcase-search-box.component';
-import {ShowcaseProductComponent} from './shared/showcase-product/showcase-product.component';
+import {ShowcaseProductComponent} from './showcase-product/showcase-product.component';
 import {ShowcaseProductCategoriesForProductsComponent} from "./shared/showcase-product-categories-for-products/showcase-product-categories-for-products.component";
 import {ShowcaseProductCategoriesComponent} from "./shared/showcase-product-categories/showcase-product-categories.component";
 import {ShowcaseProductCategoriesLayoutComponent} from './shared/showcase-product-categories-layout/showcase-product-categories-layout.component';
 import {ShowcaseAttributeFiltersComponent} from './showcase-filters/showcase-attribute-filters/showcase-attribute-filters.component';
+import {ShowcaseProductGeneralComponent} from './showcase-product/showcase-product-general/showcase-product-general.component';
+import {ShowcaseProductAttributesComponent} from './showcase-product/showcase-product-attributes/showcase-product-attributes.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import {ShowcaseAttributeFiltersComponent} from './showcase-filters/showcase-att
     ShowcaseProductCategoriesLayoutComponent,
     ShowcaseAttributeFiltersComponent,
     ShowcaseAttributeFiltersComponent,
+    ShowcaseProductGeneralComponent,
+    ShowcaseProductAttributesComponent,
   ],
   exports: [
     ShowcaseSearchBoxComponent,

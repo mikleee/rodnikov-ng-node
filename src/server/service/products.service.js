@@ -99,7 +99,7 @@ class ProductSupplierService extends ModelService {
             productWrapper.additionalImages = product.additionalImages;
 
             let cost = product.cost || 0;
-            let priceUplift = product.priceUplift || 0;
+            let priceUplift = product.priceUplift;
             let margin = cost * ((priceUplift ?? globalPriceUplift) / 100);
             let price = cost + margin;
 

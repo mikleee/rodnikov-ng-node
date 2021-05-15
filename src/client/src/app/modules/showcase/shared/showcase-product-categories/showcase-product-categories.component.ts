@@ -11,14 +11,14 @@ import {toMap} from "../../../shared/utils";
 })
 export class ShowcaseProductCategoriesComponent implements OnInit {
   categoriesTree: ProductCategory[] = [];
-  categoriesTreeState: ViewState = new ViewState();
+  state: ViewState = new ViewState();
 
   constructor(private productCategoryService: ProductCategoryService) {
 
   }
 
   ngOnInit(): void {
-    this.categoriesTreeState.inProgress();
+    this.state.inProgress();
     this.productCategoryService.getProductCategories()
       .subscribe(
         result => this.resolveCategories(toMap(result), ViewStateState.READY, undefined),
@@ -28,8 +28,8 @@ export class ShowcaseProductCategoriesComponent implements OnInit {
 
 
   resolveCategories(value: { [key: string]: ProductCategory }, state: ViewStateState, message: string | undefined) {
-    this.categoriesTreeState.setState(state);
-    this.categoriesTreeState.setMessage(message);
+    this.state.setState(state);
+    this.state.setMessage(message);
     let values = Object.values(value);
     this.categoriesTree = this.productCategoryService.buildTree(values);
   }

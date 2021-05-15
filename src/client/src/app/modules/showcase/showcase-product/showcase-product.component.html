@@ -1,0 +1,44 @@
+<section>
+  <div class="row" *ngIf="state.isInProgress()">
+    <div class="col-12">
+      <app-shared-in-progress></app-shared-in-progress>
+    </div>
+  </div>
+  <div class="row" *ngIf="state.isError()">
+    <div class="col-12">
+      <app-shared-error [message]="state.getMessage()"></app-shared-error>
+    </div>
+  </div>
+
+  <div *ngIf="state.isReady()">
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h1>{{product.name}}</h1>
+      </div>
+      <div class="col-6">
+        <div class="text-right"><span class="bg-light p-3">{{product.code}}</span></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <br>
+        <nav class="navbar navbar-light bg-light">
+          <div>
+            <a class="navbar-brand" routerLink="g" routerLinkActive="active">Основное</a>
+            <a class="navbar-brand" routerLink="c" routerLinkActive="active">Характеристики</a>
+          </div>
+        </nav>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="col-6">
+        {{product.priceUah | currencyUah}}
+      </div>
+    </div>
+  </div>
+
+</section>

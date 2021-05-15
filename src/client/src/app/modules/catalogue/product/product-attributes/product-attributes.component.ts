@@ -57,7 +57,6 @@ export class ProductAttributesComponent implements OnInit {
   }
 
   init(templates: ProductAttributeTemplate[], attributes: ProductAttribute[] = []) {
-    debugger;
     let newControl = this.buildFormSegment(this.newAttribute);
     this.fm.setControl('new', newControl);
     attributes.forEach(attr => this.fm.setControl(attr.id, this.buildFormSegment(attr)));
@@ -84,7 +83,6 @@ export class ProductAttributesComponent implements OnInit {
     if (fm.valid) {
       this.submitAttribute(fm, attr)
         .then(value => {
-          debugger;
           this.newAttribute = {state: new ViewState()} as ProductAttributeOption;
           this.attributes = addToCollection(this.attributes, value as ProductAttributeOption);
           this.init(this.templates, this.attributes);
@@ -127,7 +125,6 @@ export class ProductAttributesComponent implements OnInit {
         value => {
           attr.state.ready();
           this.fm.removeControl(attr.id);
-          debugger;
           this.attributes = removeFromCollection(this.attributes, attr.id);
           this.init(this.templates, this.attributes)
         },

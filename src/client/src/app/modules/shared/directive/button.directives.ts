@@ -41,7 +41,6 @@ export class ButtonDeleteDirective extends ButtonBaseDirective {
 })
 export class ButtonEditDirective extends ButtonBaseDirective {
   constructor(element: ElementRef) {
-    debugger;
     super(element, 'bi-pencil')
   }
 }

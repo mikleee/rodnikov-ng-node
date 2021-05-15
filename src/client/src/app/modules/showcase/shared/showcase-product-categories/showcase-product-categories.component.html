@@ -1,4 +1,8 @@
-<app-showcase-product-categories-layout [categories]="categoriesTree"></app-showcase-product-categories-layout>
+<div>
+  <app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
+  <app-shared-error *ngIf="state.isError()" [message]="state.getMessage()"></app-shared-error>
+  <app-showcase-product-categories-layout [categories]="categoriesTree"></app-showcase-product-categories-layout>
+</div>
 
 
 
