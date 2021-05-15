@@ -1,0 +1,16 @@
+<form [formGroup]="fm" (ngSubmit)="submitConfiguration()" class="configuration-input">
+  <div class="form-controls">
+    <label for="configuration{{key}}" class="form-label">{{label}}</label>
+    <div class="input-group">
+      <input id="configuration{{key}}"
+             class="form-control"
+             type="text"
+             formControlName="value">
+      <button type="submit"
+              class="btn btn-outline-secondary"
+              app-button-save
+              [disabled]="state.isInProgress() || fm.invalid"
+      ></button>
+    </div>
+  </div>
+</form>

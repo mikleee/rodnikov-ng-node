@@ -84,8 +84,8 @@ class ProductSupplierService extends ModelService {
         }
 
         let attributes = await productAttributesService.getAttributeWrappersForProducts(products);
-        let globalPriceUplift = await configurationService.findByKey(enums.ConfigurationKey.PRICE_UPLIFT) || 0;
-        let usdToUah = await configurationService.findByKey(enums.ConfigurationKey.CURRENCY_USD_TO_UAH) || 27;
+        let globalPriceUplift = await configurationService.getNumberByKey(enums.ConfigurationKey.PRICE_UPLIFT, 0);
+        let usdToUah = await configurationService.getNumberByKey(enums.ConfigurationKey.CURRENCY_USD_TO_UAH, 0);
 
         for (const product of products) {
             let productWrapper = new ProductWrapper();

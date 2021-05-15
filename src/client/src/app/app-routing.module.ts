@@ -5,7 +5,6 @@ import {ProductSupplierListComponent} from "./modules/catalogue/product-supplier
 import {ProductSupplierComponent} from "./modules/catalogue/product-suppliers/product-supplier/product-supplier.component";
 import {ProductComponent} from "./modules/catalogue/product/product/product.component";
 import {ProductListComponent} from "./modules/catalogue/product/product-list/product-list.component";
-import {ConfigurationComponent} from "./modules/configuration/configuration.component";
 import {LoginComponent} from "./modules/auth/login/login.component";
 import {ShowcaseComponent} from "./modules/showcase/showcase/showcase.component";
 import {ProductCategoriesListComponent} from "./modules/catalogue/product-categories/product-categories-list/product-categories-list.component";
@@ -18,6 +17,7 @@ import {ShowcaseProductComponent} from "./modules/showcase/shared/showcase-produ
 import {ShowcaseSearchResultsComponent} from "./modules/showcase/showcase-search/showcase-search-results/showcase-search-results.component";
 import {ProductAttributeTemplatesListComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component";
 import {ProductAttributeTemplateComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-template/product-attribute-template.component";
+import {ConfigurationDashboardComponent} from "./modules/configuration/configuration/configuration-dashboard.component";
 
 
 const routes: Routes = [
@@ -33,7 +33,7 @@ const routes: Routes = [
 
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},
-
+  {path: 'configuration', component: ConfigurationDashboardComponent},
   {
     path: 'catalogue', component: CatalogueComponent, children: [
       {path: 'suppliers', component: ProductSupplierListComponent},
@@ -50,13 +50,6 @@ const routes: Routes = [
       {path: 'attribute-template/template/:id', component: ProductAttributeTemplateComponent},
       // {path: '', pathMatch: 'full', component: ProductSupplierListComponent},
       {path: '**', pathMatch: 'full', component: ProductListComponent},
-    ]
-  },
-  {
-    path: 'configuration', component: ConfigurationComponent, children: [
-
-      // {path: '', pathMatch: 'full', component: Screen404Component},
-      // {path: '**', pathMatch: 'full', component: Screen404Component},
     ]
   },
 

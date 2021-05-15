@@ -1,0 +1,24 @@
+<form [formGroup]="fm" (ngSubmit)="submitConfigurations()">
+  <app-state-overlay [state]="state"></app-state-overlay>
+
+  <div>
+    <div *ngFor="let c of configurationTemplate">
+      <app-configuration-input
+        [parentForm]="fm"
+        [type]="c.type"
+        [key]="c.key"
+        [label]="c.label"
+        [configuration]="configurations[c.key]"
+        (configurationChange)="onConfigurationChanged($event)"
+      ></app-configuration-input>
+    </div>
+  </div>
+  <div class="form-controls-buttons">
+    <button type="submit"
+            class="btn btn-outline-primary"
+            app-button-save
+            [disabled]="formState.isInProgress() || fm.invalid"
+    ></button>
+    <app-shared-error *ngIf="formState.isError()" [message]="state.getMessage()"></app-shared-error>
+  </div>
+</form>

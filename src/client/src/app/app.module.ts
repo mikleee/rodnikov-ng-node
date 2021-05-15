@@ -9,6 +9,7 @@ import {ShowcaseModule} from "./modules/showcase/showcase.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from "./modules/shared/shared.module";
+import {ConfigurationModule} from "./modules/configuration/configuration.module";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {SharedModule} from "./modules/shared/shared.module";
     HttpClientModule,
     CatalogueModule,
     ShowcaseModule,
+    ConfigurationModule,
     BrowserAnimationsModule,
     NgbModule,
     SharedModule
