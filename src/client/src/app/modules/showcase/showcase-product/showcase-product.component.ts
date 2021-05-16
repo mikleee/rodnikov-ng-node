@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ViewState} from "../../shared/model/view-state.model";
 import {Product, ProductAttribute, ProductCategory, ProductSupplier} from "../../catalogue/catalogue.models";
-import {forkJoin} from "rxjs";
+import {forkJoin, Subject} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {ProductsService} from "../../catalogue/product/products.service";
 import {ProductSuppliersService} from "../../catalogue/product-suppliers/product-suppliers.service";
@@ -49,6 +49,7 @@ export class ShowcaseProductComponent implements OnInit {
           this.categories = value[2];
           this.product.attributes = value[3];
           this.state.ready();
+          (this.route.data as Subject<Product>).next(this.product);
         },
         error => this.state.error(error)
       )

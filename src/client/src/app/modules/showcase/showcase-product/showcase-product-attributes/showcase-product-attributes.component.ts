@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ViewState} from "../../../shared/model/view-state.model";
-import {ProductAttribute} from "../../../catalogue/catalogue.models";
-import {ProductAttributeService} from "../../../catalogue/product/product-attributes/product-attribute.service";
-import {first} from "rxjs/operators";
+import {Component} from '@angular/core';
+import {ShowcaseProductSubComponent} from "../showcase-product.sub.component";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -10,30 +7,12 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './showcase-product-attributes.component.html',
   styleUrls: ['./showcase-product-attributes.component.scss']
 })
-export class ShowcaseProductAttributesComponent implements OnInit {
-  state: ViewState = new ViewState();
-  attributes: ProductAttribute[] = [];
-
+export class ShowcaseProductAttributesComponent extends ShowcaseProductSubComponent {
 
   constructor(
-    private route: ActivatedRoute,
-    private productAttributeService: ProductAttributeService
+    protected route: ActivatedRoute
   ) {
+    super(route);
   }
-
-  ngOnInit(): void {
-    const id = this.route.parent?.snapshot.params['id'];
-    this.state.inProgress();
-    this.productAttributeService.getAttributesForProduct(id)
-      .pipe(first())
-      .subscribe(
-        (value) => {
-          this.attributes = value;
-          this.state.ready();
-        },
-        error => this.state.error(error.message)
-      )
-  }
-
 
 }

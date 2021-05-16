@@ -1,1 +1,18 @@
-<p>showcase-product-general works!</p>
+<div class="showcase-product-general">
+  <div class="images" *ngIf="images.length > 1">
+    <div
+      *ngFor="let i of images" class="image"
+      (click)="activeImage = i"
+      (mouseover)="hoverImage = i"
+      (mouseout)="hoverImage = undefined"
+    >
+      <app-server-image [imageId]="i"></app-server-image>
+    </div>
+  </div>
+  <div class="active-image">
+    <app-server-image [imageId]="hoverImage || activeImage"></app-server-image>
+  </div>
+</div>
+
+
+

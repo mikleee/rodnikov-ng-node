@@ -1,12 +1,8 @@
 <div>
-  <app-shared-in-progress *ngIf="state.isInProgress()"></app-shared-in-progress>
-  <app-shared-error *ngIf="state.isError()" [message]="state.getMessage()"></app-shared-error>
-  <div *ngIf="state.isReady()">
-    <section class="container-fluid">
-      <div class="row" *ngFor="let attr of attributes">
-        <div class="col-6">{{attr.name}}</div>
-        <div class="col-6">{{attr.value}}</div>
-      </div>
-    </section>
-  </div>
+  <section class="container-fluid">
+    <div class="row" *ngFor="let attr of product.attributes">
+      <div class="col-6">{{attr.name}}</div>
+      <div class="col-6">{{attr.value}}</div>
+    </div>
+  </section>
 </div>

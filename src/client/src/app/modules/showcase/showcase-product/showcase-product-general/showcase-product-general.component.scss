@@ -1,0 +1,32 @@
+$activeImageHeight: 350px;
+$imageHeight: 50px;
+
+.showcase-product-general {
+  text-align: center;
+
+  .images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .image {
+      height: $imageHeight;
+      margin: 3px;
+    }
+  }
+
+  .active-image {
+    height: $activeImageHeight;
+  }
+}
+
+
+::ng-deep .showcase-product-general {
+  .images img {
+    height: $imageHeight;
+  }
+
+  .active-image img {
+    height: $activeImageHeight;
+  }
+}
