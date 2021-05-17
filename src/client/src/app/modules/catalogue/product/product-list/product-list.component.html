@@ -1,5 +1,5 @@
 <header class="heading">
-  <h3>Products <span *ngIf="state.isReady()" class="badge bg-secondary">{{filteredProducts.length}}</span></h3>
+  <h3>Продукты <span *ngIf="state.isReady()" class="badge bg-secondary">{{filteredProducts.length}}</span></h3>
 </header>
 
 <app-pagination *ngIf="state.isReady()"
@@ -10,14 +10,15 @@
   <thead>
     <tr>
       <th class="img"></th>
-      <th>Name</th>
-      <th>Supplier</th>
-      <th>Group</th>
-      <th class="currency">Cost</th>
-      <th class="currency">Uplift</th>
-      <th class="currency">Price</th>
-      <th class="currency">Margin</th>
-      <th class="currency">Price ₴</th>
+      <th>Имя</th>
+      <th>Код</th>
+      <th>Произвожитель</th>
+      <th>Ктегория</th>
+      <th class="currency">Закупочная цена</th>
+      <th class="currency">Наценка</th>
+      <th class="currency">Цена</th>
+      <th class="currency">Наценка</th>
+      <th class="currency">Цена</th>
       <th class="actions">
         <button type="button"
                 class="btn btn-outline-secondary btn-sm"
@@ -27,8 +28,12 @@
       </th>
     </tr>
     <tr>
-      <td colspan="2">
+      <td></td>
+      <td>
         <input type="text" class="form-control" [(ngModel)]="name" (ngModelChange)="applyFilter()">
+      </td>
+      <td>
+        <input type="text" class="form-control" [(ngModel)]="code" (ngModelChange)="applyFilter()">
       </td>
       <td>
         <div>
@@ -59,23 +64,24 @@
       <td></td>
       <td class="actions">
         <button type="button"
+                app-button-reset
                 class="btn btn-outline-secondary btn-sm"
                 (click)="clearFilter()"
-                *ngIf="!filter.isEmpty()">sdfds
+                *ngIf="!filter.isEmpty()">
         </button>
       </td>
     </tr>
   </thead>
   <tbody *ngIf="state.isInProgress()">
     <tr>
-      <td colspan="10">
+      <td colspan="11">
         <app-shared-in-progress></app-shared-in-progress>
       </td>
     </tr>
   </tbody>
   <tbody *ngIf="state.isError()">
     <tr>
-      <td colspan="10">
+      <td colspan="11">
         <app-shared-error></app-shared-error>
       </td>
     </tr>
@@ -86,6 +92,7 @@
         <app-server-image cssClass="table-image" [imageId]="product.value.mainImage || product.value.additionalImages[0] || undefined"></app-server-image>
       </td>
       <td><a [routerLink]="['/catalogue/products/product', product.value.id]">{{product.value.name}}</a></td>
+      <td>{{product.value.code}}</td>
       <td>
         <div *ngIf="product.value.supplier">
           {{suppliers[product.value.supplier]?.name}}

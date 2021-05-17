@@ -6,11 +6,11 @@ import {Configuration} from "../configuration.models";
 import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-configuration-dashboard',
-  templateUrl: './configuration-dashboard.component.html',
-  styleUrls: ['./configuration-dashboard.component.scss']
+  selector: 'app-configuration-list',
+  templateUrl: './configuration-list.component.html',
+  styleUrls: ['./configuration-list.component.scss']
 })
-export class ConfigurationDashboardComponent implements OnInit {
+export class ConfigurationListComponent implements OnInit {
   state: ViewState = new ViewState();
   formState: ViewState = new ViewState();
   configurations: { [key: string]: Configuration } = {};
@@ -19,9 +19,8 @@ export class ConfigurationDashboardComponent implements OnInit {
 
   configurationTemplate = [
     {key: 'CURRENCY_USD_TO_UAH', type: 'float', label: 'Курс доллара', validators: []},
-    {key: 'CURRENCY_USD_TO_UAH_SYNC_ENABLED', type: 'boolean', label: 'Включить синхронизацию курса', validators: []},
-    {key: 'CURRENCY_USD_TO_UAH_SYNC_INTERVAL_MINUTES', type: 'integer', label: 'Интервал синхронизацию курса (ч)', validators: []},
-    {key: 'PRICE_UPLIFT_PERCENTAGE', type: 'float', label: 'наценка на товары (%)', validators: []},
+    {key: 'CURRENCY_USD_TO_UAH_SYNC_ENABLED', type: 'boolean', label: 'Синхронизация курса доллара включена', validators: []},
+    {key: 'PRICE_UPLIFT_PERCENTAGE', type: 'float', label: 'Наценка на товары (%)', validators: []},
   ]
 
 

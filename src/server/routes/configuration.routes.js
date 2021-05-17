@@ -1,5 +1,6 @@
 const Router = require("./router");
 const configurationService = require("../service/configuration.service");
+const configurationSaveService = require("../service/configuration.save.service");
 const router = new Router();
 
 router.get('/list', async (req, res, next) => {
@@ -12,7 +13,7 @@ router.get('/configuration', async (req, res, next) => {
 });
 
 router.post('/submit', async (req, res, next) => {
-    return await configurationService.saveOrUpdateConfigurations(req.body);
+    return await configurationSaveService.saveOrUpdateConfigurations(req.body);
 });
 
 

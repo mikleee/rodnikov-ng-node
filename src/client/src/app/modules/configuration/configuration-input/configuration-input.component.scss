@@ -6,11 +6,18 @@
     label {
       width: 200px;
       line-height: 1;
+      margin-right: 1em;
     }
 
     .input-group {
       display: flex;
       align-items: center;
+      max-width: none;
+
+      .input-group-input {
+        width: 250px;
+      }
+
     }
   }
 }

@@ -17,9 +17,9 @@ import {ShowcaseProductComponent} from "./modules/showcase/showcase-product/show
 import {ShowcaseSearchResultsComponent} from "./modules/showcase/showcase-search/showcase-search-results/showcase-search-results.component";
 import {ProductAttributeTemplatesListComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component";
 import {ProductAttributeTemplateComponent} from "./modules/catalogue/product-attribute-templates/product-attribute-template/product-attribute-template.component";
-import {ConfigurationDashboardComponent} from "./modules/configuration/configuration/configuration-dashboard.component";
 import {ShowcaseProductGeneralComponent} from "./modules/showcase/showcase-product/showcase-product-general/showcase-product-general.component";
 import {ShowcaseProductAttributesComponent} from "./modules/showcase/showcase-product/showcase-product-attributes/showcase-product-attributes.component";
+import {ConfigurationListComponent} from "./modules/configuration/configuration-list/configuration-list.component";
 
 
 const routes: Routes = [
@@ -43,7 +43,7 @@ const routes: Routes = [
 
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},
-  {path: 'configuration', component: ConfigurationDashboardComponent},
+  {path: 'configuration', component: ConfigurationListComponent},
 
   {path: 'catalogue', pathMatch: 'full', redirectTo: 'catalogue/products'},
   {

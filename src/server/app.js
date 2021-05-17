@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const fileUpload = require('express-fileupload');
 const db = require('./db/db');
+const currencySync = require('./service/currency.rate.synch.service').schedule();
 
 const app = express();
 

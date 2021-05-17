@@ -72,6 +72,9 @@ export class ProductsService {
       if (filter.name && !product.name?.toUpperCase().includes(filter.name.toUpperCase())) {
         return false;
       }
+      if (filter.code && !product.code?.toUpperCase().includes(filter.code.toUpperCase())) {
+        return false;
+      }
       return true;
     })
   }

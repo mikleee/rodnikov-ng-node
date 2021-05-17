@@ -6,14 +6,17 @@ export class ProductsFilter {
   priceFrom?: number;
   priceTo?: number;
   name?: string;
+  code?: string;
 
 
   constructor(name?: string,
+              code?: string,
               category?: string,
               suppliers?: string[] | string,
               priceFrom?: number,
               priceTo?: number) {
     this.name = name;
+    this.code = code;
     this.category = category;
     if (!suppliers) {
       this.suppliers = [];
@@ -32,6 +35,7 @@ export class ProductsFilter {
       && this.priceFrom == undefined
       && this.priceTo == undefined
       && this.name == undefined
+      && this.code == undefined
   }
 
 }

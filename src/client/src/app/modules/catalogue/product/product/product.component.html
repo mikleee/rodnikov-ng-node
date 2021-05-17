@@ -9,12 +9,16 @@
     <div class="row">
       <div class="col">
         <div class="form-controls">
+          <label for="productCode" class="form-label">Код</label>
+          <input id="productCode" class="form-control" type="text" disabled [value]="product.code">
+        </div>
+        <div class="form-controls">
           <label for="productName" class="form-label">Имя</label>
           <input id="productName" class="form-control" type="text" formControlName="name">
         </div>
         <div class="form-controls">
           <label for="productDescription" class="form-label">Описание</label>
-          <textarea id="productDescription" class="form-control" formControlName="description"></textarea>
+          <textarea id="productDescription" class="form-control" formControlName="description" style="max-width: none"></textarea>
         </div>
       </div>
       <div class="col">

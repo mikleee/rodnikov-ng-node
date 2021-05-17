@@ -1,11 +1,18 @@
 <form [formGroup]="fm" (ngSubmit)="submitConfiguration()" class="configuration-input">
   <div class="form-controls">
     <label for="configuration{{key}}" class="form-label">{{label}}</label>
-    <div class="input-group">
-      <input id="configuration{{key}}"
-             class="form-control"
-             type="text"
-             formControlName="value">
+    <div class="input-group" [ngSwitch]="type">
+      <div class="input-group-input">
+        <input *ngSwitchCase="'boolean'"
+               id="configuration{{key}}"
+               type="checkbox"
+               formControlName="value">
+        <input *ngSwitchDefault
+               id="configuration{{key}}"
+               class="form-control"
+               type="text"
+               formControlName="value">
+      </div>
       <button type="submit"
               class="btn btn-outline-secondary"
               app-button-save

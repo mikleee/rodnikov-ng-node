@@ -31,6 +31,7 @@ export class ProductListComponent implements OnInit {
   supplier?: string;
   category?: string;
   name?: string;
+  code?: string;
 
   constructor(protected productsService: ProductsService,
               protected suppliersService: ProductSuppliersService,
@@ -46,12 +47,14 @@ export class ProductListComponent implements OnInit {
     this.supplier = undefined;
     this.category = undefined;
     this.name = undefined;
+    this.code = undefined;
     this.applyFilter();
   }
 
   initFilter() {
     return new ProductsFilter(
       this.name,
+      this.code,
       this.category,
       this.supplier,
       undefined,
