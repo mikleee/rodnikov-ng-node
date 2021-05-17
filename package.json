@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.start.js",
-    "dev": "nodemon app.start.js profile=dev"
+    "dev": "nodemon app.start.js profile=heroku"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
