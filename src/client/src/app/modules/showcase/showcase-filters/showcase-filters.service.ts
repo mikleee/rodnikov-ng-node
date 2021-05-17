@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Product} from "../../catalogue/catalogue.models";
+import {Sort} from "../../shared/model/sort.model";
+import {compareNumbers, compareStringsIgnoreCase} from "../../shared/utils";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,12 @@ export class ShowcaseFiltersService {
 
   setSuppliers(suppliers: string[] = []) {
     this.update((filters) => filters.suppliers = suppliers)
+  }
+
+  setSort(sort: Sort = new Sort()): void {
+    this.update((filters) => {
+      filters.sort = sort;
+    })
   }
 
   setPriceRange(min: number | undefined, max: number | undefined,) {
@@ -36,7 +44,12 @@ export class ShowcaseFiltersService {
   }
 
   applyOnProducts(products: Product[] = [], filters: ShowcaseFilters) {
-    let result = products;
+    let result = [...products];
+
+    if (filters.sort && filters.sort.property) {
+      result = this.sort(products, filters.sort);
+    }
+
     if (filters.suppliers?.length) {
       result = products.filter(p => filters.suppliers.includes(p.supplier));
     }
@@ -51,6 +64,7 @@ export class ShowcaseFiltersService {
     if (filters.attributes !== undefined) {
       result = result.filter(p => this.matchAttributeFilters(p, filters.attributes));
     }
+
     return result;
   }
 
@@ -86,9 +100,29 @@ export class ShowcaseFiltersService {
     return true;
   }
 
+  private sort(products: Product[], sort: Sort) {
+    let comparator: any;
+    switch (sort.property) {
+      case 'name':
+        comparator = (p1: Product, p2: Product): number => compareStringsIgnoreCase(p1.name, p2.name)
+        break;
+      case 'price' :
+        comparator = (p1: Product, p2: Product): number => compareNumbers(p1.priceUah, p2.priceUah)
+        break;
+    }
+    if (comparator) {
+      const direction = sort.direction === 'asc' ? 1 : -1;
+      products = products.sort((p1, p2) => {
+        return direction * comparator(p1, p2)
+      })
+    }
+    return products;
+  }
+
 }
 
 export class ShowcaseFilters {
+  sort: Sort = new Sort();
   suppliers: string[] = [];
   priceMin: number | undefined;
   priceMax: number | undefined;
@@ -101,6 +135,8 @@ export class ShowcaseFilters {
     }
 
     return [
+      this.sort?.property,
+      this.sort?.direction,
       this.priceMin,
       this.priceMax,
       this.suppliers.length,

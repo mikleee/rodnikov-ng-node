@@ -1,0 +1,19 @@
+<div class="d-flex flex-wrap align-items-center justify-content-between">
+  <label class="m-0">Сортировка</label>
+  <div ngbDropdown class="d-inline-block">
+    <button class="btn btn-outline-secondary btn-sm" id="sortOptions" ngbDropdownToggle>
+      <span>{{activeOption.label}}</span>
+      <i *ngIf="activeOption.icon" class="{{activeOption.icon}}"></i>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="sortOptions">
+      <button type="button"
+              class="btn-sm"
+              ngbDropdownItem *ngFor="let i of sortOptions"
+              (click)="onSortChange(i)"
+      >
+        <span>{{i.label}}</span>
+        <i *ngIf="i.icon" class="{{i.icon}}"></i>
+      </button>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ShowcaseComponent} from "./showcase/showcase.component";
 import {ShowcasePriceFiltersComponent} from './showcase-filters/showcase-price-filters/showcase-price-filters.component';
-import {ShowcaseSortComponent} from './showcase-sort/showcase-sort.component';
+import {ShowcaseSortComponent} from './shared/showcase-sort/showcase-sort.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShowcaseSupplierFiltersComponent} from "./showcase-filters/showcase-supplier-filters/showcase-supplier-filters.component";
 import {ShowcaseProductsComponent} from './shared/showcase-products/showcase-products.component';

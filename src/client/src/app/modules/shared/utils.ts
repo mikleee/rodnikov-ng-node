@@ -79,3 +79,31 @@ export function addToBundle<T>(bundles: { [key: string]: T[] }, identifier: stri
   bundle.push(entity);
   return entity;
 }
+
+export function compareStrings(s1: string, s2: string): number {
+  s1 = s1 ?? '';
+  s2 = s2 ?? '';
+  if (s1 > s2) {
+    return 1;
+  } else if (s1 < s2) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+export function compareStringsIgnoreCase(s1: string, s2: string): number {
+  s1 = (s1 ?? '').toLowerCase();
+  s2 = (s2 ?? '').toLowerCase();
+  return compareStrings(s1, s2);
+}
+
+export function compareNumbers(n1: number, n2: number): number {
+  if (n1 === undefined || n1 === null) {
+    return -1;
+  } else if (n2 === undefined || n2 === null) {
+    return 1;
+  } else {
+    return n1 - n2;
+  }
+}
