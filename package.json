@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.start.js",
+    "start": "node ./src/server/app.start.js profile=heroku",
     "dev": "nodemon app.start.js profile=heroku"
   },
   "dependencies": {
