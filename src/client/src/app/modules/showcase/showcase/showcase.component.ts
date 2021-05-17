@@ -69,8 +69,9 @@ export class ShowcaseComponent implements OnInit, OnDestroy {
           .subscribe(
             (value) => {
               this.products = value;
-              this.filteredProducts = value;
+              this.filteredProducts = this.showcaseFiltersService.applyOnProducts(this.products, this.showcaseFiltersService.filters$.getValue());
               this.productsState.ready();
+
             },
             error => this.productsState.error(error)
           )

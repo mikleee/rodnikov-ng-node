@@ -68,7 +68,7 @@ export class ShowcaseSearchResultsComponent extends ShowcaseSearchBaseComponent 
 
 
   onProductsRetrieved(result: DatatableResponse<Product>) {
-    this.filteredProducts = result.results;
+    this.filteredProducts = this.showcaseFiltersService.applyOnProducts(result.results, this.showcaseFiltersService.filters$.getValue());
   }
 
   subscribeOnFiltersChange() {
