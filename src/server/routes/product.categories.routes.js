@@ -1,24 +1,13 @@
-const Router = require("./router");
-const productCategoryService = require("../service/product.categories.service");
-const router = new Router();
+const router = require('express').Router();
 
-router.get('/list', async (req, res, next) => {
-    return await productCategoryService.getAll();
-});
-
-router.get('/category/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    return await productCategoryService.findById(id);
-});
-
-router.post('/submit', async (req, res, next) => {
-    return await productCategoryService.saveOrUpdate(req.body);
-});
-
-router.post('/delete/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    await productCategoryService.delete(id);
-});
+const productCategoryController = require("../controller/product.category.controller");
+const authController = require("../controller/auth.controller");
 
 
-module.exports = router.getRouter();
+router.get('/list', productCategoryController.list);
+router.get('/category/:id', authController.checkAuthForRestCall, productCategoryController.category);
+router.post('/submit', authController.checkAuthForRestCall, productCategoryController.submit);
+router.post('/delete/:id', authController.checkAuthForRestCall, productCategoryController.delete);
+
+
+module.exports = router;

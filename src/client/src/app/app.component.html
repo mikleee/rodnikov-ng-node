@@ -1,4 +1,5 @@
 <div class="rodnikov">
+  <app-state-overlay [state]="state"></app-state-overlay>
   <header class="main-header">
     <div class="header-top">
       <div class="container">
@@ -19,8 +20,11 @@
                     </div>
                   </a>
                 </li>
-                <li><a><i class="bi-box-arrow-in-right"></i></a></li>
-                <li><a><i class="bi-box-arrow-right"></i></a></li>
+                <li *ngIf="!session.user"><a (click)="openLoginPopup()"><i class="bi-box-arrow-in-right"></i></a></li>
+                <li *ngIf="session.user">
+                  <app-user-menu [user]="session.user"></app-user-menu>
+                </li>
+                <li *ngIf="session.user"><a (click)="logout()"><i class="bi-box-arrow-right"></i></a></li>
               </ul>
             </div>
           </div>
@@ -41,8 +45,8 @@
                 </div>
               </a>
             </li>
-            <li><a routerLink="catalogue" routerLinkActive="active">Каталог</a></li>
-            <li><a routerLink="configuration" routerLinkActive="active">Настройки</a></li>
+            <li *ngIf="session.user"><a routerLink="catalogue" routerLinkActive="active">Каталог</a></li>
+            <li *ngIf="session.user"><a routerLink="configuration" routerLinkActive="active">Настройки</a></li>
           </ul>
           <ul>
             <li><a routerLink="about-us" routerLinkActive="active">О нас</a></li>

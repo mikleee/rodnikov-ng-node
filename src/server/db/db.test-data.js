@@ -2,6 +2,7 @@ const {ProductCategory} = require("./product.category.model");
 const {ProductSupplier} = require("./product.supplier.model");
 const {Document} = require("./document.model");
 const enums = require("./model.enum");
+const {User} = require("./user.model");
 const {ProductAttribute} = require("./product.attribute.model");
 const {ProductAttributeTemplate} = require("./product.attribute.template.model");
 const {Product} = require("./product.model");
@@ -111,6 +112,21 @@ let categoryRelationsTemplate = [
 
 (async () => {
 
+
+    // create users
+    await (async () => {
+        let users = [
+            {userName: 'admin', password: 'admin'}
+        ]
+        for (const user of users) {
+            let persisted = await User.findOne({userName: user.userName});
+            if (!persisted) {
+                await User.create(user);
+            }
+        }
+    })();
+
+
     // create suppliers
     await (async () => {
         for (const name of suppliersTemplate) {
@@ -192,7 +208,7 @@ let categoryRelationsTemplate = [
         for (const category of categories) {
             let products = await Product.find({category: category});
             let toCreate = [];
-            let max = randomNumber(150);
+            let max = randomNumber(100);
             while (toCreate.length + products.length < max) {
                 let supplier = null;
                 let root = getRootCategory(category);

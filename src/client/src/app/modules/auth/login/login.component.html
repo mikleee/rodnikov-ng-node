@@ -1,14 +1,18 @@
-<form class="login">
+<form class="login" [formGroup]="fm" #ngForm="ngForm" (ngSubmit)="login()" [ngClass]="{'form-submitted': ngForm.submitted}" novalidate autocomplete="off">
   <div class="form-controls">
-    <label for="login" class="form-label">Login</label>
-    <input id="login" type="text" class="form-control"/>
+    <label for="login" class="form-label">Логин</label>
+    <input id="login" type="text" class="form-control" formControlName="userName"/>
+    <app-form-error [error]="fm.controls.userName.errors?.required" [form]="ngForm" message="Введите логин"></app-form-error>
+    <app-form-error [error]="fm.controls.userName.errors?.invalid" [form]="ngForm" message="Логин неверный"></app-form-error>
   </div>
   <div class="form-controls">
-    <label for="password" class="form-label">Password</label>
-    <input id="password" type="password" class="form-control"/>
+    <label for="password" class="form-label">Пароль</label>
+    <input id="password" type="password" class="form-control" formControlName="password"/>
+    <app-form-error [error]="fm.controls.password.errors?.required" [form]="ngForm" message="Введите пароль"></app-form-error>
+    <app-form-error [error]="fm.controls.password.errors?.invalid" [form]="ngForm" message="Пароль неверный"></app-form-error>
   </div>
   <div class="form-control-buttons">
-    <button type="submit" class="btn btn-outline-primary">
+    <button type="submit" class="btn btn-outline-primary login-button" [disabled]="fm.invalid || fm.disabled">
       <i class="bi-box-arrow-in-right"></i>
     </button>
   </div>

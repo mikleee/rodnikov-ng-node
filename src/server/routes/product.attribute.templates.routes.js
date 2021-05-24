@@ -1,24 +1,12 @@
-const Router = require("./router");
-const productAttributeTemplateService = require("../service/product.attribute.template.service");
-const router = new Router();
+const router = require('express').Router();
 
-router.get('/list', async (req, res, next) => {
-    return await productAttributeTemplateService.getAll();
-});
+const productAttributeTemplateController = require("../controller/product.attribute.template.controller");
+const authController = require("../controller/auth.controller");
 
-router.get('/template/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    return await productAttributeTemplateService.findById(id);
-});
-
-router.post('/submit', async (req, res, next) => {
-    return await productAttributeTemplateService.saveOrUpdate(req.body);
-});
-
-router.post('/delete/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    await productAttributeTemplateService.delete(id);
-});
+router.get('/list', productAttributeTemplateController.list);
+router.get('/template/:id', productAttributeTemplateController.template);
+router.post('/submit', authController.checkAuthForRestCall, productAttributeTemplateController.submit);
+router.post('/delete', authController.checkAuthForRestCall, productAttributeTemplateController.delete);
 
 
-module.exports = router.getRouter();
+module.exports = router;

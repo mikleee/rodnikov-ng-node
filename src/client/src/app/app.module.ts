@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedModule} from "./modules/shared/shared.module";
 import {ConfigurationModule} from "./modules/configuration/configuration.module";
+import {AuthModule} from "./modules/auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {ConfigurationModule} from "./modules/configuration/configuration.module"
     ConfigurationModule,
     BrowserAnimationsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ],
   providers: [],
   exports: [],

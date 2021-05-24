@@ -1,6 +1,7 @@
 import {BaseModel} from "./model/base.model";
 import {ViewState, ViewStateState} from "./model/view-state.model";
 import {AsyncModel} from "./model/async.model";
+import {AbstractControl, ValidatorFn} from "@angular/forms";
 
 export function randomNumber(): number {
   let number = Math.random() * 1_000_000;
@@ -107,3 +108,11 @@ export function compareNumbers(n1: number, n2: number): number {
     return n1 - n2;
   }
 }
+
+
+export function invalidValidator(callback: (value: string) => any): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    return callback(control.value) ? null : {invalid: true};
+  };
+}
+

@@ -13,9 +13,9 @@ class ProductSupplierService extends ModelService {
         super(Product);
     }
 
-    async getAllWrappers(showSensitiveData) {
+    async getAllWrappers(user) {
         let all = await this.getAll();
-        return await this.toWrappers(all, showSensitiveData);
+        return await this.toWrappers(all, user);
     }
 
     async getWrapperById(id, showSensitiveData) {
@@ -77,7 +77,7 @@ class ProductSupplierService extends ModelService {
         }
     }
 
-    async toWrappers(products, showSensitiveData) {
+    async toWrappers(products, user) {
         let result = [];
         if (!products?.length) {
             return result;
@@ -106,7 +106,7 @@ class ProductSupplierService extends ModelService {
             productWrapper.price = price;
             productWrapper.priceUah = price * usdToUah;
 
-            if (showSensitiveData) {
+            if (user != null) {
                 productWrapper.priceUplift = product.priceUplift;
                 productWrapper.cost = cost;
                 productWrapper.margin = margin;

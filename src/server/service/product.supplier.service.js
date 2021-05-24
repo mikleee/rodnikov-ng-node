@@ -11,7 +11,6 @@ class ProductSupplierService extends ModelService {
         super(ProductSupplier);
     }
 
-
     async saveOrUpdate(model, logoFile) {
         let result = await super.saveOrUpdate(model);
 

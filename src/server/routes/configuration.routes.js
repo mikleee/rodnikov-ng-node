@@ -1,20 +1,12 @@
-const Router = require("./router");
-const configurationService = require("../service/configuration.service");
-const configurationSaveService = require("../service/configuration.save.service");
-const router = new Router();
+const router = require('express').Router();
 
-router.get('/list', async (req, res, next) => {
-    return await configurationService.getAllConfigurations();
-});
-
-router.get('/configuration', async (req, res, next) => {
-    const key = req.query['key'];
-    return await configurationService.findByKey(key);
-});
-
-router.post('/submit', async (req, res, next) => {
-    return await configurationSaveService.saveOrUpdateConfigurations(req.body);
-});
+const configurationController = require("../controller/configuration.controller");
+const authController = require("../controller/auth.controller");
 
 
-module.exports = router.getRouter();
+router.get('/list', authController.checkAuthForRestCall, configurationController.list);
+router.get('/configuration', authController.checkAuthForRestCall, configurationController.configuration);
+router.post('/submit', authController.checkAuthForRestCall, configurationController.submit);
+
+
+module.exports = router;

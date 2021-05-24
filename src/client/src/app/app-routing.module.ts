@@ -20,6 +20,7 @@ import {ProductAttributeTemplateComponent} from "./modules/catalogue/product-att
 import {ShowcaseProductGeneralComponent} from "./modules/showcase/showcase-product/showcase-product-general/showcase-product-general.component";
 import {ShowcaseProductAttributesComponent} from "./modules/showcase/showcase-product/showcase-product-attributes/showcase-product-attributes.component";
 import {ConfigurationListComponent} from "./modules/configuration/configuration-list/configuration-list.component";
+import {AuthSignedUserCheckerService} from "./modules/auth/auth.signed-user-checker.service";
 
 
 const routes: Routes = [
@@ -43,11 +44,11 @@ const routes: Routes = [
 
 
   {path: 'login', pathMatch: 'full', component: LoginComponent},
-  {path: 'configuration', component: ConfigurationListComponent},
+  {path: 'configuration', component: ConfigurationListComponent, canActivate: [AuthSignedUserCheckerService]},
 
   {path: 'catalogue', pathMatch: 'full', redirectTo: 'catalogue/products'},
   {
-    path: 'catalogue', component: CatalogueComponent, children: [
+    path: 'catalogue', component: CatalogueComponent, canActivate: [AuthSignedUserCheckerService], children: [
       {path: 'suppliers', component: ProductSupplierListComponent},
       {path: 'suppliers/supplier', component: ProductSupplierComponent},
       {path: 'suppliers/supplier/:id', component: ProductSupplierComponent},

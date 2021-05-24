@@ -1,25 +1,13 @@
-const Router = require("./router");
-const productSupplierService = require("../service/product.supplier.service");
-const router = new Router();
+const router = require('express').Router();
 
-router.get('/list', async (req, res, next) => {
-    return await productSupplierService.getAll();
-});
+const productSupplierController = require("../controller/product.supplier.controller");
+const authController = require("../controller/auth.controller");
 
-router.get('/supplier/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    return await productSupplierService.findById(id);
-});
 
-router.post('/submit', async (req, res, next) => {
-    let supplier = JSON.parse(req.body.supplier);
-    let logo = req.files?.logo;
-    return await productSupplierService.saveOrUpdate(supplier, logo);
-});
+router.get('/list', productSupplierController.list);
+router.get('/supplier/:id', authController.checkAuthForRestCall, productSupplierController.supplier);
+router.post('/submit', authController.checkAuthForRestCall, productSupplierController.submit);
+router.post('/delete/:id', authController.checkAuthForRestCall, productSupplierController.delete);
 
-router.post('/delete/:id', async (req, res, next) => {
-    const id = req.params['id'];
-    await productSupplierService.delete(id);
-});
 
-module.exports = router.getRouter();
+module.exports = router;

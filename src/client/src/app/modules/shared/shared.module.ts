@@ -20,6 +20,7 @@ import {UpliftPipe} from './transform/uplift.pipe';
 import {NotFoundComponent} from './component/not-found/not-found.component';
 import {InputNumberDirective} from './directive/input-number.directive';
 import {ButtonAddDirective, ButtonCancelDirective, ButtonDeleteDirective, ButtonEditDirective, ButtonOkDirective, ButtonResetDirective, ButtonSaveDirective} from "./directive/button.directives";
+import {FormErrorComponent} from './component/form-error/form-error.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {ButtonAddDirective, ButtonCancelDirective, ButtonDeleteDirective, Button
     ButtonOkDirective,
     ButtonResetDirective,
     ButtonSaveDirective,
+    FormErrorComponent,
   ],
   exports: [
     InProgressComponent,
@@ -70,6 +72,7 @@ import {ButtonAddDirective, ButtonCancelDirective, ButtonDeleteDirective, Button
     ButtonOkDirective,
     ButtonResetDirective,
     ButtonSaveDirective,
+    FormErrorComponent,
   ],
   imports: [
     CommonModule,
