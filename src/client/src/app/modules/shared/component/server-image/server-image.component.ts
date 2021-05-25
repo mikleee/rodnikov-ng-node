@@ -9,6 +9,7 @@ export class ServerImageComponent implements OnInit {
   @Input() imageId?: string;
   @Input() alt?: string;
   @Input() cssClass?: string;
+  @Input() uri: string = 'api/document/get/';
 
   constructor() {
   }

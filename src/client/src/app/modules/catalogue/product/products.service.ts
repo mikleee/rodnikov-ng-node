@@ -47,11 +47,11 @@ export class ProductsService {
   }
 
   submitProduct(supplier: FormData): Promise<Product> {
-    return this.http.postMultipartFormData('/api/products/product/submit', supplier)
+    return this.http.postMultipartFormData('/api/products/submit', supplier)
   }
 
   deleteProduct(id: String): Promise<Product> {
-    return this.http.post('/api/products/product/delete/' + id).toPromise()
+    return this.http.post('/api/products/delete/' + id).toPromise()
   }
 
   filterProducts(products: Product[], filter?: ProductsFilter): Product[] {

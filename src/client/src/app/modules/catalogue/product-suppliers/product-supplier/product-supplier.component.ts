@@ -1,23 +1,28 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductSupplier} from "../../catalogue.models";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProductSuppliersService} from "../product-suppliers.service";
-import {Subject} from "rxjs";
+import {BaseModel} from "../../../shared/model/base.model";
 
 @Component({
   selector: 'app-product-supplier',
   templateUrl: './product-supplier.component.html',
   styleUrls: ['./product-supplier.component.html']
 })
-export class ProductSupplierComponent implements OnInit, OnDestroy {
+export class ProductSupplierComponent implements OnInit {
   supplierState: ViewState = new ViewState();
   supplierFormState: ViewState = new ViewState(ViewStateState.READY);
   supplier: ProductSupplier = {} as ProductSupplier;
-  supplierForm: FormGroup = this.buildSupplierForm(this.supplier);
+
+  fm: FormGroup = new FormGroup({
+    id: new FormControl(null, []),
+    name: new FormControl(null, [Validators.required])
+  });
+
   logo?: File;
-  logo$: Subject<File[]> = new Subject<File[]>();
+  logoState: ViewState = new ViewState();
 
 
   constructor(private route: ActivatedRoute,
@@ -27,41 +32,38 @@ export class ProductSupplierComponent implements OnInit, OnDestroy {
   }
 
   submitSupplierForm() {
-    if (this.supplierForm.valid) {
-      this.supplierForm.disable();
+    if (this.fm.valid) {
+      this.fm.disable();
       this.supplierFormState.inProgress();
 
-      let request = new FormData();
-      request.append('supplier', JSON.stringify(this.supplierForm.value));
-      if (this.logo) {
-        request.append('logo', this.logo);
-      }
-
-      this.suppliersService.submitSupplier(request)
+      this.suppliersService.submitSupplier(this.fm.value)
         .then(
           value => {
-            this.supplierForm.enable();
-            this.supplierFormState.ready();
             this.supplier = value;
             this.initSupplierForm(this.supplier);
+            this.uploadSupplierLogo()
+              .then(
+                value => {
+                  this.fm.enable();
+                  this.supplierFormState.ready();
+                },
+                reason => {
+                  this.fm.enable();
+                  this.supplierFormState.error(reason)
+                },
+              )
           },
           reason => {
-            this.supplierForm.enable();
+            this.fm.enable();
             this.supplierFormState.error(reason.message)
           },
         );
     }
   }
 
-  initSupplierForm(supplier: ProductSupplier | undefined) {
-    this.supplierForm = this.buildSupplierForm(supplier);
-  }
-
-  buildSupplierForm(supplier: ProductSupplier | undefined) {
-    return new FormGroup({
-      id: new FormControl(supplier?.id, []),
-      name: new FormControl(supplier?.name, [Validators.required])
-    });
+  initSupplierForm(supplier: ProductSupplier) {
+    this.fm.controls.id.setValue(supplier.id);
+    this.fm.controls.name.setValue(supplier.name);
   }
 
   ngOnInit(): void {
@@ -82,12 +84,35 @@ export class ProductSupplierComponent implements OnInit, OnDestroy {
       this.supplier = {} as ProductSupplier;
       this.initSupplierForm(this.supplier);
     }
-
-    this.logo$.subscribe(files => this.logo = files[0]);
   }
 
-  ngOnDestroy(): void {
-    this.logo$.unsubscribe();
+  onSupplierLogoChange(files: File[]) {
+    this.logo = files[0];
+    if (this.supplier.id && this.logo) {
+      this.uploadSupplierLogo();
+    }
+  }
+
+
+  uploadSupplierLogo(): Promise<BaseModel> {
+    if (this.logo) {
+      let request = new FormData();
+      request.append('id', this.supplier.id);
+      request.append('logo', this.logo);
+      this.logoState.inProgress();
+      let result = this.suppliersService.uploadSupplierLogo(request);
+      result.then(
+        value => {
+          this.logoState.ready();
+          this.supplier.logo = value.id;
+          this.logo = undefined;
+        },
+        reason => this.logoState.error(reason.message)
+      );
+      return result
+    } else {
+      return Promise.resolve({id: this.supplier.logo} as BaseModel);
+    }
   }
 
 

@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Subject} from "rxjs";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {randomString} from "../../utils";
 
 @Component({
@@ -8,10 +7,10 @@ import {randomString} from "../../utils";
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnInit {
-  @Input() subject$?: Subject<File[]>
   @Input() id: string = randomString();
   @Input() multiple: boolean = false;
   @Input("upload-title") title?: string;
+  @Output() public onFilesChange: EventEmitter<File[]> = new EventEmitter<File[]>();
 
   constructor() {
   }

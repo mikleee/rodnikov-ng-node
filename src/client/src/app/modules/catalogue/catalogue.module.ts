@@ -10,7 +10,6 @@ import {ProductListComponent} from './product/product-list/product-list.componen
 import {ProductComponent} from './product/product/product.component';
 import {ProductCategoriesTreeComponent} from "./product-categories/product-categories-tree/product-categories-tree.component";
 import {ProductCategoryComponent} from "./product-categories/product-category/product-category.component";
-import {ProductCategoriesDropdownComponent} from "./product-categories/product-categories-dropdown/product-categories-dropdown.component";
 import {ProductCategoriesListComponent} from "./product-categories/product-categories-list/product-categories-list.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ProductAttributeTemplateComponent} from "./product-attribute-templates/product-attribute-template/product-attribute-template.component";
@@ -28,7 +27,6 @@ import {ProductPriceReportComponent} from './product/product-price-report/produc
     ProductCategoryComponent,
     ProductListComponent,
     ProductComponent,
-    ProductCategoriesDropdownComponent,
     ProductCategoriesTreeComponent,
     ProductAttributeTemplateComponent,
     ProductAttributeTemplatesListComponent,

@@ -3,6 +3,7 @@ import {HttpService} from "../../shared/service/http.service";
 import {ProductSupplier} from "../catalogue.models";
 import {first, map} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {BaseModel} from "../../shared/model/base.model";
 
 
 @Injectable({providedIn: "root"})
@@ -27,8 +28,12 @@ export class ProductSuppliersService {
       .toPromise();
   }
 
-  submitSupplier(supplier: FormData): Promise<ProductSupplier> {
-    return this.http.postMultipartFormData('/api/suppliers/submit', supplier)
+  submitSupplier(supplier: ProductSupplier): Promise<ProductSupplier> {
+    return this.http.post('/api/suppliers/submit', supplier)
+      .pipe(
+        first()
+      )
+      .toPromise();
   }
 
   deleteSupplier(id: String): Promise<ProductSupplier> {
@@ -37,6 +42,10 @@ export class ProductSuppliersService {
         first()
       )
       .toPromise();
+  }
+
+  uploadSupplierLogo(data: FormData): Promise<BaseModel> {
+    return this.http.postMultipartFormData('/api/suppliers/upload-logo', data);
   }
 
 

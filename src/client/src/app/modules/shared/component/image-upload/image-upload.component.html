@@ -1,6 +1,6 @@
 <app-file-upload
   [id]="id"
-  [subject$]="subject$"
+  (onFilesChange)="onFilesChange.emit($event)"
   [multiple]="multiple"
   [upload-title]="title"
   accept="image/jpeg, image/png"

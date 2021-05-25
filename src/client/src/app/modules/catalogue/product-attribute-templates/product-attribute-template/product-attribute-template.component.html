@@ -2,15 +2,16 @@
 
 <fieldset>
   <app-state-overlay [state]="templateState"></app-state-overlay>
-  <form [formGroup]="templateForm" (ngSubmit)="submitAttributeTemplateForm()">
+  <form [formGroup]="fm" (ngSubmit)="submitAttributeTemplateForm()" #ngForm="ngForm" [ngClass]="{'form-submitted': ngForm.submitted}" novalidate autocomplete="off">
     <div>
       <div class="form-controls">
-        <label for="templateName" class="form-label">Name</label>
+        <label for="templateName" class="form-label">Имя</label>
         <input id="templateName" type="text" formControlName="name" class="form-control">
+        <app-form-error [error]="fm.controls.name.errors?.required" [form]="ngForm" message="Введите имя"></app-form-error>
       </div>
     </div>
     <div class="form-controls-buttons">
-      <button type="submit" class="btn btn-outline-primary" [disabled]="templateForm.disabled">Submit</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="fm.disabled">Submit</button>
       <app-shared-error *ngIf="templateFormState.isError()" [message]="templateFormState.getMessage()"></app-shared-error>
     </div>
   </form>

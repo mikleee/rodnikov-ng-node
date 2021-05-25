@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {NotFoundException} = require("../exception/exceptions");
 const Model = mongoose.Model;
 const logger = require('../service/logger').createLogger('controller.util')
 
@@ -57,8 +58,35 @@ function toArray(value) {
     }
 }
 
+
+function downloadFile(res, document) {
+    if (document) {
+        res.set('Content-Disposition', `attachment; filename="${document.name}"`);
+        res.set('Content-Type', document.contentType);
+        res.send(document.content);
+    } else {
+        res.status(404);
+    }
+    res.end();
+}
+
+function sendFile(res, document) {
+    if (document) {
+        res.set('Content-Disposition', 'inline');
+        res.set('Content-Type', document.contentType);
+        res.send(document.content);
+    } else {
+        res.status(404);
+    }
+    res.end();
+
+}
+
+
 module.exports = {
     sendJson: sendJson,
     handleError: handleError,
     toArray: toArray,
+    downloadFile: downloadFile,
+    sendFile: sendFile,
 };

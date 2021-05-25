@@ -5,7 +5,7 @@ import {Product, ProductCategory, ProductSupplier} from "../../catalogue.models"
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {ViewState, ViewStateState} from "../../../shared/model/view-state.model";
-import {forkJoin, of, Subject} from "rxjs";
+import {forkJoin, of} from "rxjs";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
 import {first} from "rxjs/operators";
 
@@ -22,13 +22,10 @@ export class ProductComponent implements OnInit {
   product: Product = {} as Product;
 
   productFormState: ViewState = new ViewState(ViewStateState.READY);
-  productForm: FormGroup = this.buildProductForm(this.product);
-
-  mainImage$: Subject<File[]> = new Subject<File[]>();
-  images?: File[];
+  fm: FormGroup = this.buildProductForm(this.product);
 
   mainImage?: File;
-  images$: Subject<File[]> = new Subject<File[]>();
+  images?: File[];
 
 
   constructor(private route: ActivatedRoute,
@@ -39,12 +36,12 @@ export class ProductComponent implements OnInit {
   }
 
   submitProductForm() {
-    if (this.productForm.valid) {
-      this.productForm.disable();
+    if (this.fm.valid) {
+      this.fm.disable();
       this.productFormState.inProgress();
 
       let request = new FormData();
-      request.append('product', JSON.stringify(this.productForm.value));
+      request.append('product', JSON.stringify(this.fm.value));
       if (this.mainImage) {
         request.append('mainImage', this.mainImage as Blob);
       }
@@ -53,13 +50,13 @@ export class ProductComponent implements OnInit {
       this.productsService.submitProduct(request)
         .then(
           value => {
-            this.productForm.enable();
+            this.fm.enable();
             this.productFormState.ready();
             this.product = value;
-            this.productForm = this.buildProductForm(this.product);
+            this.fm = this.buildProductForm(this.product);
           },
           reason => {
-            this.productForm.enable();
+            this.fm.enable();
             this.productFormState.error(reason.message)
           },
         );
@@ -93,19 +90,19 @@ export class ProductComponent implements OnInit {
           this.product = value[0];
           this.suppliers = value[1];
           this.categories = value[2];
-          this.productForm = this.buildProductForm(this.product);
-          this.mainImage$.subscribe(files => this.mainImage = files[0]);
-          this.images$.subscribe(files => this.images = files);
+          this.fm = this.buildProductForm(this.product);
           this.state.ready();
         },
         error => this.state.error(error)
       )
   }
 
+  onProductMainImageChange(files: File[]) {
+    this.mainImage = files[0]
+  }
 
-  ngOnDestroy() {
-    this.images$?.unsubscribe();
-    this.mainImage$?.unsubscribe();
+  onProductAdditionalImagesChange(files: File[]) {
+    this.images = files
   }
 
 }

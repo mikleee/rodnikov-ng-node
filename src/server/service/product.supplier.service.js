@@ -1,8 +1,7 @@
 const ModelService = require("./model.service");
-const enums = require("../db/model.enum");
-const {ProductSupplier} = require("../db/product.supplier.model");
+const {ProductSupplier, ProductSupplierLogo} = require("../db/product.supplier.model");
 const {Product} = require("../db/product.model");
-const documentService = require("./document.service");
+const {createDocumentFromFile} = require("./util.service");
 
 
 class ProductSupplierService extends ModelService {
@@ -11,30 +10,46 @@ class ProductSupplierService extends ModelService {
         super(ProductSupplier);
     }
 
-    async saveOrUpdate(model, logoFile) {
-        let result = await super.saveOrUpdate(model);
-
-        if (logoFile) {
-            if (result.logo) {
-                await documentService.delete(result.logo);
-            }
-            result.logo = await documentService.createFromFile(logoFile, enums.DocumentType.PRODUCT_SUPPLIER_LOGO);
-            await super.saveOrUpdate(result);
-            result = super.findById(result._id);
-        }
-        return result;
-    }
-
-
     async delete(id) {
         let promises = [];
         let supplier = await this.findById(id);
-        if (supplier.logo) {
-            promises.push(documentService.delete(supplier.logo));
-        }
+        promises.push(ProductSupplierService.#removeLogoImpl(supplier));
         promises.push(Product.updateMany({supplier: id}, {supplier: null}));
         promises.push(super.delete(id));
         return await Promise.all(promises);
+    }
+
+    getLogo(logoId) {
+        return ProductSupplierLogo.findOne({_id: logoId});
+    }
+
+    async uploadLogo(supplierId, logoFile) {
+        let supplier = await this.findById(supplierId);
+        await ProductSupplierService.#removeLogoImpl(supplier);
+
+        let result;
+        if (logoFile) {
+            supplier.logo = await ProductSupplierLogo.create(createDocumentFromFile(logoFile));
+            result = {id: supplier.logo.id.toString()};
+        } else {
+            supplier.logo = null;
+            result = {id: null};
+        }
+        await super.saveOrUpdate(supplier);
+        return result;
+    }
+
+    async removeLogo(supplierId) {
+        let supplier = await this.findById(supplierId);
+        await ProductSupplierService.#removeLogoImpl(supplier);
+    }
+
+    static #removeLogoImpl(supplier) {
+        if (supplier.logo) {
+            return ProductSupplierLogo.deleteOne({_id: supplier.logo});
+        } else {
+            return Promise.resolve();
+        }
     }
 
 }

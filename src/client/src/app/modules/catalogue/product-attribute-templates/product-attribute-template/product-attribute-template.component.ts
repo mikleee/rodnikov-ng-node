@@ -14,7 +14,7 @@ export class ProductAttributeTemplateComponent implements OnInit {
   templateState: ViewState = new ViewState();
   templateFormState: ViewState = new ViewState(ViewStateState.READY);
   template: ProductAttributeTemplate = {} as ProductAttributeTemplate;
-  templateForm: FormGroup = new FormGroup({
+  fm: FormGroup = new FormGroup({
     id: new FormControl(undefined, []),
     name: new FormControl(undefined, [Validators.required])
   });
@@ -26,19 +26,19 @@ export class ProductAttributeTemplateComponent implements OnInit {
   }
 
   submitAttributeTemplateForm() {
-    if (this.templateForm.valid) {
-      this.templateForm.disable();
+    if (this.fm.valid) {
+      this.fm.disable();
       this.templateFormState.inProgress();
 
-      this.templatesService.submitTemplate(this.templateForm.value)
+      this.templatesService.submitTemplate(this.fm.value)
         .then(
           value => {
-            this.templateForm.enable();
+            this.fm.enable();
             this.templateFormState.ready();
             this.resolveTemplate(value);
           },
           reason => {
-            this.templateForm.enable();
+            this.fm.enable();
             this.templateFormState.error(reason.message)
           },
         );
@@ -66,8 +66,8 @@ export class ProductAttributeTemplateComponent implements OnInit {
 
   resolveTemplate(value: ProductAttributeTemplate) {
     this.template = value;
-    this.templateForm.controls.id.setValue(value?.id);
-    this.templateForm.controls.name.setValue(value?.name);
+    this.fm.controls.id.setValue(value?.id);
+    this.fm.controls.name.setValue(value?.name);
   }
 
 

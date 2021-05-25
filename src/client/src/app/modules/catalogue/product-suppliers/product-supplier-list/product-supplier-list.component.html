@@ -35,7 +35,7 @@
   <tbody *ngIf="suppliers.state.isReady()">
     <tr *ngFor="let supplier of suppliersToShow">
       <td class="img">
-        <app-server-image cssClass="table-image" [imageId]="supplier.value.logo"></app-server-image>
+        <app-server-image uri="/api/suppliers/logo/" cssClass="table-image" [imageId]="supplier.value.logo"></app-server-image>
       </td>
       <td><a [routerLink]="['supplier', supplier.value.id]">{{supplier.value.name}}</a></td>
       <td class="actions">

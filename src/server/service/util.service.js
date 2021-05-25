@@ -2,6 +2,8 @@ module.exports = {
     modelsToMap: modelsToMap,
     modelsToIds: modelsToIds,
     addToBundle: addToBundle,
+    createDocumentFromFile: createDocumentFromFile,
+    populateDocumentFromFile: populateDocumentFromFile,
 }
 
 
@@ -23,4 +25,15 @@ function addToBundle(bundles, identifier, entity) {
         bundles[identifier] = bundle;
     }
     bundle.push(entity);
+}
+
+function populateDocumentFromFile(doc, file) {
+    doc.name = file.name;
+    doc.contentType = file.mimetype;
+    doc.content = file.data;
+    return doc;
+}
+
+function createDocumentFromFile(file) {
+    return populateDocumentFromFile({}, file);
 }

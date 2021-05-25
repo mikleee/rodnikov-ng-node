@@ -2,34 +2,35 @@
 
 
 <fieldset>
-  <app-state-overlay [state]="supplierState"></app-state-overlay>
-  <form [formGroup]="supplierForm" (ngSubmit)="submitSupplierForm()">
+  <form [formGroup]="fm" (ngSubmit)="submitSupplierForm()" #ngForm="ngForm" [ngClass]="{'form-submitted': ngForm.submitted}" novalidate autocomplete="off">
+    <app-state-overlay [state]="supplierState"></app-state-overlay>
     <div class="row">
       <div class="col-7">
         <div class="form-controls">
           <label for="supplierName" class="form-label">Имя</label>
           <input id="supplierName" type="text" formControlName="name" class="form-control">
+          <app-form-error [error]="fm.controls.name.errors?.required" [form]="ngForm" message="Введите имя"></app-form-error>
         </div>
         <div class="form-controls">
+          <app-state-overlay [state]="logoState"></app-state-overlay>
           <label for="supplierLogo" class="form-label">Логотип</label>
           <div>
             <app-image-upload id="supplierLogo"
                               upload-title="Logo"
-                              [subject$]="logo$"
+                              (onFilesChange)="onSupplierLogoChange($event)"
                               [multiple]="false"></app-image-upload>
           </div>
         </div>
       </div>
       <div class="col-5">
-        <app-server-image [imageId]="supplier.logo" cssClass="form-image"></app-server-image>
+        <app-server-image uri="/api/suppliers/logo/" [imageId]="supplier.logo" cssClass="form-image"></app-server-image>
       </div>
     </div>
     <div class="form-controls-buttons">
-      <button type="submit" class="btn btn-outline-primary" [disabled]="supplierForm.disabled">Submit</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="fm.disabled">Submit</button>
       <app-shared-error *ngIf="supplierFormState.isError()" [message]="supplierFormState.getMessage()"></app-shared-error>
     </div>
   </form>
-
 </fieldset>
 
 

@@ -6,7 +6,6 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {LoginPopupComponent} from "./modules/auth/login/login-popup.component";
 import {ViewState} from "./modules/shared/model/view-state.model";
 import {Session} from "./modules/auth/auth.models";
-import {AppStateService} from "./app-state.service";
 import {AuthService} from "./modules/auth/auth.service";
 
 @Component({
@@ -21,17 +20,16 @@ export class AppComponent implements OnInit, OnDestroy {
   categoriesLinkInteractive: boolean = false;
 
   constructor(private router: Router,
-              private appStateService: AppStateService,
               private authService: AuthService,
               private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
     this.state.inProgress();
-    this.appStateService.initAppState()
+    this.authService.getSession()
       .subscribe(
         value => {
-          this.session = value.session;
+          this.session = value;
           this.state.ready()
         },
         error => this.state.error(error.message),
@@ -47,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openLoginPopup(): void {
-    let ngbModalRef = this.modalService.open(LoginPopupComponent, {centered: true});
+    this.modalService.open(LoginPopupComponent, {centered: true});
   }
 
   logout(): void {
