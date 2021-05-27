@@ -22,12 +22,10 @@ export class ShowcaseProductGeneralComponent extends ShowcaseProductSubComponent
   ngOnInit() {
     super.ngOnInit();
     this.images = [];
-    if (this.product.mainImage) {
-      this.images.push(this.product.mainImage);
-    }
-    if (this.product.additionalImages?.length) {
-      this.images = this.images.concat(this.product.additionalImages);
-    }
+    let main: string[] = [];
+    let other: string[] = [];
+    this.product.images.forEach(i => i.main ? main.push(i.id) : other.push(i.id))
+    this.images = [...main, ...other];
     this.activeImage = this.images[0];
   }
 

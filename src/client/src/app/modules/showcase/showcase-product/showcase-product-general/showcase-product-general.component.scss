@@ -2,22 +2,27 @@ $activeImageHeight: 350px;
 $imageHeight: 50px;
 
 .showcase-product-general {
-  text-align: center;
 
-  .images {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .product-images {
+    text-align: center;
 
-    .image {
-      height: $imageHeight;
-      margin: 3px;
+    .images {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .image {
+        height: $imageHeight;
+        margin: 3px;
+      }
+    }
+
+    .active-image {
+      height: $activeImageHeight;
     }
   }
 
-  .active-image {
-    height: $activeImageHeight;
-  }
+
 }
 
 

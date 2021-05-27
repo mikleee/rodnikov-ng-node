@@ -47,14 +47,13 @@ export interface Product extends BaseModel {
   description: string;
   supplier: string,
   category: string,
-  mainImage: string,
-  additionalImages: string[],
   priceUplift: number,
   cost: number,
   price: number,
   priceUah: number,
   margin: number,
-  attributes: ProductAttribute[]
+  attributes: ProductAttribute[],
+  images: ProductImage[]
 }
 
 export interface ProductSupplier extends BaseModel {
@@ -76,4 +75,8 @@ export interface ProductAttribute extends BaseModel {
 
 export interface ProductAttributeTemplate extends BaseModel {
   name: string;
+}
+
+export interface ProductImage extends BaseModel {
+  main: boolean;
 }

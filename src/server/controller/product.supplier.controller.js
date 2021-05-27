@@ -4,12 +4,12 @@ const {sendJson, sendFile} = require("./controller.util");
 class ProductSupplierController {
 
     list(req, res, next) {
-        sendJson(res, productSupplierService.getAll());
+        sendJson(res, productSupplierService.getAllWrappers());
     }
 
     supplier(req, res, next) {
         const id = req.params['id'];
-        sendJson(res, productSupplierService.findById(id));
+        sendJson(res, productSupplierService.getWrapper(id));
     }
 
     submit(req, res, next) {

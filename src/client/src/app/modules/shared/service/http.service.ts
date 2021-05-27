@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from "rxjs";
 import {GlobalToasterService} from "../component/global-toaster/global-toaster.service";
-import {catchError} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 
 
 @Injectable({providedIn: "root"})
@@ -33,6 +33,7 @@ export class HttpService {
       {headers: new HttpHeaders({'Content-Type': 'application/json'}), params: params}
     )
       .pipe(
+        tap(value => this.globalToasterService.success('')),
         catchError(error => {
           let message = error.error?.message ?? error.message;
           this.globalToasterService.error(message);
@@ -59,6 +60,7 @@ export class HttpService {
       }).then(
         async (response) => {
           if (response.ok) {
+            this.globalToasterService.success('')
             resolve(await response.json());
           } else {
             let responseBody = await response.text();

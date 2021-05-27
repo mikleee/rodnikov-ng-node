@@ -89,7 +89,9 @@
   <tbody *ngIf="state.isReady()">
     <tr *ngFor="let product of productsToShow">
       <td class="img">
-        <app-server-image cssClass="table-image" [imageId]="product.value.mainImage || product.value.additionalImages[0] || undefined"></app-server-image>
+        <app-server-image uri="/api/product-images/get/"
+                          [imageId]="product.value | productMainImage"
+                          cssClass="table-image"></app-server-image>
       </td>
       <td><a [routerLink]="['/catalogue/products/product', product.value.id]">{{product.value.name}}</a></td>
       <td>{{product.value.code}}</td>

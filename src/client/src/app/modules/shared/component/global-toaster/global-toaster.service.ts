@@ -19,6 +19,10 @@ export class GlobalToasterService {
     this.notify(message, GlobalToasterMessageType.ERROR);
   }
 
+  success(message: string) {
+    this.notify(message, GlobalToasterMessageType.SUCCESS);
+  }
+
   getMessages() {
     return this.notifications$;
   }
@@ -37,8 +41,8 @@ export class GlobalToasterMessage {
 }
 
 export enum GlobalToasterMessageType {
-  ERROR,
-  SUCCESS,
-  INFO,
+  ERROR = 'ERROR',
+  SUCCESS = 'SUCCESS',
+  INFO = 'INFO',
 }
 

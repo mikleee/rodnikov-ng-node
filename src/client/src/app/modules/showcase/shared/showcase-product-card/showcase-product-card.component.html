@@ -1,6 +1,8 @@
 <div class="product-card">
   <a class="product-card-logo" [routerLink]="['/product', product.id]">
-    <app-server-image [imageId]="product.mainImage"></app-server-image>
+    <app-server-image uri="/api/product-images/get/"
+                      [imageId]="product | productMainImage"
+                      cssClass="table-image"></app-server-image>
   </a>
   <a class="product-card-name" [routerLink]="['/product', product.id]">
     {{product.name}}

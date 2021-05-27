@@ -17,7 +17,7 @@ export class ProductsService {
     return this.http.get('/api/products/list')
       .pipe(
         first(),
-        map(result => result || []),
+        map(result => result || [] as Product[]),
         map(result => this.filterProducts(result, filter)),
       )
   }
@@ -46,12 +46,16 @@ export class ProductsService {
     return this.http.get('/api/products/product/' + id);
   }
 
-  submitProduct(supplier: FormData): Promise<Product> {
-    return this.http.postMultipartFormData('/api/products/submit', supplier)
+  submitProduct(product: FormData): Promise<Product> {
+    return this.http.post('/api/products/submit', product)
+      .pipe(first())
+      .toPromise()
   }
 
   deleteProduct(id: String): Promise<Product> {
-    return this.http.post('/api/products/delete/' + id).toPromise()
+    return this.http.post('/api/products/delete/' + id)
+      .pipe(first())
+      .toPromise()
   }
 
   filterProducts(products: Product[], filter?: ProductsFilter): Product[] {

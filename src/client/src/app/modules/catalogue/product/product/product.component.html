@@ -1,128 +1,103 @@
 <h3 class="heading">Продукт</h3>
 
-<fieldset class="product-details-form">
+
+<section class="product-details-form">
   <form [formGroup]="fm" (ngSubmit)="submitProductForm()" #ngForm="ngForm" [ngClass]="{'form-submitted': ngForm.submitted}" novalidate autocomplete="off">
 
     <app-state-overlay [state]="state"></app-state-overlay>
 
-    <!-- general -->
-    <div class="row">
-      <div class="col">
-        <div class="form-controls">
-          <label for="productCode" class="form-label">Код</label>
-          <input id="productCode" class="form-control" type="text" disabled [value]="product.code || ''">
-        </div>
-        <div class="form-controls">
-          <label for="productName" class="form-label">Имя</label>
-          <input id="productName" class="form-control" type="text" formControlName="name">
-          <app-form-error [error]="fm.controls.name.errors?.required" [form]="ngForm" message="Введите имя"></app-form-error>
-        </div>
-        <div class="form-controls">
-          <label for="productDescription" class="form-label">Описание</label>
-          <textarea id="productDescription" class="form-control" formControlName="description" style="max-width: none"></textarea>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-controls">
-          <label for="productSupplier" class="form-label">Производитель</label>
-          <div>
-            <select id="productSupplier" class="form-control" formControlName="supplier">
-              <option [ngValue]="undefined">---</option>
-              <option *ngFor="let s of suppliers" [ngValue]="s.id">{{s.name}}</option>
-            </select>
-            <app-form-error [error]="fm.controls.supplier.errors?.required" [form]="ngForm" message="Укажите производителя"></app-form-error>
+    <fieldset>
+      <h4>Oсновное</h4>
+      <!-- general -->
+      <div class="row">
+        <div class="col">
+          <div class="form-controls">
+            <label for="productCode" class="form-label">Код</label>
+            <input id="productCode" class="form-control" type="text" disabled [value]="product.code || ''">
+          </div>
+          <div class="form-controls">
+            <label for="productName" class="form-label">Имя</label>
+            <input id="productName" class="form-control" type="text" formControlName="name">
+            <app-form-error [error]="fm.controls.name.errors?.required" [form]="ngForm" message="Введите имя"></app-form-error>
+          </div>
+          <div class="form-controls">
+            <label for="productDescription" class="form-label">Описание</label>
+            <textarea id="productDescription" class="form-control" formControlName="description" style="max-width: none"></textarea>
           </div>
         </div>
-        <div class="form-controls">
-          <label for="productGroup" class="form-label">Категория</label>
-          <div>
-            <select id="productGroup" class="form-control" formControlName="category">
-              <option [ngValue]="undefined">---</option>
-              <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
-            </select>
-            <app-form-error [error]="fm.controls.category.errors?.required" [form]="ngForm" message="Укажите категорию"></app-form-error>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- price -->
-    <div class="row">
-      <div class="col">
-        <div class="form-controls">
-          <label for="productPrice" class="form-label">Цена закупки</label>
-          <div class="input-group">
-            <span class="input-group-text">$</span>
-            <input id="productPrice" type="text" class="form-control" formControlName="cost">
-          </div>
-          <app-form-error [error]="fm.controls.cost.errors?.required" [form]="ngForm" message="Введите цену закупки"></app-form-error>
-        </div>
-        <div class="form-controls">
-          <label for="productPriceUplift" class="form-label">Наценка</label>
-          <div class="input-group">
-            <span class="input-group-text">%</span>
-            <input id="productPriceUplift" type="text" class="form-control" formControlName="priceUplift">
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <app-product-price-report [product]="product"></app-product-price-report>
-      </div>
-    </div>
-    <!-- attributes -->
-    <div class="row">
-      <div class="col-12">
-        <br>
-        <app-product-attributes
-          *ngIf="product.id"
-          [product]="product"
-        ></app-product-attributes>
-        <br>
-      </div>
-    </div>
-    <!--images-->
-    <div class="row">
-      <div class="col">
-        <div class="form-controls">
-          <label for="productMainUpload" class="form-label">Логотип</label>
-          <div>
-            <app-image-upload id="productMainUpload"
-                              (onFilesChange)="onProductMainImageChange($event)"
-                              [multiple]="false">
-            </app-image-upload>
-          </div>
-        </div>
-        <div class="form-controls">
-          <label for="productImagesUpload" class="form-label">Дополнительные фото</label>
-          <div>
-            <app-image-upload id="productImagesUpload"
-                              (onFilesChange)="onProductAdditionalImagesChange($event)"
-                              [multiple]="true">
-            </app-image-upload>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <ngb-carousel *ngIf="product.mainImage || product.additionalImages?.length">
-          <ng-template ngbSlide *ngIf="product.mainImage">
-            <div class="carousel-item-image">
-              <app-server-image [imageId]="product.mainImage" cssClass="product-details-form-logo"></app-server-image>
+        <div class="col">
+          <div class="form-controls">
+            <label for="productSupplier" class="form-label">Производитель</label>
+            <div>
+              <select id="productSupplier" class="form-control" formControlName="supplier">
+                <option [ngValue]="undefined">---</option>
+                <option *ngFor="let s of suppliers" [ngValue]="s.id">{{s.name}}</option>
+              </select>
+              <app-form-error [error]="fm.controls.supplier.errors?.required" [form]="ngForm" message="Укажите производителя"></app-form-error>
             </div>
-          </ng-template>
-          <ng-template ngbSlide *ngFor="let img of product.additionalImages">
-            <div class="carousel-item-image">
-              <app-server-image [imageId]="img" cssClass="product-details-form-logo"></app-server-image>
+          </div>
+          <div class="form-controls">
+            <label for="productGroup" class="form-label">Категория</label>
+            <div>
+              <select id="productGroup" class="form-control" formControlName="category">
+                <option [ngValue]="undefined">---</option>
+                <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
+              </select>
+              <app-form-error [error]="fm.controls.category.errors?.required" [form]="ngForm" message="Укажите категорию"></app-form-error>
             </div>
-          </ng-template>
-        </ngb-carousel>
+          </div>
+        </div>
       </div>
-    </div>
+      <!-- price -->
+      <div class="row">
+        <div class="col">
+          <div class="form-controls">
+            <label for="productPrice" class="form-label">Цена закупки</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input id="productPrice" type="text" class="form-control" formControlName="cost">
+            </div>
+            <app-form-error [error]="fm.controls.cost.errors?.required" [form]="ngForm" message="Введите цену закупки"></app-form-error>
+          </div>
+          <div class="form-controls">
+            <label for="productPriceUplift" class="form-label">Наценка</label>
+            <div class="input-group">
+              <span class="input-group-text">%</span>
+              <input id="productPriceUplift" type="text" class="form-control" formControlName="priceUplift">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <app-product-price-report [product]="product"></app-product-price-report>
+        </div>
+      </div>
+    </fieldset>
+    <br>
+    <fieldset>
+      <h4>Характеристики</h4>
+      <!-- attributes -->
+      <div class="row">
+        <div class="col-12">
+          <app-product-attributes
+            *ngIf="product.id"
+            [product]="product"
+          ></app-product-attributes>
+        </div>
+      </div>
+    </fieldset>
+    <br>
+    <fieldset>
+      <h4>Изображения</h4>
+      <!--images-->
+      <app-product-images [productId]="product.id" [images]="product.images"></app-product-images>
+    </fieldset>
 
     <div class="form-controls-buttons">
       <button type="submit" class="btn btn-outline-primary" [disabled]="fm.disabled">Сохранить</button>
       <app-shared-error *ngIf="productFormState.isError()" [message]="productFormState.getMessage()"></app-shared-error>
     </div>
   </form>
-</fieldset>
+</section>
 
 
 

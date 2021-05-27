@@ -22,7 +22,9 @@
           <tbody>
             <tr *ngFor="let product of results.results">
               <td class="img">
-                <app-server-image cssClass="table-image" [imageId]="product.mainImage || product.additionalImages[0] || undefined"></app-server-image>
+                <app-server-image uri="/api/product-images/get/"
+                                  [imageId]="product | productMainImage"
+                                  cssClass="table-image"></app-server-image>
               </td>
               <td><a [routerLink]="['/product', product.id]">{{product.name}}</a></td>
               <td class="currency">{{product.priceUah | currencyUah}}</td>

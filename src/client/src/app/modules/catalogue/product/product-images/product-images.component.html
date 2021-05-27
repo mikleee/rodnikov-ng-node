@@ -1,0 +1,26 @@
+<div>
+  <div class="form-controls">
+    <app-image-upload id="productImagesUpload"
+                      (onFilesChange)="onProductImagesChange($event)"
+                      [multiple]="true">
+    </app-image-upload>
+  </div>
+  <div class="product-images">
+    <div class="product-image-card" *ngFor="let img of images1">
+      <app-state-overlay [state]="img.state"></app-state-overlay>
+      <div class="card" [ngClass]="{'bg-primary' : img.main}">
+        <div class="card-body">
+          <div class="product-image-wrapper">
+            <app-server-image uri="/api/product-images/get/"
+                              [imageId]="img.id"
+                              cssClass="product-image"></app-server-image>
+          </div>
+        </div>
+      </div>
+      <div class="product-image-actions">
+        <button type="button" class="btn btn-light btn-sm" *ngIf="!img.main" (click)="makeImageMain(img)"><i class="bi-card-image" title="Сделать главной"></i></button>
+        <button type="button" class="btn btn-light btn-sm" (click)="deleteProductImage(img)" app-button-delete title="Удалить"></button>
+      </div>
+    </div>
+  </div>
+</div>

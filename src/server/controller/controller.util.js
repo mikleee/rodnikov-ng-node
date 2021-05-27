@@ -48,6 +48,14 @@ function handleError(response, error) {
     response.status(500).json({message: message});
 }
 
+async function handle(req, res, next, handler) {
+    try {
+        await handler(req, res, next)
+    } catch (e) {
+        handleError(res, e);
+    }
+}
+
 function toArray(value) {
     if (value == null) {
         return [];

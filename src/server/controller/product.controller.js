@@ -1,7 +1,7 @@
 const productsService = require("../service/products.service");
 const productsShowcaseService = require("../service/products.showcase.service");
 const {ShowcaseWrapperRequest} = require("../wrapper/showcase.model.wrappers");
-const {sendJson, toArray} = require("./controller.util");
+const {sendJson, toArray, handleError} = require("./controller.util");
 
 
 class ProductController {
@@ -34,14 +34,12 @@ class ProductController {
         sendJson(res, productsService.getWrapperById(id, req.user));
     }
 
-    async submit(req, res, next) {
-        let supplier = JSON.parse(req.body.product);
-        let mainImage = req.files?.mainImage;
-        let additionalImages = toArray(req.files?.additionalImages);
-        let result = await productsService.saveOrUpdate(supplier, mainImage, additionalImages);
-        sendJson(res, productsService._toWrapper(result, req.user));
+    submit(req, res, next) {
+        productsService.saveOrUpdate(req.body).then(
+            value => sendJson(res, productsService._toWrapper(value, req.user)),
+            error => next(error),
+        );
     }
-
 
     delete(req, res, next) {
         const id = req.params['id'];

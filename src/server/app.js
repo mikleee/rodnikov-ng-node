@@ -46,6 +46,7 @@ app.set('view engine', 'ejs');
     app.use('/api/document', require('./routes/document.routes'));
     app.use('/api/product-attribute-templates', require('./routes/product.attribute.templates.routes'));
     app.use('/api/product-attributes', require('./routes/product.attribute.routes'));
+    app.use('/api/product-images', require('./routes/product.image.routes'));
     app.use('/api/configurations', require('./routes/configuration.routes'));
     app.use('/api/auth', require('./routes/auth.routes'));
     app.use('/', require('./routes/render'));

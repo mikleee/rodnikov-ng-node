@@ -115,5 +115,19 @@ export class ProductSupplierComponent implements OnInit {
     }
   }
 
+  removeSupplierLogo() {
+    this.logoState.inProgress();
+    let result = this.suppliersService.removeSupplierLogo(this.supplier.id);
+    result.then(
+      value => {
+        this.logoState.ready();
+        this.supplier.logo = undefined;
+      },
+      reason => this.logoState.error(reason.message)
+    );
+    return result
+
+  }
+
 
 }

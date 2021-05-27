@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const schemaBuilder = require("./db.schema.builder");
+const {ProductImage} = require("./product.image.model");
+const {ProductAttribute} = require("./product.attribute.model");
 const Schema = mongoose.Schema;
 
 
@@ -11,10 +13,7 @@ let schema = schemaBuilder.buildSchema({
     priceUplift: Schema.Types.Number,
     category: {type: Schema.Types.ObjectId, ref: 'ProductCategory'},
     supplier: {type: Schema.Types.ObjectId, ref: 'ProductSupplier'},
-    mainImage: {type: Schema.Types.ObjectId, ref: 'Document'},
-    additionalImages: [{type: Schema.Types.ObjectId, ref: 'Document'}]
 });
-
 schema.pre('validate', function () {
     let model = this;
     if (model.isNew) {
@@ -22,6 +21,15 @@ schema.pre('validate', function () {
     }
 });
 
+
+schemaBuilder.onDelete(schema, function (product) {
+    return Promise.all([
+        ProductAttribute.deleteMany({product: product._id}),
+        ProductImage.deleteMany({product: product._id}),
+    ])
+});
+
 const Product = mongoose.model('Product', schema);
+
 
 module.exports.Product = Product;

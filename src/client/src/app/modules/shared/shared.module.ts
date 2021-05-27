@@ -21,6 +21,7 @@ import {NotFoundComponent} from './component/not-found/not-found.component';
 import {InputNumberDirective} from './directive/input-number.directive';
 import {ButtonAddDirective, ButtonCancelDirective, ButtonDeleteDirective, ButtonEditDirective, ButtonOkDirective, ButtonResetDirective, ButtonSaveDirective} from "./directive/button.directives";
 import {FormErrorComponent} from './component/form-error/form-error.component';
+import {ProductMainImagePipe} from './transform/product-main-image.pipe';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {FormErrorComponent} from './component/form-error/form-error.component';
     ButtonResetDirective,
     ButtonSaveDirective,
     FormErrorComponent,
+    ProductMainImagePipe,
   ],
   exports: [
     InProgressComponent,
@@ -73,6 +75,7 @@ import {FormErrorComponent} from './component/form-error/form-error.component';
     ButtonResetDirective,
     ButtonSaveDirective,
     FormErrorComponent,
+    ProductMainImagePipe,
   ],
   imports: [
     CommonModule,

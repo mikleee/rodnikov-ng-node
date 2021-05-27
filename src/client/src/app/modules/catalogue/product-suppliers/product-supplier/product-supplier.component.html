@@ -16,9 +16,13 @@
           <label for="supplierLogo" class="form-label">Логотип</label>
           <div>
             <app-image-upload id="supplierLogo"
-                              upload-title="Logo"
                               (onFilesChange)="onSupplierLogoChange($event)"
                               [multiple]="false"></app-image-upload>
+            <button type="button" class="btn btn-outline-secondary"
+                    app-button-delete
+                    [disabled]="logoState.isInProgress()"
+                    *ngIf="supplier.logo"
+                    (click)="removeSupplierLogo()"></button>
           </div>
         </div>
       </div>

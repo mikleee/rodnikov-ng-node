@@ -48,6 +48,14 @@ export class ProductSuppliersService {
     return this.http.postMultipartFormData('/api/suppliers/upload-logo', data);
   }
 
+  removeSupplierLogo(logoId: string): Promise<any> {
+    return this.http.post('/api/suppliers/remove-logo/' + logoId)
+      .pipe(
+        first()
+      )
+      .toPromise();
+  }
+
 
 }
 

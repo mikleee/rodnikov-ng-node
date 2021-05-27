@@ -1,0 +1,48 @@
+$height: 200px;
+$imageHeight: 150px;
+
+.product-images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+
+  .product-image-card {
+    margin: .25em;
+    position: relative;
+
+    .product-image-actions {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+
+      button {
+        &:not(:hover) {
+          opacity: 0.5;
+        }
+
+        border: solid 1px;
+      }
+    }
+
+    .card-body {
+      padding: .25em;
+    }
+
+    .product-image-wrapper {
+      height: $imageHeight;
+      width: $imageHeight;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+
+::ng-deep .product-image {
+  max-height: $imageHeight !important;
+  max-width: $imageHeight !important;
+}
+
+

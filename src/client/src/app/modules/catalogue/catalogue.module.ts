@@ -16,6 +16,7 @@ import {ProductAttributeTemplateComponent} from "./product-attribute-templates/p
 import {ProductAttributeTemplatesListComponent} from './product-attribute-templates/product-attribute-templates-list/product-attribute-templates-list.component';
 import {ProductAttributesComponent} from './product/product-attributes/product-attributes.component';
 import {ProductPriceReportComponent} from './product/product-price-report/product-price-report.component';
+import {ProductImagesComponent} from './product/product-images/product-images.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {ProductPriceReportComponent} from './product/product-price-report/produc
     ProductAttributeTemplatesListComponent,
     ProductAttributesComponent,
     ProductPriceReportComponent,
+    ProductImagesComponent,
   ],
   imports: [
     CommonModule,

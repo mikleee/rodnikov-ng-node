@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const logger = require('../service/logger').createLogger('db.schema.builder');
 
 
 function buildSchema(definitions) {
@@ -23,6 +24,26 @@ function buildSchema(definitions) {
         model.modifiedDate = new Date();
     });
 
+    schema.set('toJSON', {
+        minimize: true,
+        transform: function (model) {
+            let object = model._doc;
+            let result = {};
+            for (const [key, value] of Object.entries(object)) {
+                if (value instanceof Buffer) {
+                    result[key] = (value.length / 1024).toFixed(2) + ' Kb';
+                } else {
+                    result[key] = value;
+                }
+            }
+            return result;
+        }
+    });
+
+    onDelete(schema, function (target, model) {
+        logger.debug(`Delete ${model.modelName}: ${JSON.stringify(target)}`);
+    })
+
     return schema;
 }
 
@@ -37,8 +58,23 @@ function generateFriendlyId(idObj) {
     return Math.abs(hash);
 }
 
+function onDelete(schema, callback) {
+    schema.pre(['deleteMany', 'deleteOne'], {document: true, query: true}, async function (next) {
+        let results = await this.model.find(this._conditions);
+        let promises = [];
+        for (const result of results) {
+            promises.push(callback(result, this.model));
+        }
+        if (promises.length) {
+            await Promise.all(promises);
+        }
+        next();
+    });
+}
+
 
 module.exports = {
     buildSchema: buildSchema,
+    onDelete: onDelete,
     generateFriendlyId: generateFriendlyId
 }

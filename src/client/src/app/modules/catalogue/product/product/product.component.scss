@@ -1,13 +1,3 @@
-$height: 200px;
 .product-details-form {
-  .carousel-item-image {
-    height: $height;
-  }
+
 }
-
-::ng-deep .product-details-form-logo {
-  max-height: $height !important;
-}
-
-
-

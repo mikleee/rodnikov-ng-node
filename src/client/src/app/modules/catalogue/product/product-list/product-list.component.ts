@@ -3,7 +3,7 @@ import {ProductSuppliersService} from "../../product-suppliers/product-suppliers
 import {ProductsService} from "../products.service";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
 import {Pagination} from "../../../shared/model/pagination.model";
-import {Product, ProductCategory, ProductsFilter, ProductSupplier} from "../../catalogue.models";
+import {Product, ProductCategory, ProductImage, ProductsFilter, ProductSupplier} from "../../catalogue.models";
 import {ViewState} from "../../../shared/model/view-state.model";
 import {forkJoin} from "rxjs";
 import {first} from "rxjs/operators";
@@ -102,3 +102,9 @@ export class ProductListComponent implements OnInit {
   }
 
 }
+
+export interface ProductTableRowWrapper extends Product {
+  state: ViewState;
+  logo?: ProductImage;
+}
+
