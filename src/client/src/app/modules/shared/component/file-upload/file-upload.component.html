@@ -1,16 +1,17 @@
 <div class="file-upload-container">
-  <button class="file-upload-trigger btn btn-outline-secondary" type="button">
-    <label>
-      <span *ngIf="title">{{title}}</span>
-      <span *ngIf="!title" class="bi-upload"></span>
-      <input
-        class="file-upload-input"
-        type="file"
-        [id]="id"
-        [attr.multiple]="multiple ? '' : null"
-        [attr.accept]="accept ? accept : null"
-        (change)="onInputChange($event)">
-    </label>
-  </button>
-<!--  <span class="file-upload-label">{{label}}</span>-->
+
+  <label class="file-upload-trigger btn btn-outline-secondary">
+
+    <span *ngIf="title">{{title}}</span>
+    <span *ngIf="!title" class="bi-upload"></span>
+    <input
+      class="file-upload-input"
+      type="file"
+      [id]="id"
+      [attr.multiple]="multiple ? '' : null"
+      [attr.accept]="accept ? accept : null"
+      (change)="onInputChange($event)">
+  </label>
+
+  <!--  <span class="file-upload-label">{{label}}</span>-->
 </div>

@@ -72,21 +72,21 @@
         </div>
       </div>
     </fieldset>
-    <br>
-    <fieldset>
+    <fieldset *ngIf="product.id">
+      <br>
       <h4>Характеристики</h4>
       <!-- attributes -->
       <div class="row">
         <div class="col-12">
           <app-product-attributes
-            *ngIf="product.id"
+
             [product]="product"
           ></app-product-attributes>
         </div>
       </div>
     </fieldset>
-    <br>
-    <fieldset>
+    <fieldset *ngIf="product.id">
+      <br>
       <h4>Изображения</h4>
       <!--images-->
       <app-product-images [productId]="product.id" [images]="product.images"></app-product-images>

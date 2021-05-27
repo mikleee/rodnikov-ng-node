@@ -1,7 +1,5 @@
 const {ProductCategory} = require("./product.category.model");
 const {ProductSupplier} = require("./product.supplier.model");
-const {Document} = require("./document.model");
-const enums = require("./model.enum");
 const {User} = require("./user.model");
 const {ProductAttribute} = require("./product.attribute.model");
 const {ProductAttributeTemplate} = require("./product.attribute.template.model");
@@ -208,7 +206,7 @@ let categoryRelationsTemplate = [
         for (const category of categories) {
             let products = await Product.find({category: category});
             let toCreate = [];
-            let max = randomNumber(100);
+            let max = randomNumber(40);
             while (toCreate.length + products.length < max) {
                 let supplier = null;
                 let root = getRootCategory(category);
@@ -275,16 +273,6 @@ let categoryRelationsTemplate = [
 
 
 })();
-
-
-function createImageDocument(path, type) {
-    return Document.create({
-        name: require('path').basename(path),
-        type: type,
-        contentType: 'png',
-        content: require('fs').readFileSync(path, 'utf8'),
-    });
-}
 
 
 function random() {

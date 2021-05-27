@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../products.service";
 import {ProductSuppliersService} from "../../product-suppliers/product-suppliers.service";
 import {Product, ProductCategory, ProductSupplier} from "../../catalogue.models";
@@ -8,7 +8,6 @@ import {ViewState, ViewStateState} from "../../../shared/model/view-state.model"
 import {forkJoin, of} from "rxjs";
 import {ProductCategoryService} from "../../product-categories/product-category.service";
 import {first} from "rxjs/operators";
-import {ProductImagesComponent} from "../product-images/product-images.component";
 
 @Component({
   selector: 'app-product',
@@ -35,11 +34,6 @@ export class ProductComponent implements OnInit {
     priceUplift: new FormControl(undefined, []),
   });
 
-
-  @ViewChild(ProductImagesComponent)
-  private productImagesComponent!: ProductImagesComponent;
-
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private productsService: ProductsService,
@@ -53,7 +47,7 @@ export class ProductComponent implements OnInit {
       this.fm.disable();
       this.productFormState.inProgress();
 
-      this.submitProductFormInternal()
+      this.productsService.submitProduct(this.fm.value)
         .then(
           value => {
             if (!this.id) {
@@ -72,27 +66,6 @@ export class ProductComponent implements OnInit {
           }
         );
     }
-  }
-
-  submitProductFormInternal(): Promise<Product> {
-    return new Promise((resolve, reject) => {
-      this.productsService.submitProduct(this.fm.value)
-        .then(
-          value => {
-            Promise.all([
-              this.productImagesComponent.uploadProductImages(value.id),
-            ])
-              .then(
-                value1 => {
-                  value.images = value.images.concat(value1[0])
-                  resolve(value);
-                },
-                reason => reject(reason)
-              );
-          },
-          reason => reject(reason),
-        );
-    });
   }
 
   initProductForm(product: Product | undefined) {

@@ -5,7 +5,7 @@ const authController = require("../controller/auth.controller");
 
 router.get('/list-for-product/:id', productAttributeController.listForProduct);
 router.post('/submit', authController.checkAuthForRestCall, productAttributeController.submit);
-router.post('/delete', authController.checkAuthForRestCall, productAttributeController.delete);
+router.post('/delete/:id', authController.checkAuthForRestCall, productAttributeController.delete);
 
 
 module.exports = router;
